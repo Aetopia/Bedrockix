@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -64,11 +65,11 @@ sealed class App(string value)
         return processId;
     }
 
-    internal int File(string value)
+    internal int File(params IEnumerable<string> value)
     {
-        using _ _ = new(value);
+        int processId = default;
         PackageDebugSettings.EnableDebugging(AppInfo.Package.Id.FullName, default, default);
-        ApplicationActivationManager.ActivateForFile(AppInfo.AppUserModelId, _, default, out var processId);
+        foreach (var item in value) using (_ _ = new(item)) ApplicationActivationManager.ActivateForFile(AppInfo.AppUserModelId, _, default, out processId);
         return processId;
     }
 
