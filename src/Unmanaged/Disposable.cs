@@ -3,20 +3,19 @@ using System.Runtime.InteropServices;
 
 namespace Bedrockix.Unmanaged;
 
-readonly struct Disposable<T> : IDisposable
+struct Disposable<T> : IDisposable
 {
-    readonly T Value;
+    T Value;
 
-    readonly Action<T> Action;
+    readonly bool Unmanaged;
+
+    internal Action<T> Action;
+
+    internal T Object { set { if (Unmanaged) Marshal.ThrowExceptionForHR(Marshal.GetLastWin32Error()); Value = value; } }
+
+    internal Disposable(bool value) => Unmanaged = value;
 
     public static implicit operator T(Disposable<T> value) => value.Value;
 
-    internal Disposable(T value, Action<T> action)
-    {
-        Marshal.ThrowExceptionForHR(Marshal.GetHRForLastWin32Error());
-        Value = value;
-        Action = action;
-    }
-
-    public void Dispose() => Action(Value);
+    public readonly void Dispose() => Action(Value);
 }
