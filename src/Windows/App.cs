@@ -10,6 +10,9 @@ using static Bedrockix.Unmanaged.Native;
 
 namespace Bedrockix.Windows;
 
+/// <summary>
+/// Represents a packaged application and provides methods for interaction.
+/// </summary>
 sealed class App
 {
     readonly AppInfo AppInfo;
@@ -18,10 +21,21 @@ sealed class App
 
     static readonly PackageDebugSettings PackageDebugSettings = new();
 
+    /// <summary>
+    /// Initializes a new instance of the class using the specified AUMID.
+    /// </summary>
+    /// <param name="value">The AUMID.</param>
     internal App(string value) => AppInfo = AppInfo.GetFromAppUserModelId(value);
 
+    /// <summary>
+    /// Gets the associated package. 
+    /// </summary>
     internal Package Package => AppInfo.Package;
 
+
+    /// <summary>
+    /// Gets a value indicating if an application is running or not.
+    /// </summary>
     internal bool Running
     {
         get
@@ -33,6 +47,9 @@ sealed class App
         }
     }
 
+    /// <summary>
+    /// Configure if an application has its lifecycle managed by PLM.
+    /// </summary>
     internal bool Lifecycle
     {
         set
@@ -43,11 +60,18 @@ sealed class App
         }
     }
 
+    /// <summary>
+    /// Launches the application.
+    /// </summary>
+    /// <returns>The PID of the launched application</returns>
     internal int Launch()
     {
         ApplicationActivationManager.ActivateApplication(AppInfo.AppUserModelId, default, AO_NOERRORUI, out var processId);
         return processId;
     }
 
+    /// <summary>
+    /// Terminates all processes associated with the application's package. 
+    /// </summary>
     internal void Terminate() => PackageDebugSettings.TerminateAllProcesses(Package.Id.FullName);
 }
