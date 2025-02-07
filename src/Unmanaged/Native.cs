@@ -1,4 +1,3 @@
-using System;
 using System.Runtime.InteropServices;
 
 [assembly: DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
@@ -50,10 +49,4 @@ static class Native
 
     [DllImport("Kernel32", SetLastError = true)]
     internal static extern bool VirtualFreeEx(nint hProcess, nint lpAddress, int dwSize, int dwFreeType);
-
-    [DllImport("Shell32", CharSet = CharSet.Auto)]
-    internal static extern nint SHSimpleIDListFromPath(string pszPath);
-
-    [DllImport("Shell32"), PreserveSig]
-    internal unsafe static extern int SHCreateShellItemArrayFromIDLists(uint cidl, nint* rgpidl, out nint ppsiItemArray);
 }
