@@ -30,8 +30,8 @@ sealed class App
 
     internal int Launch()
     {
-        ApplicationActivationManager.ActivateApplication(AppInfo.AppUserModelId, default, AO_NOERRORUI, out var processId);
-        return processId;
+        ApplicationActivationManager.ActivateApplication(AppInfo.AppUserModelId, default, AO_NOERRORUI, out var value);
+        return value;
     }
 
     internal void Terminate() => PackageDebugSettings.TerminateAllProcesses(Package.Id.FullName);
