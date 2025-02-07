@@ -1,9 +1,10 @@
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using Windows.Management.Core;
 using Bedrockix.Windows;
+using static Bedrockix.Unmanaged.Native;
+using static Bedrockix.Unmanaged.Constants;
 
 namespace Bedrockix.Minecraft;
 
@@ -21,9 +22,16 @@ public static class Game
         using FileSystemWatcher watcher = new(path) { NotifyFilter = NotifyFilters.FileName, IncludeSubdirectories = true, EnableRaisingEvents = true };
         watcher.Deleted += (_, e) => { if (e.Name.Equals(Value, StringComparison.OrdinalIgnoreCase)) @event.Set(); };
 
-        using var process = Process.GetProcessById(App.Launch()); process.EnableRaisingEvents = true;
-        var _ = false; process.Exited += (_, _) => { _ = true; @event.Set(); };
-        @event.Wait(); return _ ? throw new OperationCanceledException() : process.Id;
+        var value = App.Launch(); nint handle = default; var @object = true;
+        try
+        {
+            handle = OpenProcess(SYNCHRONIZE, false, value);
+            ThreadPool.QueueUserWorkItem((_) => { WaitForSingleObject(handle, Timeout.Infinite); @object = default; @event.Set(); });
+            @event.Wait();
+        }
+        finally { CloseHandle(handle); }
+
+        return @object ? value : throw new OperationCanceledException();
     }
 
     public static void Terminate() => App.Terminate();

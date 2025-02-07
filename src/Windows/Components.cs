@@ -1,8 +1,9 @@
 using System;
 using static Bedrockix.Unmanaged.Native;
 using static Bedrockix.Unmanaged.Constants;
+using Bedrockix.Unmanaged;
 
-namespace Bedrockix.Unmanaged;
+namespace Bedrockix.Windows;
 
 static class Components
 {

@@ -1,6 +1,5 @@
 using Bedrockix.Unmanaged;
 using Windows.ApplicationModel;
-using static Bedrockix.Unmanaged.Components;
 using static Bedrockix.Unmanaged.Constants;
 
 namespace Bedrockix.Windows;
