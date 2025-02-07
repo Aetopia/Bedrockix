@@ -1,13 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Hosting;
-using System.Threading;
 using Bedrockix.Unmanaged;
 using Windows.ApplicationModel;
-using Windows.Foundation;
-using Windows.System;
-using static Bedrockix.Unmanaged.Native;
+using static Bedrockix.Unmanaged.Components;
+using static Bedrockix.Unmanaged.Constants;
 
 namespace Bedrockix.Windows;
 
@@ -15,18 +9,9 @@ sealed class App
 {
     readonly AppInfo AppInfo;
 
-    static readonly IApplicationActivationManager ApplicationActivationManager;
+    static readonly IApplicationActivationManager ApplicationActivationManager = Components.ApplicationActivationManager.Create();
 
-    static readonly IPackageDebugSettings PackageDebugSettings;
-
-    static App()
-    {
-        CoCreateInstance(ref CLSID_PackageDebugSettings, default, CLSCTX_INPROC_SERVER, ref IID_IPackageDebugSettings, out var ppv);
-        PackageDebugSettings = (IPackageDebugSettings)ppv;
-
-        CoCreateInstance(ref CLSID_ApplicationActivationManager, default, CLSCTX_INPROC_SERVER, ref IID_IApplicationActivationManager, out ppv);
-        ApplicationActivationManager = (IApplicationActivationManager)ppv;
-    }
+    static readonly IPackageDebugSettings PackageDebugSettings = Components.PackageDebugSettings.Create();
 
     internal App(string value) => AppInfo = AppInfo.GetFromAppUserModelId(value);
 
