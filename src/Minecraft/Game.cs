@@ -40,11 +40,11 @@ public static class Game
         try
         {
             handle = OpenProcess(SYNCHRONIZE, false, value);
-            _ = Task.Run(() =>
+            ThreadPool.UnsafeQueueUserWorkItem((_) =>
             {
                 WaitForSingleObject(handle, Timeout.Infinite);
                 signaled = true; @event.Set();
-            });
+            }, default);
             @event.Wait();
         }
         finally { CloseHandle(handle); }
