@@ -1,5 +1,6 @@
 using Bedrockix.Unmanaged;
 using Windows.ApplicationModel;
+using Windows.UI.Xaml.Documents;
 using static Bedrockix.Unmanaged.Constants;
 
 namespace Bedrockix.Windows;
@@ -8,9 +9,9 @@ sealed class App
 {
     readonly AppInfo AppInfo;
 
-    static readonly IApplicationActivationManager ApplicationActivationManager = Components.ApplicationActivationManager.Create();
+    static readonly IApplicationActivationManager ApplicationActivationManager = COM.ApplicationActivationManager.Create();
 
-    static readonly IPackageDebugSettings PackageDebugSettings = Components.PackageDebugSettings.Create();
+    static readonly IPackageDebugSettings PackageDebugSettings = COM.PackageDebugSettings.Create();
 
     internal App(string value) => AppInfo = AppInfo.GetFromAppUserModelId(value);
 
