@@ -22,9 +22,9 @@ sealed class App
     {
         set
         {
-            var packageFullName = Package.Id.FullName;
-            PackageDebugSettings.DisableDebugging(packageFullName);
-            if (!value) PackageDebugSettings.EnableDebugging(packageFullName, default, default);
+            var name = Package.Id.FullName;
+            PackageDebugSettings.DisableDebugging(name);
+            if (!value) PackageDebugSettings.EnableDebugging(name, default, default);
         }
     }
 
