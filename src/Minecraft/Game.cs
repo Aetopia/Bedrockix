@@ -33,10 +33,7 @@ public static class Game
                 @event.Set();
         };
 
-        var value = App.Launch();
-        nint handle = default;
-        var signaled = false;
-
+        var value = App.Launch(); nint handle = default; var signaled = false;
         try
         {
             handle = OpenProcess(SYNCHRONIZE, false, value);

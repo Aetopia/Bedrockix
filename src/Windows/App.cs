@@ -1,6 +1,10 @@
-using Bedrockix.Unmanaged;
+using System.Linq;
 using Windows.ApplicationModel;
+using Windows.System;
 using static Bedrockix.Unmanaged.Constants;
+using System.Threading;
+using Bedrockix.Unmanaged;
+using Windows.Foundation;
 
 namespace Bedrockix.Windows;
 
@@ -8,23 +12,41 @@ sealed class App
 {
     readonly AppInfo AppInfo;
 
-    static readonly IApplicationActivationManager ApplicationActivationManager = COM.ApplicationActivationManager.Create();
-
-    static readonly IPackageDebugSettings PackageDebugSettings = COM.PackageDebugSettings.Create();
-
     internal App(string value) => AppInfo = AppInfo.GetFromAppUserModelId(value);
+
+    static readonly ApplicationActivationManager ApplicationActivationManager = new();
+
+    static readonly PackageDebugSettings PackageDebugSettings =new();
 
     internal Package Package => AppInfo.Package;
 
-    internal bool Running => PackageDebugSettings.Resume(Package.Id.FullName) >= default(int);
+    internal bool Running
+    {
+        get
+        {
+            var source = AppDiagnosticInfo.RequestInfoForAppAsync(AppInfo.AppUserModelId);
+
+            if (source.Status is AsyncStatus.Started)
+            {
+                using ManualResetEventSlim @event = new();
+                source.Completed += (_, _) => @event.Set();
+                @event.Wait();
+            }
+
+            if (source.Status is AsyncStatus.Error)
+                throw source.ErrorCode;
+
+            return source.GetResults().Any(_ => _.GetResourceGroups().Any(_ => _.GetProcessDiagnosticInfos().Any()));
+        }
+    }
 
     internal bool Debug
     {
         set
         {
-            var name = Package.Id.FullName;
-            PackageDebugSettings.DisableDebugging(name);
-            if (!value) PackageDebugSettings.EnableDebugging(name, default, default);
+            var packageFullName = Package.Id.FullName;
+            PackageDebugSettings.DisableDebugging(packageFullName);
+            if (!value) PackageDebugSettings.EnableDebugging(packageFullName, default, default);
         }
     }
 
@@ -35,4 +57,4 @@ sealed class App
     }
 
     internal void Terminate() => PackageDebugSettings.TerminateAllProcesses(Package.Id.FullName);
-}
+};
