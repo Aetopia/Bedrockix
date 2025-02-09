@@ -57,5 +57,14 @@ sealed class App
         return value;
     }
 
-    internal void Terminate() => PackageDebugSettings.TerminateAllProcesses(Package.Id.FullName);
+    internal void Terminate(bool value = default)
+    {
+        var @object = Package.Id.FullName;
+        if (value) PackageDebugSettings.TerminateAllProcesses(@object);
+        else
+        {
+            try { PackageDebugSettings.StartServicing(@object); }
+            finally { PackageDebugSettings.StartServicing(@object); }
+        }
+    }
 }

@@ -22,9 +22,9 @@ interface IPackageDebugSettings
 
     void ActivateBackgroundTask(nint taskId);
 
-    void StartServicing(nint packageFullName);
+    void StartServicing([MarshalAs(UnmanagedType.LPWStr)] string packageFullName);
 
-    void StopServicing(nint packageFullName);
+    void StopServicing([MarshalAs(UnmanagedType.LPWStr)] string packageFullName);
 
     void StartSessionRedirection(nint packageFullName, ulong sessionId);
 
@@ -66,10 +66,10 @@ sealed class PackageDebugSettings : IPackageDebugSettings
     public extern void ActivateBackgroundTask(nint taskId);
 
     [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-    public extern void StartServicing(nint packageFullName);
+    public extern void StartServicing([MarshalAs(UnmanagedType.LPWStr)] string packageFullName);
 
     [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-    public extern void StopServicing(nint packageFullName);
+    public extern void StopServicing([MarshalAs(UnmanagedType.LPWStr)] string packageFullName);
 
     [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
     public extern void StartSessionRedirection(nint packageFullName, ulong sessionId);

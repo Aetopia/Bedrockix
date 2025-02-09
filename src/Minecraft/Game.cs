@@ -62,5 +62,5 @@ public static class Game
 
     public static bool Debug { set { App.Debug = value; } }
 
-    public static void Terminate() => App.Terminate();
+    public static void Terminate(bool value = default) => App.Terminate(value);
 }
