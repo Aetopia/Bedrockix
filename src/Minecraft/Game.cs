@@ -17,39 +17,45 @@ public static class Game
     public static int Launch()
     {
         var path = ApplicationDataManager.CreateForPackageFamily(App.Package.Id.FamilyName).LocalFolder.Path;
-        using ManualResetEventSlim @event = new(Running && !File.Exists(Path.Combine(path, Value)));
 
-        using FileSystemWatcher watcher = new(path)
+        if (!(Running && !File.Exists(Path.Combine(path, Value))))
         {
-            NotifyFilter = NotifyFilters.FileName,
-            IncludeSubdirectories = true,
-            EnableRaisingEvents = true
-        };
+            using ManualResetEventSlim @event = new();
 
-        watcher.Deleted += (_, e) =>
-        {
-            if (e.Name.Equals(Value, StringComparison.OrdinalIgnoreCase))
-                @event.Set();
-        };
-
-        var value = App.Launch();
-        nint handle = default;
-        var signaled = false;
-
-        try
-        {
-            handle = OpenProcess(SYNCHRONIZE, false, value);
-            ThreadPool.UnsafeQueueUserWorkItem((_) =>
+            using FileSystemWatcher watcher = new(path)
             {
-                WaitForSingleObject(handle, Timeout.Infinite);
-                signaled = true;
-                @event.Set();
-            }, default);
-            @event.Wait();
-        }
-        finally { CloseHandle(handle); }
+                NotifyFilter = NotifyFilters.FileName,
+                IncludeSubdirectories = true,
+                EnableRaisingEvents = true
+            };
 
-        return signaled ? throw new OperationCanceledException() : value;
+            watcher.Deleted += (_, e) =>
+            {
+                if (e.Name.Equals(Value, StringComparison.OrdinalIgnoreCase))
+                    @event.Set();
+            };
+
+            var value = App.Launch();
+            nint handle = default;
+            var signaled = false;
+
+            try
+            {
+                handle = OpenProcess(SYNCHRONIZE, false, value);
+                ThreadPool.UnsafeQueueUserWorkItem((_) =>
+                {
+                    WaitForSingleObject(handle, Timeout.Infinite);
+                    signaled = true;
+                    @event.Set();
+                }, default);
+                @event.Wait();
+            }
+            finally { CloseHandle(handle); }
+
+            return signaled ? throw new OperationCanceledException() : value;
+        }
+
+        return App.Launch();
     }
 
     public static bool Running => App.Running;
