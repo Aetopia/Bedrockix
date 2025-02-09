@@ -18,7 +18,7 @@ public static class Game
     public static int Launch()
     {
         var path = ApplicationDataManager.CreateForPackageFamily(App.Package.Id.FamilyName).LocalFolder.Path;
-        using ManualResetEventSlim @event = new(App.Running && !File.Exists(Path.Combine(path, Value)));
+        using ManualResetEventSlim @event = new(Running && !File.Exists(Path.Combine(path, Value)));
 
         using FileSystemWatcher watcher = new(path)
         {
