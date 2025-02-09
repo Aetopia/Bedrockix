@@ -1,10 +1,10 @@
 using System.Linq;
-using Windows.ApplicationModel;
 using Windows.System;
-using static Bedrockix.Unmanaged.Constants;
 using System.Threading;
-using Bedrockix.Unmanaged;
 using Windows.Foundation;
+using Bedrockix.Unmanaged;
+using Windows.ApplicationModel;
+using static Bedrockix.Unmanaged.Constants;
 
 namespace Bedrockix.Windows;
 

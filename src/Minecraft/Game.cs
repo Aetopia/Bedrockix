@@ -1,11 +1,10 @@
 using System;
 using System.IO;
 using System.Threading;
-using Windows.Management.Core;
 using Bedrockix.Windows;
+using Windows.Management.Core;
 using static Bedrockix.Unmanaged.Native;
 using static Bedrockix.Unmanaged.Constants;
-using System.Threading.Tasks;
 
 namespace Bedrockix.Minecraft;
 
