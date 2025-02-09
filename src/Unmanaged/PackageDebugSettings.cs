@@ -12,7 +12,7 @@ interface IPackageDebugSettings
 
     void Suspend(nint packageFullName);
 
-    void Resume(int packageFullName);
+    void Resume(nint packageFullName);
 
     void TerminateAllProcesses([MarshalAs(UnmanagedType.LPWStr)] string packageFullName);
 
@@ -22,9 +22,9 @@ interface IPackageDebugSettings
 
     void ActivateBackgroundTask(nint taskId);
 
-    void StartServicing(int packageFullName);
+    void StartServicing([MarshalAs(UnmanagedType.LPWStr)] string packageFullName);
 
-    void StopServicing(int packageFullName);
+    void StopServicing([MarshalAs(UnmanagedType.LPWStr)] string packageFullName);
 
     void StartSessionRedirection(nint packageFullName, ulong sessionId);
 
@@ -42,53 +42,46 @@ interface IPackageDebugSettings
 sealed class PackageDebugSettings : IPackageDebugSettings
 {
     [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-    public extern void ActivateBackgroundTask(nint taskId);
+    public extern void EnableDebugging([MarshalAs(UnmanagedType.LPWStr)] string packageFullName, nint debuggerCommandLine, nint environment);
 
     [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
     public extern void DisableDebugging([MarshalAs(UnmanagedType.LPWStr)] string packageFullName);
 
     [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-    public extern void EnableDebugging([MarshalAs(UnmanagedType.LPWStr)] string packageFullName, nint debuggerCommandLine, nint environment);
+    public extern void Suspend(nint packageFullName);
+
+    [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+    public extern void Resume(nint packageFullName);
+
+    [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+    public extern void TerminateAllProcesses([MarshalAs(UnmanagedType.LPWStr)] string packageFullName);
+
+    [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+    public extern void SetTargetSessionId(ulong sessionId);
 
     [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
     public extern void EnumerateBackgroundTasks(nint packageFullName, nint taskCount, nint taskIds, nint taskNames);
 
     [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-    public extern void GetPackageExecutionState(nint packageFullName, nint packageExecutionState);
+    public extern void ActivateBackgroundTask(nint taskId);
 
     [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-    public extern void RegisterForPackageStateChanges(nint packageFullName, nint pPackageExecutionStateChangeNotification, nint pdwCookie);
+    public extern void StartServicing([MarshalAs(UnmanagedType.LPWStr)] string packageFullName);
 
     [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-    public extern void Resume(int packageFullName);
-
-    [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-    public extern void SetTargetSessionId(ulong sessionId);
-
-
-    [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-    public extern void StartServicing(int packageFullName);
+    public extern void StopServicing([MarshalAs(UnmanagedType.LPWStr)] string packageFullName);
 
     [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
     public extern void StartSessionRedirection(nint packageFullName, ulong sessionId);
 
-
-    [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-    public extern void StopServicing(int packageFullName);
-
-
     [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
     public extern void StopSessionRedirection(nint packageFullName);
-
+    [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+    public extern void GetPackageExecutionState(nint packageFullName, nint packageExecutionState);
 
     [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-    public extern void Suspend(nint packageFullName);
-
-
-    [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-    public extern void TerminateAllProcesses([MarshalAs(UnmanagedType.LPWStr)] string packageFullName);
-
-
+    public extern void RegisterForPackageStateChanges(nint packageFullName, nint pPackageExecutionStateChangeNotification, nint pdwCookie);
+    
     [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
     public extern void UnregisterForPackageStateChanges(uint dwCookie);
 }
