@@ -45,9 +45,9 @@ sealed class App
     {
         set
         {
-            var packageFullName = Package.Id.FullName;
-            PackageDebugSettings.DisableDebugging(packageFullName);
-            if (!value) PackageDebugSettings.EnableDebugging(packageFullName, default, default);
+            var @object = Package.Id.FullName;
+            PackageDebugSettings.DisableDebugging(@object);
+            if (!value) PackageDebugSettings.EnableDebugging(@object, default, default);
         }
     }
 
