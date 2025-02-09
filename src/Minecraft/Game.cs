@@ -37,7 +37,7 @@ public static class Game
 
             var value = App.Launch();
             nint handle = default;
-            var signaled = false;
+            bool @object = default;
 
             try
             {
@@ -45,14 +45,14 @@ public static class Game
                 ThreadPool.UnsafeQueueUserWorkItem((_) =>
                 {
                     WaitForSingleObject(handle, Timeout.Infinite);
-                    signaled = true;
+                    @object = true;
                     @event.Set();
                 }, default);
                 @event.Wait();
             }
             finally { CloseHandle(handle); }
 
-            return signaled ? throw new OperationCanceledException() : value;
+            return @object ? throw new OperationCanceledException() : value;
         }
 
         return App.Launch();
