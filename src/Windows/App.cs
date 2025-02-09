@@ -12,19 +12,19 @@ sealed class App
 {
     internal App(string value)
     {
-        var source = AppDiagnosticInfo.RequestInfoForAppAsync(value);
+        var @object = AppDiagnosticInfo.RequestInfoForAppAsync(value);
 
-        if (source.Status is AsyncStatus.Started)
+        if (@object.Status is AsyncStatus.Started)
         {
             using ManualResetEventSlim @event = new();
-            source.Completed += (_, _) => @event.Set();
+            @object.Completed += (_, _) => @event.Set();
             @event.Wait();
         }
 
-        if (source.Status is AsyncStatus.Error)
-            throw source.ErrorCode;
+        if (@object.Status is AsyncStatus.Error)
+            throw @object.ErrorCode;
 
-        AppDiagnosticInfo = source.GetResults()[default];
+        AppDiagnosticInfo = @object.GetResults()[default];
     }
 
     readonly AppDiagnosticInfo AppDiagnosticInfo;
@@ -35,7 +35,11 @@ sealed class App
 
     internal Package Package => AppDiagnosticInfo.AppInfo.Package;
 
-    internal bool Running => !AppDiagnosticInfo.GetResourceGroups().Any(_ => _.GetMemoryReport().PrivateCommitUsage is default(ulong));
+    internal bool Running => AppDiagnosticInfo.GetResourceGroups().Any(_ =>
+    {
+        var @object = _.GetMemoryReport();
+        return @object != default && @object.PrivateCommitUsage != default;
+    });
 
     internal bool Debug
     {
