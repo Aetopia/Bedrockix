@@ -48,7 +48,7 @@ sealed class App
             var @object = Package.Id.FullName;
 
             PackageDebugSettings.DisableDebugging(@object);
-            
+
             if (value) PackageDebugSettings.EnableDebugging(@object, default, default);
         }
     }
@@ -67,9 +67,7 @@ sealed class App
 
         if (value) PackageDebugSettings.TerminateAllProcesses(@object);
         else
-        {
             try { PackageDebugSettings.StartServicing(@object); }
             finally { PackageDebugSettings.StopServicing(@object); }
-        }
     }
 }
