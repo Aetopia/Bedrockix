@@ -33,14 +33,18 @@ public static class Game
                 @event.Set();
         };
 
-        var value = App.Launch(); nint handle = default; var signaled = false;
+        var value = App.Launch();
+        nint handle = default;
+        var signaled = false;
+
         try
         {
             handle = OpenProcess(SYNCHRONIZE, false, value);
             ThreadPool.UnsafeQueueUserWorkItem((_) =>
             {
                 WaitForSingleObject(handle, Timeout.Infinite);
-                signaled = true; @event.Set();
+                signaled = true;
+                @event.Set();
             }, default);
             @event.Wait();
         }
