@@ -6,6 +6,7 @@
     <LangVersion>latest</LangVersion>
     <UseWindowsForms>true</UseWindowsForms>
     <NoWarn>WFO5001</NoWarn>
+    <Optimize>true</Optimize>
   </PropertyGroup>
 
   <ItemGroup>

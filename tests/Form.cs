@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Bedrockix.Minecraft;
 
@@ -41,10 +42,13 @@ sealed class Form : System.Windows.Forms.Form
             AutoSizeMode = AutoSizeMode.GrowAndShrink
         };
 
-        button1.Click += async (_, _) =>
+        button1.Click += async (sender, _) =>
         {
-            if (!await Minecraft.RunningAsync()) tableLayoutPanel.Enabled = false;
-            await Minecraft.LaunchAsync();
+            await Task.Run(() =>
+            {
+                if (Game.Running) Invoke(() => tableLayoutPanel.Enabled = false);
+                Game.Launch();
+            });
             tableLayoutPanel.Enabled = true;
         };
 
