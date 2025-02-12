@@ -46,7 +46,7 @@ sealed class Form : System.Windows.Forms.Form
         {
             await Task.Run(() =>
             {
-                if (Game.Running) Invoke(() => tableLayoutPanel.Enabled = false);
+                if (!Game.Running) Invoke(() => tableLayoutPanel.Enabled = false);
                 Game.Launch();
             });
             tableLayoutPanel.Enabled = true;
@@ -58,16 +58,7 @@ sealed class Form : System.Windows.Forms.Form
         button3.Click += async (sender, _) =>
         {
             var button = (Button)sender;
-            if (value)
-            {
-                button.Text = "Debug: Off";
-                value = false;
-            }
-            else
-            {
-                button.Text = "Debug: On";
-                value = true;
-            }
+            button.Text = (value = !value) ? "Debug: On" : "Debug: Off";
             await Minecraft.DebugAsync(value);
         };
 
