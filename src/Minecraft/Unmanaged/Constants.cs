@@ -1,4 +1,4 @@
-namespace Bedrockix.Unmanaged;
+namespace  Bedrockix.Minecraft.Unmanaged;
 
 static class Constants
 {

@@ -2,11 +2,11 @@ using System.Linq;
 using Windows.System;
 using System.Threading;
 using Windows.Foundation;
-using Bedrockix.Unmanaged;
 using Windows.ApplicationModel;
-using static Bedrockix.Unmanaged.Constants;
+using static Bedrockix.Minecraft.Unmanaged.Constants;
+using Bedrockix.Minecraft.Unmanaged;
 
-namespace Bedrockix.Windows;
+namespace Bedrockix.Minecraft.Windows;
 
 sealed class App
 {
@@ -46,10 +46,8 @@ sealed class App
         set
         {
             var @object = Package.Id.FullName;
-
-            PackageDebugSettings.DisableDebugging(@object);
-
             if (value) PackageDebugSettings.EnableDebugging(@object, default, default);
+            else PackageDebugSettings.DisableDebugging(@object);
         }
     }
 
@@ -59,15 +57,5 @@ sealed class App
         return value;
     }
 
-    internal void Terminate(bool value = default)
-    {
-        var @object = Package.Id.FullName;
-
-        PackageDebugSettings.StopServicing(@object);
-
-        if (value) PackageDebugSettings.TerminateAllProcesses(@object);
-        else
-            try { PackageDebugSettings.StartServicing(@object); }
-            finally { PackageDebugSettings.StopServicing(@object); }
-    }
+    internal void Terminate()=> PackageDebugSettings.TerminateAllProcesses(Package.Id.FullName);
 }
