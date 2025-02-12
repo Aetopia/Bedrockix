@@ -5,6 +5,8 @@ using Bedrockix.Minecraft.Windows;
 using Windows.Management.Core;
 using static Bedrockix.Minecraft.Unmanaged.Native;
 using static Bedrockix.Minecraft.Unmanaged.Constants;
+using System.Diagnostics;
+using Microsoft.Win32.SafeHandles;
 
 namespace Bedrockix.Minecraft;
 
@@ -26,41 +28,20 @@ public static class Game
     {
         var path = ApplicationDataManager.CreateForPackageFamily(App.Package.Id.FamilyName).LocalFolder.Path;
 
-        if (!(Running && !File.Exists(Path.Combine(path, Value))))
+        if (!Running || File.Exists(Path.Combine(path, Value)))
         {
             using ManualResetEventSlim @event = new();
 
-            using FileSystemWatcher watcher = new(path)
-            {
-                NotifyFilter = NotifyFilters.FileName,
-                IncludeSubdirectories = true,
-                EnableRaisingEvents = true
-            };
+            using FileSystemWatcher watcher = new(path) { NotifyFilter = NotifyFilters.FileName, IncludeSubdirectories = true, EnableRaisingEvents = true };
 
-            watcher.Deleted += (_, e) =>
-            {
-                if (e.Name.Equals(Value, StringComparison.OrdinalIgnoreCase))
-                    @event.Set();
-            };
+            watcher.Deleted += (_, e) => { if (e.Name.Equals(Value, StringComparison.OrdinalIgnoreCase)) @event.Set(); };
 
             var value = App.Launch();
-            nint handle = default;
-            bool @object = default;
 
-            try
-            {
-                handle = OpenProcess(SYNCHRONIZE, false, value);
-                ThreadPool.UnsafeQueueUserWorkItem((_) =>
-                {
-                    WaitForSingleObject(handle, Timeout.Infinite);
-                    @object = true;
-                    @event.Set();
-                }, default);
-                @event.Wait();
-            }
-            finally { CloseHandle(handle); }
+            using Handle @object = new(OpenProcess(SYNCHRONIZE, false, value));
+            WaitHandle.WaitAny([@event.WaitHandle, @object]);
 
-            return @object ? throw new OperationCanceledException() : value;
+            return @event.IsSet ? value : throw new OperationCanceledException();
         }
 
         return App.Launch();
