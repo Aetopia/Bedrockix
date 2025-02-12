@@ -52,15 +52,16 @@ sealed class Form : System.Windows.Forms.Form
             tableLayoutPanel.Enabled = true;
         };
 
-        button2.Click += async (_, _) => await Minecraft.TerminateAsync();
+        button2.Click += async (_, _) => await Task.Run(Game.Terminate);
 
         bool value = default;
-        button3.Click += async (sender, _) =>
+        button3.Click += async (_, _) => await Task.Run(() =>
         {
-            var button = (Button)sender;
-            button.Text = (value = !value) ? "Debug: On" : "Debug: Off";
-            await Minecraft.DebugAsync(value);
-        };
+            if (Game.Running && value) return;
+            Invoke(() => button3.Text = (value = !value) ? "Debug: On" : "Debug: Off");
+            Game.Debug = value;
+        });
+
 
         tableLayoutPanel.Controls.Add(button1, 0, 0);
         tableLayoutPanel.Controls.Add(button2, 0, 1);
