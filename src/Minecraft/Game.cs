@@ -28,18 +28,22 @@ public static class Game
     {
         var path = ApplicationDataManager.CreateForPackageFamily(App.Package.Id.FamilyName).LocalFolder.Path;
 
-        if (!Running || File.Exists(Path.Combine(path, Value)))
+        if (!Running || File.Exists(Path.Combine(path, @"games\com.mojang\minecraftpe\resource_init_lock")))
         {
             using ManualResetEventSlim @event = new();
 
-            using FileSystemWatcher watcher = new(path) { NotifyFilter = NotifyFilters.FileName, IncludeSubdirectories = true, EnableRaisingEvents = true };
-
-            watcher.Deleted += (_, e) => { if (e.Name.Equals(Value, StringComparison.OrdinalIgnoreCase)) @event.Set(); };
+            FileSystemWatcher watcher = new(path, "resource_init_lock")
+            {
+                NotifyFilter = NotifyFilters.FileName,
+                IncludeSubdirectories = true,
+                EnableRaisingEvents = true
+            };
+            watcher.Deleted += (_, _) => @event.Set();
 
             var value = App.Launch();
 
-            using Handle @object = new(OpenProcess(SYNCHRONIZE, false, value));
-            WaitHandle.WaitAny([@event.WaitHandle, @object]);
+            using Handle handle = new(OpenProcess(SYNCHRONIZE, false, value));
+            WaitHandle.WaitAny([@event.WaitHandle, handle]);
 
             return @event.IsSet ? value : throw new OperationCanceledException();
         }
