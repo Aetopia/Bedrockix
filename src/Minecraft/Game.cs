@@ -5,8 +5,6 @@ using Bedrockix.Minecraft.Windows;
 using Windows.Management.Core;
 using static Bedrockix.Minecraft.Unmanaged.Native;
 using static Bedrockix.Minecraft.Unmanaged.Constants;
-using System.Diagnostics;
-using Microsoft.Win32.SafeHandles;
 
 namespace Bedrockix.Minecraft;
 
