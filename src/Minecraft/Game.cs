@@ -15,8 +15,6 @@ public static class Game
 {
     static readonly App App = new("Microsoft.MinecraftUWP_8wekyb3d8bbwe!App");
 
-    const string Value = @"games\com.mojang\minecraftpe\resource_init_lock";
-
     /// <summary>
     /// Launch an instance of Minecraft: Bedrock Edition.
     /// </summary>
