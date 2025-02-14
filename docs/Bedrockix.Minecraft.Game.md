@@ -1,4 +1,4 @@
-# Bedrock.Minecraft.Game
+# Bedrockix.Minecraft.Game
 
 Provides methods to interact with Minecraft: Bedrock Edition.
 
