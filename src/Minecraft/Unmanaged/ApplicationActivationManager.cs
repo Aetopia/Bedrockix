@@ -7,9 +7,9 @@ namespace Bedrockix.Minecraft.Unmanaged;
 interface IApplicationActivationManager
 {
     void ActivateApplication([MarshalAs(UnmanagedType.LPWStr)] string appUserModelId, nint arguments, int options, out int processId);
-    
+
     void ActivateForFile(nint appUserModelId, nint itemArray, nint verb, out int processId);
-    
+
     void ActivateForProtocol(nint appUserModelId, nint itemArray, out int processId);
 }
 
