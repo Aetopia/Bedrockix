@@ -2,4 +2,4 @@
 
 ## Classes
 
-- [`Bedrock.Minecraft.Game`](Bedrock.Minecraft.Game.md)
+- [`Bedrockix.Minecraft.Game`](Bedrockix.Minecraft.Game.md)
