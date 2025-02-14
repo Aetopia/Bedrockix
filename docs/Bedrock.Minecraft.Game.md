@@ -17,7 +17,9 @@ Launches an instance of Minecraft.
 
 - Exceptions:
     
-    - `OperationCanceledException`: Thrown if the instance terminates prematurely.
+    - `OperationCanceledException`: 
+        
+        Thrown if the instance terminates prematurely.
 
 ## Game.Terminate()
 
