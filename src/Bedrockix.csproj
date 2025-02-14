@@ -18,6 +18,7 @@
     <Authors>Aetopia</Authors>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/Aetopia/Bedrockix</RepositoryUrl>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile> 
 
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <AssemblyTitle>Bedrockix</AssemblyTitle>
