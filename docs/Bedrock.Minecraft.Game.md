@@ -7,7 +7,7 @@ Provides methods to interact with Minecraft: Bedrock Edition.
 - [`Game.Running`](#gamerunning)
 - [`Game.Debug`](#gamedebug)
 
-## Game.Launch()
+## `Game.Launch()`
 
 Launches an instance of Minecraft.
 
@@ -21,11 +21,11 @@ Launches an instance of Minecraft.
         
         Thrown if the instance terminates prematurely.
 
-## Game.Terminate()
+## `Game.Terminate()`
 
 Terminate any running instances of Minecraft: Bedrock Edition.
 
-## Game.Running
+## `Game.Running`
 
 Check for any running instance of Minecraft: Bedrock Edition.
 
@@ -33,7 +33,7 @@ Check for any running instance of Minecraft: Bedrock Edition.
     
     If a running instance is present then `true` else `false`.
 
-## Game.Debug 
+## `Game.Debug` 
 
 Configure debug mode for Minecraft: Bedrock Edition.
 
