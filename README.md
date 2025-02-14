@@ -9,5 +9,5 @@ A library for interacting & managing Minecraft: Bedrock Edition.
 2. Run the following command to compile:
 
     ```cmd
-    dotnet publish "src\Bedrock.Injector.csproj"
+    dotnet publish "src\Bedrockix.csproj"
     ```
