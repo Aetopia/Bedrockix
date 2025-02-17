@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Bedrockix.Minecraft;
@@ -23,7 +22,8 @@ sealed class Form : System.Windows.Forms.Form
         {
             Dock = DockStyle.Fill,
             AutoSize = true,
-            AutoSizeMode = AutoSizeMode.GrowAndShrink
+            AutoSizeMode = AutoSizeMode.GrowAndShrink,
+            Enabled = false
         };
         Controls.Add(tableLayoutPanel);
 
@@ -93,10 +93,15 @@ sealed class Form : System.Windows.Forms.Form
         tableLayoutPanel.Controls.Add(button4, 0, 3);
         tableLayoutPanel.Controls.Add(new Control() { Dock = DockStyle.Fill }, 0, -1);
 
-        Application.ThreadExit += (_, _) =>
+
+        if (Game.Installed)
         {
-            Game.Terminate();
-            Game.Debug = default;
-        };
+            tableLayoutPanel.Enabled = true;
+            Application.ThreadExit += (_, _) =>
+            {
+                Game.Terminate();
+                Game.Debug = default;
+            };
+        }
     }
 }
