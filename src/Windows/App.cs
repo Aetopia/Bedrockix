@@ -57,5 +57,5 @@ sealed class App
         return value;
     }
 
-    internal void Terminate()=> PackageDebugSettings.TerminateAllProcesses(Package.Id.FullName);
+    internal void Terminate() => PackageDebugSettings.TerminateAllProcesses(Package.Id.FullName);
 }

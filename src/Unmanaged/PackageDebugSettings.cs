@@ -76,6 +76,7 @@ sealed class PackageDebugSettings : IPackageDebugSettings
 
     [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
     public extern void StopSessionRedirection(nint packageFullName);
+
     [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
     public extern void GetPackageExecutionState(nint packageFullName, nint packageExecutionState);
 
