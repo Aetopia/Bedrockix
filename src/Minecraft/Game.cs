@@ -1,10 +1,10 @@
 using System;
 using System.IO;
 using System.Threading;
-using Bedrockix.Minecraft.Windows;
 using Windows.Management.Core;
-using static Bedrockix.Minecraft.Unmanaged.Native;
-using static Bedrockix.Minecraft.Unmanaged.Constants;
+using Bedrockix.Windows;
+using static Bedrockix.Unmanaged.Native;
+using static Bedrockix.Unmanaged.Constants;
 
 namespace Bedrockix.Minecraft;
 
@@ -39,7 +39,7 @@ public static class Game
             var value = App.Launch();
 
             using Handle handle = new(OpenProcess(SYNCHRONIZE, false, value));
-            WaitHandle.WaitAny([@event.WaitHandle, handle]);
+            Handle.Any(@event.WaitHandle.GetSafeWaitHandle().DangerousGetHandle(), handle);
 
             return @event.IsSet ? value : throw new OperationCanceledException();
         }

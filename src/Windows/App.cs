@@ -3,10 +3,10 @@ using Windows.System;
 using System.Threading;
 using Windows.Foundation;
 using Windows.ApplicationModel;
-using static Bedrockix.Minecraft.Unmanaged.Constants;
-using Bedrockix.Minecraft.Unmanaged;
+using static Bedrockix.Unmanaged.Constants;
+using Bedrockix.Unmanaged;
 
-namespace Bedrockix.Minecraft.Windows;
+namespace Bedrockix.Windows;
 
 sealed class App
 {
