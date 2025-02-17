@@ -79,11 +79,13 @@ sealed class Form : System.Windows.Forms.Form
             Game.Debug = value;
         });
 
-        button4.Click += (_, _) =>
+        button4.Click += async (_, _) =>
         {
             if (dialog.ShowDialog() != DialogResult.OK) return;
+            tableLayoutPanel.Enabled = false;
+            await Task.Run(() => Loader.Launch(dialog.FileNames));
+            tableLayoutPanel.Enabled = true;
         };
-
 
         tableLayoutPanel.Controls.Add(button1, 0, 0);
         tableLayoutPanel.Controls.Add(button2, 0, 1);
