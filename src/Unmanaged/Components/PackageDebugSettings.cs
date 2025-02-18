@@ -1,7 +1,7 @@
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 
-namespace Bedrockix.Unmanaged;
+namespace Bedrockix.Unmanaged.Components;
 
 [Guid("F27C3930-8029-4AD1-94E3-3DBA417810C1"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 interface IPackageDebugSettings

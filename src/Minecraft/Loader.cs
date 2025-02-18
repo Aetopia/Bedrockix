@@ -1,15 +1,14 @@
-using System.ComponentModel;
 using System.IO;
-using System.Runtime.InteropServices;
-using System.Security.AccessControl;
-using System.Security.Principal;
 using Bedrockix.Windows;
+using System.ComponentModel;
+using System.Security.Principal;
+using System.Collections.Generic;
+using System.Security.AccessControl;
+using System.Runtime.InteropServices;
 using static Bedrockix.Unmanaged.Native;
 using static Bedrockix.Unmanaged.Constants;
-using System.Collections.Generic;
 
 namespace Bedrockix.Minecraft;
-
 
 /// <summary>
 /// Provides methods to load dynamic link libraries into Minecraft: Bedrock Edition.
@@ -40,23 +39,22 @@ public static class Loader
         return info.FullName;
     }
 
-    static void Inject(nint process, string path)
+    static void Load(nint value, string path)
     {
         var size = sizeof(char) * ((path = Get(path)).Length + 1);
         var buffer = Marshal.StringToHGlobalUni(path);
 
         try
         {
-            using Region region = new(process, size);
+            using Region region = new(value, size);
 
-            if (!WriteProcessMemory(process, region, buffer, size, default))
+            if (!WriteProcessMemory(value, region, buffer, size, default))
                 throw new Win32Exception(Marshal.GetLastWin32Error());
 
-            var thread = CreateRemoteThread(process, default, default, Address, region, default, default);
-            if (thread == default)
-                throw new Win32Exception(Marshal.GetLastWin32Error());
+            var @object = CreateRemoteThread(value, default, default, Address, region, default, default);
+            if (@object == default) throw new Win32Exception(Marshal.GetLastWin32Error());
 
-            using Handle handle = new(thread);
+            using Handle handle = new(@object);
             Handle.Single(handle);
         }
         finally { Marshal.FreeHGlobal(buffer); }
@@ -69,7 +67,7 @@ public static class Loader
     public static void Launch(string path)
     {
         using Handle handle = new(OpenProcess(PROCESS_ALL_ACCESS, false, Game.Launch()));
-        Inject(handle, path);
+        Load(handle, path);
     }
 
     /// <summary>
@@ -79,6 +77,6 @@ public static class Loader
     public static void Launch(params IEnumerable<string> paths)
     {
         using Handle handle = new(OpenProcess(PROCESS_ALL_ACCESS, false, Game.Launch()));
-        foreach (var path in paths) Inject(handle, path);
+        foreach (var path in paths) Load(handle, path);
     }
 }

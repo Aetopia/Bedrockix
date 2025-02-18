@@ -13,7 +13,9 @@ namespace Bedrockix.Minecraft;
 /// </summary>
 public static class Game
 {
-    internal static readonly Lazy<App> App = new(() => new("Microsoft.MinecraftUWP_8wekyb3d8bbwe!App"), LazyThreadSafetyMode.PublicationOnly);
+    static readonly Lazy<App> Object = new(() => new("Microsoft.MinecraftUWP_8wekyb3d8bbwe!App"), LazyThreadSafetyMode.PublicationOnly);
+
+    internal static App App => Object.Value;
 
     /// <summary>
     /// Launch an instance of Minecraft: Bedrock Edition.
@@ -22,7 +24,7 @@ public static class Game
     /// <exception cref="OperationCanceledException">Thrown if the instance terminates prematurely.</exception>
     public static int Launch()
     {
-        var path = ApplicationDataManager.CreateForPackageFamily(App.Value.Package.Id.FamilyName).LocalFolder.Path;
+        var path = ApplicationDataManager.CreateForPackageFamily(App.Package.Id.FamilyName).LocalFolder.Path;
 
         if (!Running || File.Exists(Path.Combine(path, @"games\com.mojang\minecraftpe\resource_init_lock")))
         {
@@ -36,7 +38,7 @@ public static class Game
             };
             watcher.Deleted += (_, _) => @event.Set();
 
-            var value = App.Value.Launch();
+            var value = App.Launch();
 
             using Handle handle = new(OpenProcess(SYNCHRONIZE, false, value));
             Handle.Any(@event.WaitHandle.GetSafeWaitHandle().DangerousGetHandle(), handle);
@@ -44,13 +46,13 @@ public static class Game
             return @event.IsSet ? value : throw new OperationCanceledException();
         }
 
-        return App.Value.Launch();
+        return App.Launch();
     }
 
     /// <summary>
     /// Terminate any running instances of Minecraft: Bedrock Edition.
     /// </summary>
-    public static void Terminate() => App.Value.Terminate();
+    public static void Terminate() => App.Terminate();
 
     /// <summary>
     /// Check if Minecraft: Bedrock Edition is installed.
@@ -60,10 +62,10 @@ public static class Game
     /// <summary>
     /// Check for any running instance of Minecraft: Bedrock Edition.
     /// </summary>
-    public static bool Running => App.Value.Running;
+    public static bool Running => App.Running;
 
     /// <summary>
     /// Configure debug mode for Minecraft: Bedrock Edition.
     /// </summary>
-    public static bool Debug { set { App.Value.Debug = value; } }
+    public static bool Debug { set { App.Debug = value; } }
 }

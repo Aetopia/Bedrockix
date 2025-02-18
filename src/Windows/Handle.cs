@@ -6,13 +6,13 @@ namespace Bedrockix.Windows;
 
 readonly struct Handle : IDisposable
 {
-    readonly nint Value;
+    readonly nint Object;
 
-    internal Handle(nint value) => Value = value;
+    internal Handle(nint value) => Object = value;
 
-    public static implicit operator nint(Handle value) => value.Value;
+    public static implicit operator nint(Handle value) => value.Object;
 
-    public void Dispose() => CloseHandle(Value);
+    public void Dispose() => CloseHandle(Object);
 
     internal static void Any(params ReadOnlySpan<nint> value) => WaitForMultipleObjects(value.Length, value, false, Timeout.Infinite);
 

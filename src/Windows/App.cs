@@ -1,14 +1,16 @@
 using System.Linq;
 using Windows.System;
 using System.Threading;
+using System.Collections;
 using Windows.Foundation;
 using Windows.ApplicationModel;
+using System.Collections.Generic;
+using Bedrockix.Unmanaged.Components;
 using static Bedrockix.Unmanaged.Constants;
-using Bedrockix.Unmanaged;
 
 namespace Bedrockix.Windows;
 
-sealed class App
+sealed class App : IEnumerable<AppResourceGroupInfo>
 {
     internal App(string value)
     {
@@ -25,20 +27,20 @@ sealed class App
             if (@object.Status is AsyncStatus.Error)
                 throw @object.ErrorCode;
 
-            Info = @object.GetResults()[default];
+            Object = @object.GetResults()[default];
         }
         finally { @object.Close(); }
     }
 
-    internal readonly AppDiagnosticInfo Info;
+    readonly AppDiagnosticInfo Object;
 
     static readonly ApplicationActivationManager Manager = new();
 
     static readonly PackageDebugSettings Settings = new();
 
-    internal Package Package => Info.AppInfo.Package;
+    internal Package Package => Object.AppInfo.Package;
 
-    internal bool Running => Info.GetResourceGroups().Any(_ =>
+    internal bool Running => this.Any(_ =>
     {
         var @object = _.GetMemoryReport();
         return @object != default && @object.PrivateCommitUsage != default;
@@ -56,9 +58,13 @@ sealed class App
 
     internal int Launch()
     {
-        Manager.ActivateApplication(Info.AppInfo.AppUserModelId, default, AO_NOERRORUI, out var value);
+        Manager.ActivateApplication(Object.AppInfo.AppUserModelId, default, AO_NOERRORUI, out var value);
         return value;
     }
 
     internal void Terminate() => Settings.TerminateAllProcesses(Package.Id.FullName);
+
+    public IEnumerator<AppResourceGroupInfo> GetEnumerator() => Object.GetResourceGroups().GetEnumerator();
+
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

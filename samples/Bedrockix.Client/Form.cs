@@ -22,7 +22,7 @@ sealed class Form : System.Windows.Forms.Form
         {
             Dock = DockStyle.Fill,
             AutoSize = true,
-            AutoSizeMode = AutoSizeMode.GrowAndShrink
+            AutoSizeMode = AutoSizeMode.GrowAndShrink,
         };
         Controls.Add(tableLayoutPanel);
 
@@ -61,7 +61,6 @@ sealed class Form : System.Windows.Forms.Form
         button1.Click += async (sender, _) =>
         {
             if (!Game.Installed) return;
-
             await Task.Run(() =>
             {
                 if (!Game.Running) Invoke(() => tableLayoutPanel.Enabled = false);
@@ -70,7 +69,7 @@ sealed class Form : System.Windows.Forms.Form
             tableLayoutPanel.Enabled = true;
         };
 
-        button2.Click += async (_, _) => await Task.Run(Game.Terminate);
+        button2.Click += async (_, _) => { if (Game.Installed) await Task.Run(Game.Terminate); };
 
         bool value = default;
         button3.Click += async (_, _) =>
