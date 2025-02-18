@@ -3,6 +3,7 @@
 Provides methods to load dynamic link libraries into Minecraft: Bedrock Edition.
 
 - [`Loader.Launch(string path)`](#loaderlaunchstring-path)
+
 - [`Loader.Launch(params IEnumerable<string> paths)`](#loaderlaunchparams-ienumerablestring-paths)
 
 ## `Loader.Launch(string path)`
