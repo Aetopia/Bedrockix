@@ -14,5 +14,4 @@ static class Program
         Application.SetUnhandledExceptionMode(UnhandledExceptionMode.ThrowException);
         Application.Run(new Form());
     }
-
 }
