@@ -13,7 +13,7 @@ namespace Bedrockix.Minecraft;
 /// </summary>
 public static class Game
 {
-    static readonly App App = new("Microsoft.MinecraftUWP_8wekyb3d8bbwe!App");
+    static readonly Lazy<App> App = new(() => new("Microsoft.MinecraftUWP_8wekyb3d8bbwe!App"), LazyThreadSafetyMode.PublicationOnly);
 
     /// <summary>
     /// Launch an instance of Minecraft: Bedrock Edition.
@@ -22,7 +22,7 @@ public static class Game
     /// <exception cref="OperationCanceledException">Thrown if the instance terminates prematurely.</exception>
     public static int Launch()
     {
-        var path = ApplicationDataManager.CreateForPackageFamily(App.Package.Id.FamilyName).LocalFolder.Path;
+        var path = ApplicationDataManager.CreateForPackageFamily(App.Value.Package.Id.FamilyName).LocalFolder.Path;
 
         if (!Running || File.Exists(Path.Combine(path, @"games\com.mojang\minecraftpe\resource_init_lock")))
         {
@@ -36,7 +36,7 @@ public static class Game
             };
             watcher.Deleted += (_, _) => @event.Set();
 
-            var value = App.Launch();
+            var value = App.Value.Launch();
 
             using Handle handle = new(OpenProcess(SYNCHRONIZE, false, value));
             Handle.Any(@event.WaitHandle.GetSafeWaitHandle().DangerousGetHandle(), handle);
@@ -44,23 +44,27 @@ public static class Game
             return @event.IsSet ? value : throw new OperationCanceledException();
         }
 
-        return App.Launch();
+        return App.Value.Launch();
     }
+
+    /// <summary>
+    /// Terminate any running instances of Minecraft: Bedrock Edition.
+    /// </summary>
+    public static void Terminate() => App.Value.Terminate();
+
+    /// <summary>
+    /// Check if Minecraft: Bedrock Edition is installed.
+    /// </summary>
+    public static bool Installed => GetPackagesByPackageFamily("Microsoft.MinecraftUWP_8wekyb3d8bbwe", out _, default, out _, default) is ERROR_INSUFFICIENT_BUFFER;
 
     /// <summary>
     /// Check for any running instance of Minecraft: Bedrock Edition.
     /// </summary>
-    public static bool Running => App.Running;
+    public static bool Running => App.Value.Running;
 
 
     /// <summary>
     /// Configure debug mode for Minecraft: Bedrock Edition.
     /// </summary>
-    public static bool Debug { set { App.Debug = value; } }
-
-
-    /// <summary>
-    /// Terminate any running instances of Minecraft: Bedrock Edition.
-    /// </summary>
-    public static void Terminate() => App.Terminate();
+    public static bool Debug { set { App.Value.Debug = value; } }
 }

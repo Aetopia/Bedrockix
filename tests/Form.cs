@@ -22,8 +22,7 @@ sealed class Form : System.Windows.Forms.Form
         {
             Dock = DockStyle.Fill,
             AutoSize = true,
-            AutoSizeMode = AutoSizeMode.GrowAndShrink,
-            Enabled = false
+            AutoSizeMode = AutoSizeMode.GrowAndShrink
         };
         Controls.Add(tableLayoutPanel);
 
@@ -61,6 +60,8 @@ sealed class Form : System.Windows.Forms.Form
 
         button1.Click += async (sender, _) =>
         {
+            if (!Game.Installed) return;
+
             await Task.Run(() =>
             {
                 if (!Game.Running) Invoke(() => tableLayoutPanel.Enabled = false);
@@ -72,16 +73,21 @@ sealed class Form : System.Windows.Forms.Form
         button2.Click += async (_, _) => await Task.Run(Game.Terminate);
 
         bool value = default;
-        button3.Click += async (_, _) => await Task.Run(() =>
+        button3.Click += async (_, _) =>
         {
-            if (Game.Running && value) return;
-            Invoke(() => button3.Text = (value = !value) ? "Debug: On" : "Debug: Off");
-            Game.Debug = value;
-        });
+            if (!Game.Installed) return;
+
+            await Task.Run(() =>
+            {
+                if (Game.Running && value) return;
+                Invoke(() => button3.Text = (value = !value) ? "Debug: On" : "Debug: Off");
+                Game.Debug = value;
+            });
+        };
 
         button4.Click += async (_, _) =>
         {
-            if (dialog.ShowDialog() != DialogResult.OK) return;
+            if (!Game.Installed || dialog.ShowDialog() != DialogResult.OK) return;
             tableLayoutPanel.Enabled = false;
             await Task.Run(() => Loader.Launch(dialog.FileNames));
             tableLayoutPanel.Enabled = true;
@@ -93,15 +99,11 @@ sealed class Form : System.Windows.Forms.Form
         tableLayoutPanel.Controls.Add(button4, 0, 3);
         tableLayoutPanel.Controls.Add(new Control() { Dock = DockStyle.Fill }, 0, -1);
 
-
-        if (Game.Installed)
+        Application.ThreadExit += (_, _) =>
         {
-            tableLayoutPanel.Enabled = true;
-            Application.ThreadExit += (_, _) =>
-            {
-                Game.Terminate();
-                Game.Debug = default;
-            };
-        }
+            if (!Game.Installed) return;
+            Game.Terminate();
+            Game.Debug = default;
+        };
     }
 }

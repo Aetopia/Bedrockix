@@ -6,6 +6,7 @@ Provides methods to interact with Minecraft: Bedrock Edition.
 - [`Game.Terminate()`](#gameterminate)
 - [`Game.Running`](#gamerunning)
 - [`Game.Debug`](#gamedebug)
+- [`Game.Installed`]
 
 ## `Game.Launch()`
 
