@@ -13,7 +13,7 @@ namespace Bedrockix.Minecraft;
 /// </summary>
 public static class Game
 {
-    static readonly Lazy<App> App = new(() => new("Microsoft.MinecraftUWP_8wekyb3d8bbwe!App"), LazyThreadSafetyMode.PublicationOnly);
+    internal static readonly Lazy<App> App = new(() => new("Microsoft.MinecraftUWP_8wekyb3d8bbwe!App"), LazyThreadSafetyMode.PublicationOnly);
 
     /// <summary>
     /// Launch an instance of Minecraft: Bedrock Edition.

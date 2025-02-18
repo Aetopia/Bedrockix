@@ -24,18 +24,18 @@ sealed class App
         if (@object.Status is AsyncStatus.Error)
             throw @object.ErrorCode;
 
-        AppDiagnosticInfo = @object.GetResults()[default];
+        Info = @object.GetResults()[default];
     }
 
-    readonly AppDiagnosticInfo AppDiagnosticInfo;
+    internal readonly AppDiagnosticInfo Info;
 
-    static readonly ApplicationActivationManager ApplicationActivationManager = new();
+    static readonly ApplicationActivationManager Manager = new();
 
-    static readonly PackageDebugSettings PackageDebugSettings = new();
+    static readonly PackageDebugSettings Settings = new();
 
-    internal Package Package => AppDiagnosticInfo.AppInfo.Package;
+    internal Package Package => Info.AppInfo.Package;
 
-    internal bool Running => AppDiagnosticInfo.GetResourceGroups().Any(_ =>
+    internal bool Running => Info.GetResourceGroups().Any(_ =>
     {
         var @object = _.GetMemoryReport();
         return @object != default && @object.PrivateCommitUsage != default;
@@ -46,16 +46,16 @@ sealed class App
         set
         {
             var @object = Package.Id.FullName;
-            if (value) PackageDebugSettings.EnableDebugging(@object, default, default);
-            else PackageDebugSettings.DisableDebugging(@object);
+            if (value) Settings.EnableDebugging(@object, default, default);
+            else Settings.DisableDebugging(@object);
         }
     }
 
     internal int Launch()
     {
-        ApplicationActivationManager.ActivateApplication(AppDiagnosticInfo.AppInfo.AppUserModelId, default, AO_NOERRORUI, out var value);
+        Manager.ActivateApplication(Info.AppInfo.AppUserModelId, default, AO_NOERRORUI, out var value);
         return value;
     }
 
-    internal void Terminate() => PackageDebugSettings.TerminateAllProcesses(Package.Id.FullName);
+    internal void Terminate() => Settings.TerminateAllProcesses(Package.Id.FullName);
 }
