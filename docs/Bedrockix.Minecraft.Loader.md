@@ -19,4 +19,5 @@ Launches & loads a dynamic link library into Minecraft: Bedrock Edition.
 Launches & loads a dynamic link library into Minecraft: Bedrock Edition.
 
 - Parameters:
+
     - `paths`: The dynamic link libraries to load.
