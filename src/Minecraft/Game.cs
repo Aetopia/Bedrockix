@@ -62,7 +62,6 @@ public static class Game
     /// </summary>
     public static bool Running => App.Value.Running;
 
-
     /// <summary>
     /// Configure debug mode for Minecraft: Bedrock Edition.
     /// </summary>

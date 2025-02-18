@@ -34,6 +34,14 @@ Check for any running instance of Minecraft: Bedrock Edition.
     
     If a running instance is present then `true` else `false`.
 
+## `Game.Installed`
+
+Check if Minecraft: Bedrock Edition is installed.
+
+- Returns:
+
+    If installed then `true` else `false`. 
+
 ## `Game.Debug` 
 
 Configure debug mode for Minecraft: Bedrock Edition.
