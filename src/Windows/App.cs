@@ -13,18 +13,21 @@ sealed class App
     internal App(string value)
     {
         var @object = AppDiagnosticInfo.RequestInfoForAppAsync(value);
-
-        if (@object.Status is AsyncStatus.Started)
+        try
         {
-            using ManualResetEventSlim @event = new();
-            @object.Completed += (_, _) => @event.Set();
-            @event.Wait();
+            if (@object.Status is AsyncStatus.Started)
+            {
+                using ManualResetEventSlim @event = new();
+                @object.Completed += (_, _) => @event.Set();
+                @event.Wait();
+            }
+
+            if (@object.Status is AsyncStatus.Error)
+                throw @object.ErrorCode;
+
+            Info = @object.GetResults()[default];
         }
-
-        if (@object.Status is AsyncStatus.Error)
-            throw @object.ErrorCode;
-
-        Info = @object.GetResults()[default];
+        finally { @object.Close(); }
     }
 
     internal readonly AppDiagnosticInfo Info;
