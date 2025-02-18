@@ -37,7 +37,7 @@ static partial class Native
     internal static partial bool CloseHandle(nint hObject);
 
     [LibraryImport("Kernel32", SetLastError = true)]
-    internal static partial int WaitForMultipleObjects(int nCount, Span<nint> lpHandles, [MarshalAs(UnmanagedType.Bool)] bool bWaitAll, int dwMilliseconds);
+    internal static partial int WaitForMultipleObjects(int nCount, ReadOnlySpan<nint> lpHandles, [MarshalAs(UnmanagedType.Bool)] bool bWaitAll, int dwMilliseconds);
 
     [LibraryImport("Kernel32", SetLastError = true)]
     internal static partial int WaitForSingleObject(nint hHandle, int dwMilliseconds);
