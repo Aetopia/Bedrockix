@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Bedrockix.csproj" />
+    <ProjectReference Include="..\src\Bedrockix.csproj" />
   </ItemGroup>
 
 </Project>
