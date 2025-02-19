@@ -6,6 +6,7 @@ sealed class Form : System.Windows.Forms.Form
 {
     internal Form()
     {
+        Text = "Bedrockix Client";
         MinimizeBox = MaximizeBox = default;
         FormBorderStyle = FormBorderStyle.FixedDialog;
         StartPosition = FormStartPosition.CenterScreen;
