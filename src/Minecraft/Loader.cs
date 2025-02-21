@@ -64,19 +64,23 @@ public static class Loader
     /// Launches &amp; loads a dynamic link library into Minecraft: Bedrock Edition.
     /// </summary>
     /// <param name="path">The dynamic link library to load.</param>
-    public static void Launch(string path)
+    /// /// <returns>The process ID of the loaded instance.</returns>
+    public static int Launch(string path)
     {
-        using Handle handle = new(OpenProcess(PROCESS_ALL_ACCESS, false, Game.Launch()));
-        Load(handle, path);
+        var value = Game.Launch();
+        using Handle handle = new(OpenProcess(PROCESS_ALL_ACCESS, false, value));
+        Load(handle, path); return value;
     }
 
     /// <summary>
     /// Launches &amp; loads dynamic link libraries into Minecraft: Bedrock Edition.
     /// </summary>
     /// <param name="paths">The dynamic link libraries to load.</param>
-    public static void Launch(params IEnumerable<string> paths)
+    /// <returns>The process ID of the loaded instance.</returns>
+    public static int Launch(params IEnumerable<string> paths)
     {
-        using Handle handle = new(OpenProcess(PROCESS_ALL_ACCESS, false, Game.Launch()));
-        foreach (var path in paths) Load(handle, path);
+        var value = Game.Launch();
+        using Handle handle = new(OpenProcess(PROCESS_ALL_ACCESS, false, value));
+        foreach (var path in paths) Load(handle, path); return value;
     }
 }
