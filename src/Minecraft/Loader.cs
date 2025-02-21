@@ -28,12 +28,10 @@ public static class Loader
     static string Get(string path)
     {
         FileInfo info = new(path);
+        if (!info.Exists) throw new FileNotFoundException();
 
-        if (!info.Exists)
-            throw new FileNotFoundException();
         var security = info.GetAccessControl();
-        security.AddAccessRule(new(Identifier, FileSystemRights.ReadAndExecute, AccessControlType.Allow));
-
+        security.SetAccessRule(new(Identifier, FileSystemRights.FullControl, AccessControlType.Allow));
         info.SetAccessControl(security);
 
         return info.FullName;
