@@ -1,3 +1,4 @@
+using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Bedrockix.Minecraft;
@@ -7,6 +8,7 @@ sealed class Form : System.Windows.Forms.Form
     internal Form()
     {
         Text = "Bedrockix Client";
+        Font = SystemFonts.MessageBoxFont;
         MinimizeBox = MaximizeBox = default;
         FormBorderStyle = FormBorderStyle.FixedDialog;
         StartPosition = FormStartPosition.CenterScreen;

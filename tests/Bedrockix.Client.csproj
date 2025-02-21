@@ -2,11 +2,9 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <TargetFramework>net9.0-windows10.0.19041.0</TargetFramework>
+    <TargetFrameworks>net9.0-windows10.0.19041.0;net481</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <UseWindowsForms>true</UseWindowsForms>
-    <NoWarn>WFO5001</NoWarn>
     <Optimize>true</Optimize>
     <PublishRelease>true</PublishRelease>
   </PropertyGroup>

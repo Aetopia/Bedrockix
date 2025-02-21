@@ -26,7 +26,11 @@ public static class Metadata
             var path = Game.App.Package.InstalledPath;
             using var stream = File.OpenRead(Path.Combine(path, "AppxManifest.xml"));
             var value = FileVersionInfo.GetVersionInfo(Path.Combine(path, XElement.Load(stream).Descendants().First(_ => _.Name.LocalName is "Application").Attribute("Executable").Value)).FileVersion;
+#if NET
             return value[..value.LastIndexOf('.')];
+#elif NETFRAMEWORK
+            return value.Substring(default, value.LastIndexOf('.'));
+#endif
         }
     }
 }
