@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace Bedrockix.Unmanaged;
 
-static partial class Native
+static class Native
 {
     [DllImport("Kernel32", SetLastError = true)]
     internal static extern nint OpenProcess(int dwDesiredAccess, [MarshalAs(UnmanagedType.Bool)] bool bInheritHandle, int dwProcessId);
