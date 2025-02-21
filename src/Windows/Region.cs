@@ -14,7 +14,7 @@ readonly struct Region : IDisposable
 
     internal Region(nint value, int @object)
     {
-        if ((Object = VirtualAllocEx(Value = value, default, @object, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE)) == default)
+        if ((Object = VirtualAllocEx(Value = value, default, @object, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE)) == default)
             throw new Win32Exception(Marshal.GetLastWin32Error());
     }
 

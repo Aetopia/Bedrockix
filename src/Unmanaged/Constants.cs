@@ -16,7 +16,7 @@ static class Constants
 
     internal const int MEM_RESERVE = 0x00002000;
 
-    internal const int PAGE_EXECUTE_READWRITE = 0x40;
+    internal const int PAGE_READWRITE = 0x40;
 
     internal const int ERROR_INSUFFICIENT_BUFFER = 0x7A;
 }
