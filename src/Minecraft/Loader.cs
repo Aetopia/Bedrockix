@@ -17,13 +17,13 @@ public static class Loader
 {
     static readonly nint Address;
 
+    static readonly FileSystemAccessRule Rule = new(new SecurityIdentifier("S-1-15-2-1"), FileSystemRights.FullControl, AccessControlType.Allow);
+
     static Loader()
     {
         using Library library = new("Kernel32.dll");
         Address = library["LoadLibraryW"];
     }
-
-    static readonly SecurityIdentifier Identifier = new("S-1-15-2-1");
 
     static string Get(string path)
     {
@@ -31,9 +31,9 @@ public static class Loader
         if (!info.Exists) throw new FileNotFoundException();
 
         var security = info.GetAccessControl();
-        security.SetAccessRule(new(Identifier, FileSystemRights.FullControl, AccessControlType.Allow));
-        info.SetAccessControl(security);
+        security.SetAccessRule(Rule);
 
+        info.SetAccessControl(security);
         return info.FullName;
     }
 
