@@ -1,8 +1,5 @@
-#if NET
 using System;
 using System.Runtime.InteropServices;
-
-[assembly: DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
 
 namespace Bedrockix.Unmanaged;
 
@@ -48,4 +45,3 @@ static partial class Native
     [LibraryImport("Kernel32", SetLastError = true)]
     internal static partial int GetPackagesByPackageFamily([MarshalAs(UnmanagedType.LPWStr)] string packageFamilyName, out uint count, nint packageFullNames, out uint bufferLength, nint buffer);
 }
-#endif

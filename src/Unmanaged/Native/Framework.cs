@@ -1,11 +1,8 @@
-#if NETFRAMEWORK
 using System.Runtime.InteropServices;
-
-[assembly: DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
 
 namespace Bedrockix.Unmanaged;
 
-static class Native
+static partial class Native
 {
     [DllImport("Kernel32", SetLastError = true)]
     internal static extern nint OpenProcess(int dwDesiredAccess, [MarshalAs(UnmanagedType.Bool)] bool bInheritHandle, int dwProcessId);
@@ -47,4 +44,3 @@ static class Native
     [DllImport("Kernel32", SetLastError = true)]
     internal static extern int GetPackagesByPackageFamily([MarshalAs(UnmanagedType.LPWStr)] string packageFamilyName, out uint count, nint packageFullNames, out uint bufferLength, nint buffer);
 }
-#endif

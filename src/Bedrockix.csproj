@@ -7,7 +7,7 @@
     <PackRelease>true</PackRelease>
     <PublishRelease>true</PublishRelease>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <NoWarn>IDE0130</NoWarn>
+    <NoWarn>IDE0130,IDE0057</NoWarn>
 
     <PackageId>Bedrockix</PackageId>
     <Title>Bedrockix</Title>
@@ -33,8 +33,12 @@
     <None Include="README.md" Pack="true" PackagePath="" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'net481'">
-    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.19041.2" />
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.19041.2"
+      Condition="'$(TargetFramework)' == 'net481'" />
+    <Compile Remove="**/*Core.cs" Condition="'$(TargetFramework)' == 'net481'" />
+    <Compile Remove="**/*Framework.cs" Condition="'$(TargetFramework)' != 'net481'" />
   </ItemGroup>
+
 
 </Project>
