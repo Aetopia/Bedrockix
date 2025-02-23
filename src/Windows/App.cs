@@ -24,8 +24,7 @@ sealed class App : IEnumerable<AppResourceGroupInfo>
                 @event.Wait();
             }
 
-            if (@object.Status is AsyncStatus.Error)
-                throw @object.ErrorCode;
+            if (@object.Status is AsyncStatus.Error) throw @object.ErrorCode;
 
             Object = @object.GetResults()[default];
         }
@@ -40,11 +39,7 @@ sealed class App : IEnumerable<AppResourceGroupInfo>
 
     internal Package Package => Object.AppInfo.Package;
 
-    internal bool Running => this.Any(_ =>
-    {
-        var @object = _.GetMemoryReport();
-        return @object != default && @object.PrivateCommitUsage != default;
-    });
+    internal bool Running => this.Any(_ => _.GetMemoryReport()?.PrivateCommitUsage > default(ulong));
 
     internal bool Debug
     {

@@ -1,16 +1,14 @@
 using System;
 using System.ComponentModel;
+using System.Runtime.InteropServices;
 using static Bedrockix.Unmanaged.Native;
 using static Bedrockix.Unmanaged.Constants;
-using System.Runtime.InteropServices;
 
 namespace Bedrockix.Windows;
 
 readonly struct Library : IDisposable
 {
     readonly nint Object;
-
-    public static implicit operator nint(Library value) => value.Object;
 
     internal Library(string value)
     {
