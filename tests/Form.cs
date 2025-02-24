@@ -47,7 +47,7 @@ sealed class Form : System.Windows.Forms.Form
 
         Button button3 = new()
         {
-            Text = "Debug: Off",
+            Text = "Debug: ❔",
             Dock = DockStyle.Fill,
             AutoSize = true,
             AutoSizeMode = AutoSizeMode.GrowAndShrink
@@ -64,6 +64,7 @@ sealed class Form : System.Windows.Forms.Form
         button1.Click += async (sender, _) =>
         {
             if (!Game.Installed) return;
+            
             await Task.Run(() =>
             {
                 if (!Game.Running) Invoke(() => tableLayoutPanel.Enabled = false);
@@ -82,7 +83,7 @@ sealed class Form : System.Windows.Forms.Form
             await Task.Run(() =>
             {
                 if (Game.Running && value) return;
-                Invoke(() => button3.Text = (value = !value) ? "Debug: On" : "Debug: Off");
+                Invoke(() => button3.Text = (value = !value) ? "Debug: ✔️" : "Debug: ❌");
                 Game.Debug = value;
             });
         };
