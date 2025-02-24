@@ -28,7 +28,7 @@ public static class Game
 
         if (!Running || File.Exists(Path.Combine(path, @"games\com.mojang\minecraftpe\resource_init_lock")))
         {
-            bool flag = default; using Handle @event = new(CreateEvent(default, default, default, default));
+            var flag = false; using Handle @event = new(CreateEvent(default, default, default, default));
 
             using FileSystemWatcher watcher = new(path, "resource_init_lock")
             {
@@ -36,7 +36,7 @@ public static class Game
                 IncludeSubdirectories = true,
                 EnableRaisingEvents = true
             };
-            watcher.Deleted += (_, _) => flag = SetEvent(@event);
+            watcher.Deleted += (_, _) => { flag = true; SetEvent(@event); };
 
             var value = App.Launch();
 
