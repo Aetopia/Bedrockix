@@ -30,12 +30,7 @@ public static class Game
         {
             var flag = false; using Handle @event = new(CreateEvent(default, default, default, default));
 
-            using FileSystemWatcher watcher = new(path, "resource_init_lock")
-            {
-                NotifyFilter = NotifyFilters.FileName,
-                IncludeSubdirectories = true,
-                EnableRaisingEvents = true
-            };
+            using FileSystemWatcher watcher = new(path, "resource_init_lock") { NotifyFilter = NotifyFilters.FileName, IncludeSubdirectories = true, EnableRaisingEvents = true };
             watcher.Deleted += (_, _) => { flag = true; SetEvent(@event); };
 
             var value = App.Launch();
