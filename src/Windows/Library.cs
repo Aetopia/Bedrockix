@@ -8,11 +8,11 @@ namespace Bedrockix.Windows;
 
 readonly struct Library : IDisposable
 {
-    readonly nint Object;
+    readonly nint Module;
 
     internal Library(string value)
     {
-        if ((Object = LoadLibraryEx(value, default, LOAD_LIBRARY_SEARCH_SYSTEM32)) == default)
+        if ((Module = LoadLibraryEx(value, default, LOAD_LIBRARY_SEARCH_SYSTEM32)) == default)
             throw new Win32Exception(Marshal.GetLastWin32Error());
     }
 
@@ -20,10 +20,10 @@ readonly struct Library : IDisposable
     {
         get
         {
-            var @object = GetProcAddress(Object, value);
+            var @object = GetProcAddress(Module, value);
             return @object != default ? @object : throw new Win32Exception(Marshal.GetLastWin32Error());
         }
     }
 
-    public void Dispose() => FreeLibrary(Object);
+    public void Dispose() => FreeLibrary(Module);
 }

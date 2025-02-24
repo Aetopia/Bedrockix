@@ -36,7 +36,7 @@ static partial class Native
     internal static extern bool CloseHandle(nint hObject);
 
     [DllImport("Kernel32", SetLastError = true)]
-    internal static extern int WaitForMultipleObjects(int nCount, [MarshalAs(UnmanagedType.LPArray)] nint[] lpHandles, [MarshalAs(UnmanagedType.Bool)] bool bWaitAll, int dwMilliseconds);
+    internal unsafe static extern int WaitForMultipleObjects(int nCount, nint* lpHandles, [MarshalAs(UnmanagedType.Bool)] bool bWaitAll, int dwMilliseconds);
 
     [DllImport("Kernel32", SetLastError = true)]
     internal static extern int WaitForSingleObject(nint hHandle, int dwMilliseconds);

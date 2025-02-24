@@ -41,8 +41,8 @@ public static class Game
             var value = App.Launch();
 
             using Handle handle = new(OpenProcess(SYNCHRONIZE, false, value));
-            Handle.Any(@event.WaitHandle.GetSafeWaitHandle().DangerousGetHandle(), handle);
-
+            unsafe { var handles = stackalloc nint[] { @event.WaitHandle.GetSafeWaitHandle().DangerousGetHandle(), handle }; Handle.Any(2, handles); }
+            
             return @event.IsSet ? value : throw new OperationCanceledException();
         }
 
