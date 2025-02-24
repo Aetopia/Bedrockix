@@ -28,22 +28,22 @@ public static class Game
 
         if (!Running || File.Exists(Path.Combine(path, @"games\com.mojang\minecraftpe\resource_init_lock")))
         {
-            using ManualResetEventSlim @event = new();
+            bool flag = default; using Handle @event = new(CreateEvent(default, default, default, default));
 
-            FileSystemWatcher watcher = new(path, "resource_init_lock")
+            using FileSystemWatcher watcher = new(path, "resource_init_lock")
             {
                 NotifyFilter = NotifyFilters.FileName,
                 IncludeSubdirectories = true,
                 EnableRaisingEvents = true
             };
-            watcher.Deleted += (_, _) => @event.Set();
+            watcher.Deleted += (_, _) => flag = SetEvent(@event);
 
             var value = App.Launch();
 
-            using Handle handle = new(OpenProcess(SYNCHRONIZE, false, value));
-            unsafe { var handles = stackalloc nint[] { @event.WaitHandle.SafeWaitHandle.DangerousGetHandle(), handle }; Handle.Any(2, handles); }
+            using Handle @object = new(OpenProcess(SYNCHRONIZE, false, value));
+            unsafe { var handles = stackalloc nint[] { @event, @object }; Handle.Any(2, handles); }
 
-            return @event.IsSet ? value : throw new OperationCanceledException();
+            return flag ? value : throw new OperationCanceledException();
         }
 
         return App.Launch();

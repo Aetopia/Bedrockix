@@ -4,7 +4,7 @@ using static Bedrockix.Unmanaged.Native;
 
 namespace Bedrockix.Windows;
 
-readonly partial struct Handle : IDisposable
+readonly struct Handle : IDisposable
 {
     readonly nint Value;
 

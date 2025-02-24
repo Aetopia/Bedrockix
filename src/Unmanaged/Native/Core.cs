@@ -8,6 +8,13 @@ static partial class Native
     [LibraryImport("Kernel32", SetLastError = true)]
     internal static partial nint OpenProcess(int dwDesiredAccess, [MarshalAs(UnmanagedType.Bool)] bool bInheritHandle, int dwProcessId);
 
+    [LibraryImport("Kernel32", SetLastError = true, EntryPoint = "CreateEventW")]
+    internal static partial nint CreateEvent(nint lpEventAttributes, [MarshalAs(UnmanagedType.Bool)] bool bManualReset, [MarshalAs(UnmanagedType.Bool)] bool bInitialState, nint lpName);
+
+    [LibraryImport("Kernel32", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool SetEvent(nint hEvent);
+
     [LibraryImport("Kernel32", SetLastError = true, EntryPoint = "LoadLibraryExW")]
     internal static partial nint LoadLibraryEx([MarshalAs(UnmanagedType.LPWStr)] string lpLibFileName, nint hFile, int dwFlags);
 
