@@ -22,7 +22,7 @@ public static class Loader
 
     static void Load(nint value, string path)
     {
-        FileInfo info = new(path); if (!info.Exists) return;
+        FileInfo info = new(path); if (!info.Exists) throw new FileNotFoundException();
 
         var security = info.GetAccessControl();
         security.SetAccessRule(Rule);
