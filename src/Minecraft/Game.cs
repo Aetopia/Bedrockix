@@ -16,7 +16,7 @@ public static class Game
 
     internal static int? Launch(out Handle handle)
     {
-        var path = ApplicationDataManager.CreateForPackageFamily(App.Package.Id.FamilyName).LocalFolder.Path;
+        int value; var path = ApplicationDataManager.CreateForPackageFamily(App.Package.Id.FamilyName).LocalFolder.Path;
 
         if (!Running || File.Exists(Path.Combine(path, @"games\com.mojang\minecraftpe\resource_init_lock")))
         {
@@ -25,15 +25,17 @@ public static class Game
             using FileSystemWatcher watcher = new(path, "resource_init_lock") { NotifyFilter = NotifyFilters.FileName, IncludeSubdirectories = true, EnableRaisingEvents = true };
             watcher.Deleted += (_, _) => { flag = true; SetEvent(@event); };
 
-            var value = App.Launch();
-
-            handle = new(OpenProcess(PROCESS_ALL_ACCESS, false, value));
-            unsafe { var handles = stackalloc nint[] { @event, handle }; Handle.Wait(2, handles); }
+            unsafe
+            {
+                var handles = stackalloc nint[] { handle = new(OpenProcess(PROCESS_ALL_ACCESS, false, value = App.Launch())), @event };
+                Handle.Wait(2, handles);
+            }
 
             return flag ? value : null;
         }
 
-        handle = default; return App.Launch();
+        handle = new(OpenProcess(PROCESS_ALL_ACCESS, false, value = App.Launch()));
+        return value;
     }
 
     /// <summary>
