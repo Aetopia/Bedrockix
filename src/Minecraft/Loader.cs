@@ -22,15 +22,13 @@ public static class Loader
 
     static void Load(nint value, string path)
     {
-        FileInfo info = new(path);
-        if (!info.Exists) return;
+        FileInfo info = new(path); if (!info.Exists) return;
 
         var security = info.GetAccessControl();
         security.SetAccessRule(Rule);
         info.SetAccessControl(security);
 
-        var size = sizeof(char) * (info.FullName.Length + 1);
-        nint address = default;
+        nint address = default; var size = sizeof(char) * (info.FullName.Length + 1);
 
         try
         {
@@ -41,7 +39,7 @@ public static class Loader
                 throw new Win32Exception(Marshal.GetLastWin32Error());
 
             var @object = CreateRemoteThread(value, default, default, Address, address, default, default);
-            if (@object== default) throw new Win32Exception(Marshal.GetLastWin32Error());
+            if (@object == default) throw new Win32Exception(Marshal.GetLastWin32Error());
 
             using Handle handle = new(@object); Handle.Wait(handle);
         }
