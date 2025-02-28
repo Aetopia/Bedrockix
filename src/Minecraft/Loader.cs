@@ -1,12 +1,12 @@
 using System.IO;
 using Bedrockix.Windows;
+using System.ComponentModel;
 using System.Security.Principal;
 using System.Collections.Generic;
 using System.Security.AccessControl;
+using System.Runtime.InteropServices;
 using static Bedrockix.Unmanaged.Native;
 using static Bedrockix.Unmanaged.Constants;
-using System.ComponentModel;
-using System.Runtime.InteropServices;
 
 namespace Bedrockix.Minecraft;
 
@@ -40,10 +40,10 @@ public static class Loader
             if (!WriteProcessMemory(value, address, info.FullName, size, default))
                 throw new Win32Exception(Marshal.GetLastWin32Error());
 
-            var _ = CreateRemoteThread(value, default, default, Address, address, default, default);
-            if (_ == default) throw new Win32Exception(Marshal.GetLastWin32Error());
+            var @object = CreateRemoteThread(value, default, default, Address, address, default, default);
+            if (@object== default) throw new Win32Exception(Marshal.GetLastWin32Error());
 
-            using Handle handle = new(_); Handle.Wait(handle);
+            using Handle handle = new(@object); Handle.Wait(handle);
         }
         finally { VirtualFreeEx(value, address, default, MEM_RELEASE); }
     }
