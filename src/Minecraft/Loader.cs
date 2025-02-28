@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Security.AccessControl;
 using static Bedrockix.Unmanaged.Native;
 
-
 namespace Bedrockix.Minecraft;
 
 /// <summary>
