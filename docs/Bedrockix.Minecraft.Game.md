@@ -16,40 +16,26 @@ Provides methods to interact with Minecraft: Bedrock Edition.
 
 Launches an instance of Minecraft.
 
-- Returns: 
-    
-    The process ID of the instance.
-
-- Exceptions:
-    
-    - `OperationCanceledException`: 
-        
-        Thrown if the instance terminates prematurely.
+- Returns: The process ID of the instance.
 
 ## `Game.Terminate()`
 
-Terminate any running instances of Minecraft: Bedrock Edition.
+Terminates of Minecraft: Bedrock Edition.
 
 ## `Game.Running`
 
-Check for any running instance of Minecraft: Bedrock Edition.
+Check if Minecraft: Bedrock Edition is running.
 
-- Returns: 
-    
-    If a running instance is present then `true` else `false`.
+- Returns: If running then `true` else `false`.
 
 ## `Game.Installed`
 
 Check if Minecraft: Bedrock Edition is installed.
 
-- Returns:
-
-    If installed then `true` else `false`. 
+- Returns: If installed then `true` else `false`. 
 
 ## `Game.Debug` 
 
 Configure debug mode for Minecraft: Bedrock Edition.
 
-- Property: 
-
-    Set to `true` to enable debug mode, `false` to disable.
+- Property: Set to `true` to enable else `false` to disable.

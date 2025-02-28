@@ -4,8 +4,6 @@ static class Constants
 {
     internal const int AO_NOERRORUI = 0x00000002;
 
-    internal const int SYNCHRONIZE = 0x00100000;
-
     internal const int LOAD_LIBRARY_SEARCH_SYSTEM32 = 0x00000800;
 
     internal const int MEM_RELEASE = 0x00008000;

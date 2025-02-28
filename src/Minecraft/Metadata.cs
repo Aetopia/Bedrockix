@@ -9,16 +9,19 @@ namespace Bedrockix.Minecraft;
 /// <summary>
 /// Provides metadata about Minecraft: Bedrock Edition.
 /// </summary>
+
 public static class Metadata
 {
     /// <summary>
     /// Enumerates any running processes of Minecraft: Bedrock Edition.
     /// </summary>
+
     public static IEnumerable<Process> Processes => Game.App.SelectMany(_ => _.GetProcessDiagnosticInfos()).Select(_ => Process.GetProcessById((int)_.ProcessId));
 
     /// <summary>
     /// Retrieves Minecraft Bedrock Edition's currently installed version.
     /// </summary>
+
     public static string Version
     {
         get

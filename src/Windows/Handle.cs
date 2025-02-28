@@ -14,7 +14,7 @@ readonly struct Handle : IDisposable
 
     public void Dispose() => CloseHandle(Value);
 
-    internal static void Single(nint value) => WaitForSingleObject(value, Timeout.Infinite);
+    internal static void Wait(nint value) => WaitForSingleObject(value, Timeout.Infinite);
 
-    internal unsafe static void Any(int count, nint* handles) => WaitForMultipleObjects(count, handles, false, Timeout.Infinite);
+    internal unsafe static void Wait(int count, nint* handles) => WaitForMultipleObjects(count, handles, false, Timeout.Infinite);
 }

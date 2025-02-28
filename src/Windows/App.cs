@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Windows.System;
 using System.Threading;
@@ -12,7 +13,7 @@ namespace Bedrockix.Windows;
 
 sealed class App : IEnumerable<AppResourceGroupInfo>
 {
-    internal App(string value)
+    internal App(string value) => Object = new(() =>
     {
         var @object = AppDiagnosticInfo.RequestInfoForAppAsync(value);
         try
@@ -26,20 +27,20 @@ sealed class App : IEnumerable<AppResourceGroupInfo>
 
             if (@object.Status is AsyncStatus.Error) throw @object.ErrorCode;
 
-            Object = @object.GetResults()[default];
+            return @object.GetResults()[default];
         }
         finally { @object.Close(); }
-    }
+    }, LazyThreadSafetyMode.PublicationOnly);
 
-    readonly AppDiagnosticInfo Object;
+    readonly Lazy<AppDiagnosticInfo> Object;
 
     static readonly ApplicationActivationManager Manager = new();
 
     static readonly PackageDebugSettings Settings = new();
 
-    internal Package Package => Object.AppInfo.Package;
+    internal Package Package => Object.Value.AppInfo.Package;
 
-    internal bool Running => this.Any(_ => _.GetMemoryReport()?.PrivateCommitUsage > default(ulong));
+    internal bool Running => this.Any(_ => _.GetMemoryReport()?.PrivateCommitUsage > 0);
 
     internal bool Debug
     {
@@ -53,13 +54,13 @@ sealed class App : IEnumerable<AppResourceGroupInfo>
 
     internal int Launch()
     {
-        Manager.ActivateApplication(Object.AppInfo.AppUserModelId, default, AO_NOERRORUI, out var value);
+        Manager.ActivateApplication(Object.Value.AppInfo.AppUserModelId, default, AO_NOERRORUI, out var value);
         return value;
     }
 
     internal void Terminate() => Settings.TerminateAllProcesses(Package.Id.FullName);
 
-    public IEnumerator<AppResourceGroupInfo> GetEnumerator() => Object.GetResourceGroups().GetEnumerator();
+    public IEnumerator<AppResourceGroupInfo> GetEnumerator() => Object.Value.GetResourceGroups().GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

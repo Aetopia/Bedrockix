@@ -14,9 +14,7 @@ Launches & loads a dynamic link library into Minecraft: Bedrock Edition.
 
     - `path`: The dynamic link library to load.
 
-- Returns: 
-
-    The process ID of the loaded instance.
+- Returns: The process ID of the game.
 
 ## `Loader.Launch(params IEnumerable<string> paths)`
 
@@ -26,6 +24,4 @@ Launches & loads a dynamic link library into Minecraft: Bedrock Edition.
 
     - `paths`: The dynamic link libraries to load.
 
-- Returns: 
-    
-    The process ID of the loaded instance.
+- Returns: The process ID of the game.
