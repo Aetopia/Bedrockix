@@ -27,14 +27,14 @@ public static class Game
 
             unsafe
             {
-                var handles = stackalloc nint[] { handle = new(OpenProcess(PROCESS_ALL_ACCESS, false, value = App.Launch())), @event };
+                var handles = stackalloc nint[] { handle = new(OpenProcess(PROCESS_ALL_ACCESS, default, value = App.Launch())), @event };
                 Handle.Wait(2, handles);
             }
 
             return flag ? value : null;
         }
 
-        handle = new(OpenProcess(PROCESS_ALL_ACCESS, false, value = App.Launch()));
+        handle = new(OpenProcess(PROCESS_ALL_ACCESS, default, value = App.Launch()));
         return value;
     }
 

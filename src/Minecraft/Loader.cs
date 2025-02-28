@@ -4,6 +4,9 @@ using System.Security.Principal;
 using System.Collections.Generic;
 using System.Security.AccessControl;
 using static Bedrockix.Unmanaged.Native;
+using static Bedrockix.Unmanaged.Constants;
+using System.ComponentModel;
+using System.Runtime.InteropServices;
 
 namespace Bedrockix.Minecraft;
 
@@ -17,18 +20,32 @@ public static class Loader
 
     static readonly FileSystemAccessRule Rule = new(new SecurityIdentifier("S-1-15-2-1"), FileSystemRights.FullControl, AccessControlType.Allow);
 
-    static void Load(nint handle, string value)
+    static void Load(nint value, string path)
     {
-        FileInfo info = new(value);
+        FileInfo info = new(path);
         if (!info.Exists) return;
 
         var security = info.GetAccessControl();
         security.SetAccessRule(Rule);
         info.SetAccessControl(security);
 
-        using Region region = new(handle, value);
-        using Handle _ = new(CreateRemoteThread(handle, default, default, Address, region, default, default));
-        Handle.Wait(_);
+        var size = sizeof(char) * (info.FullName.Length + 1);
+        nint address = default;
+
+        try
+        {
+            if ((address = VirtualAllocEx(value, default, size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE)) == default)
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+
+            if (!WriteProcessMemory(value, address, info.FullName, size, default))
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+
+            var _ = CreateRemoteThread(value, default, default, Address, address, default, default);
+            if (_ == default) throw new Win32Exception(Marshal.GetLastWin32Error());
+
+            using Handle handle = new(_); Handle.Wait(handle);
+        }
+        finally { VirtualFreeEx(value, address, default, MEM_RELEASE); }
     }
 
     /// <summary>
