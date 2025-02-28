@@ -13,7 +13,8 @@ readonly struct Region : IDisposable
     internal Region(nint handle, string value)
     {
         var _ = sizeof(char) * (value.Length + 1);
-        WriteProcessMemory(Handle, Address = VirtualAllocEx(Handle = handle, default, _, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE), value, _, default);
+        Address = VirtualAllocEx(Handle = handle, default, _, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+        WriteProcessMemory(Handle, Address, value, _, default);
     }
 
     public void Dispose() => VirtualFreeEx(Handle, Address, default, MEM_RELEASE);
