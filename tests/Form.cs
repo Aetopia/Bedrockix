@@ -70,6 +70,7 @@ sealed class Form : System.Windows.Forms.Form
                 if (!Game.Running) Invoke(() => tableLayoutPanel.Enabled = false);
                 return Game.Launch();
             })).HasValue) MessageBox.Show(this, "Minecraft: Bedrock Edition failed to launch!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
             tableLayoutPanel.Enabled = true;
         };
 
@@ -91,9 +92,12 @@ sealed class Form : System.Windows.Forms.Form
         button4.Click += async (_, _) =>
         {
             if (!Game.Installed || dialog.ShowDialog() != DialogResult.OK) return;
+           
             tableLayoutPanel.Enabled = false;
+           
             if (!(await Task.Run(() => Loader.Launch(dialog.FileNames))).HasValue)
                 MessageBox.Show(this, "Minecraft: Bedrock Edition failed to launch!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
             tableLayoutPanel.Enabled = true;
         };
 
