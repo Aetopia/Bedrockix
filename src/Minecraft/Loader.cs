@@ -7,6 +7,7 @@ using System.Security.AccessControl;
 using System.Runtime.InteropServices;
 using static Bedrockix.Unmanaged.Native;
 using static Bedrockix.Unmanaged.Constants;
+using System.Linq;
 
 namespace Bedrockix.Minecraft;
 
@@ -20,28 +21,31 @@ public static class Loader
 
     static readonly FileSystemAccessRule Rule = new(new SecurityIdentifier("S-1-15-2-1"), FileSystemRights.FullControl, AccessControlType.Allow);
 
-    static void Load(nint value, string path)
+    static string Path(string value)
     {
-        FileInfo info = new(path); if (!info.Exists) throw new FileNotFoundException();
+        FileInfo info = new(value);
+        if (!info.Exists) throw new FileNotFoundException(default, info.FullName);
 
         var security = info.GetAccessControl();
+       
         security.SetAccessRule(Rule);
         info.SetAccessControl(security);
 
-        nint address = default; var size = sizeof(char) * (info.FullName.Length + 1);
+        return info.FullName;
+    }
+
+    static void Load(nint value, string path)
+    {
+        nint address = default;
+        var size = sizeof(char) * (path.Length + 1);
 
         try
         {
-            if ((address = VirtualAllocEx(value, default, size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE)) == default)
-                throw new Win32Exception(Marshal.GetLastWin32Error());
+            address = VirtualAllocEx(value, default, size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+            WriteProcessMemory(value, address, path, size, default);
 
-            if (!WriteProcessMemory(value, address, info.FullName, size, default))
-                throw new Win32Exception(Marshal.GetLastWin32Error());
-
-            var @object = CreateRemoteThread(value, default, default, Address, address, default, default);
-            if (@object == default) throw new Win32Exception(Marshal.GetLastWin32Error());
-
-            using Handle handle = new(@object); Handle.Wait(handle);
+            using Handle handle = new(CreateRemoteThread(value, default, default, Address, address, default, default));
+            Handle.Wait(handle);
         }
         finally { VirtualFreeEx(value, address, default, MEM_RELEASE); }
     }
@@ -61,7 +65,9 @@ public static class Loader
     public static int? Launch(string path)
     {
         var value = Game.Launch(out var handle);
-        using (handle) if (value.HasValue) Load(handle, path);
+        using (handle)
+            if (value.HasValue)
+                Load(handle, Path(path));
         return value;
     }
 
@@ -80,7 +86,10 @@ public static class Loader
     public static int? Launch(params IEnumerable<string> paths)
     {
         var value = Game.Launch(out var handle);
-        using (handle) if (value.HasValue) foreach (var path in paths) Load(handle, path);
+        using (handle)
+            if (value.HasValue)
+                foreach (string path in paths.Select(Path).ToArray())
+                    Load(handle, path);
         return value;
     }
 }
