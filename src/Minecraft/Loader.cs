@@ -21,7 +21,7 @@ public static class Loader
 
     static readonly FileSystemAccessRule Rule = new(new SecurityIdentifier("S-1-15-2-1"), FileSystemRights.FullControl, AccessControlType.Allow);
 
-    static string Path(string value)
+    static string Resolve(string value)
     {
         FileInfo info = new(value);
         if (!info.Exists) throw new FileNotFoundException(default, info.FullName);
@@ -67,7 +67,7 @@ public static class Loader
         var value = Game.Launch(out var handle);
         using (handle)
             if (value.HasValue)
-                Load(handle, Path(path));
+                Load(handle, Resolve(path));
         return value;
     }
 
@@ -88,7 +88,7 @@ public static class Loader
         var value = Game.Launch(out var handle);
         using (handle)
             if (value.HasValue)
-                foreach (string path in paths.Select(Path).ToArray())
+                foreach (string path in paths.Select(Resolve).ToArray())
                     Load(handle, path);
         return value;
     }
