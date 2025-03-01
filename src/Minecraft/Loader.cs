@@ -27,7 +27,7 @@ public static class Loader
         if (!info.Exists) throw new FileNotFoundException(default, info.FullName);
 
         var security = info.GetAccessControl();
-       
+
         security.SetAccessRule(Rule);
         info.SetAccessControl(security);
 
@@ -65,9 +65,7 @@ public static class Loader
     public static int? Launch(string path)
     {
         var value = Game.Launch(out var handle);
-        using (handle)
-            if (value.HasValue)
-                Load(handle, Resolve(path));
+        using (handle) if (value.HasValue) Load(handle, Resolve(path));
         return value;
     }
 
@@ -86,10 +84,7 @@ public static class Loader
     public static int? Launch(params IEnumerable<string> paths)
     {
         var value = Game.Launch(out var handle);
-        using (handle)
-            if (value.HasValue)
-                foreach (string path in paths.Select(Resolve).ToArray())
-                    Load(handle, path);
+        using (handle) if (value.HasValue) foreach (string path in paths.Select(Resolve).ToArray()) Load(handle, path);
         return value;
     }
 }
