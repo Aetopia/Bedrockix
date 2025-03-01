@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -7,6 +8,14 @@ sealed class Form : System.Windows.Forms.Form
 {
     internal Form()
     {
+        Application.ThreadException += (_, e) =>
+        {
+            var exception = e.Exception;
+            while (exception.InnerException != default) exception = exception.InnerException;
+            MessageBox.Show(this, exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            Close();
+        };
+
         Text = "Bedrockix Client";
         Font = SystemFonts.MessageBoxFont;
         MinimizeBox = MaximizeBox = default;
@@ -92,9 +101,9 @@ sealed class Form : System.Windows.Forms.Form
         button4.Click += async (_, _) =>
         {
             if (!Game.Installed || dialog.ShowDialog() != DialogResult.OK) return;
-           
+
             tableLayoutPanel.Enabled = false;
-           
+
             if (!(await Task.Run(() => Loader.Launch(dialog.FileNames))).HasValue)
                 MessageBox.Show(this, "Minecraft: Bedrock Edition failed to launch!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
@@ -113,5 +122,7 @@ sealed class Form : System.Windows.Forms.Form
             Game.Terminate();
             Game.Debug = default;
         };
+
+        Shown += (_, _) => throw null;
     }
 }
