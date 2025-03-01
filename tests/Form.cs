@@ -119,8 +119,7 @@ sealed class Form : System.Windows.Forms.Form
         Application.ThreadExit += (_, _) =>
         {
             if (!Game.Installed) return;
-            Game.Terminate();
-            Game.Debug = default;
+            Game.Terminate(); Game.Debug = default;
         };
     }
 }
