@@ -1,8 +1,8 @@
 using System;
 using System.Drawing;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using Bedrockix.Minecraft;
+using System.Windows.Forms;
+using System.Threading.Tasks;
 
 sealed class Form : System.Windows.Forms.Form
 {
