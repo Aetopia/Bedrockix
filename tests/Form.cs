@@ -12,8 +12,8 @@ sealed class Form : System.Windows.Forms.Form
         {
             var exception = e.Exception;
             while (exception.InnerException != default) exception = exception.InnerException;
-            MessageBox.Show(this, exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-            Close();
+            MessageBox.Show(this, exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            Application.ExitThread();
         };
 
         Text = "Bedrockix Client";
@@ -78,7 +78,7 @@ sealed class Form : System.Windows.Forms.Form
             {
                 if (!Game.Running) Invoke(() => tableLayoutPanel.Enabled = false);
                 return Game.Launch();
-            })).HasValue) MessageBox.Show(this, "Minecraft: Bedrock Edition failed to launch!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            })).HasValue) MessageBox.Show(this, "Minecraft: Bedrock Edition failed to launch!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
             tableLayoutPanel.Enabled = true;
         };
@@ -105,7 +105,7 @@ sealed class Form : System.Windows.Forms.Form
             tableLayoutPanel.Enabled = false;
 
             if (!(await Task.Run(() => Loader.Launch(dialog.FileNames))).HasValue)
-                MessageBox.Show(this, "Minecraft: Bedrock Edition failed to launch!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(this, "Minecraft: Bedrock Edition failed to launch!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
             tableLayoutPanel.Enabled = true;
         };
@@ -122,7 +122,5 @@ sealed class Form : System.Windows.Forms.Form
             Game.Terminate();
             Game.Debug = default;
         };
-
-        Shown += (_, _) => throw null;
     }
 }
