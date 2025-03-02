@@ -6,7 +6,7 @@ namespace Bedrockix.Unmanaged;
 
 static partial class Native
 {
-    [LibraryImport("Kernel32", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    [LibraryImport("Kernel32", SetLastError = true, StringMarshalling = StringMarshalling.Utf16, EntryPoint = "GetModuleHandleW")]
     internal static partial nint GetModuleHandle(string lpModuleName);
 
     [LibraryImport("Kernel32", SetLastError = true)]
