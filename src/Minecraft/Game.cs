@@ -1,8 +1,10 @@
 using System.IO;
+using System.Threading;
 using Bedrockix.Windows;
 using Windows.Management.Core;
 using static Bedrockix.Unmanaged.Native;
 using static Bedrockix.Unmanaged.Constants;
+using System;
 
 namespace Bedrockix.Minecraft;
 
@@ -14,28 +16,35 @@ public static class Game
 {
     internal static readonly App App = new("Microsoft.MinecraftUWP_8wekyb3d8bbwe!App");
 
-    internal static int? Launch(out Handle handle)
+    internal static Process? Activate()
     {
-        int value; var path = ApplicationDataManager.CreateForPackageFamily(App.Package.Id.FamilyName).LocalFolder.Path;
+        var path = ApplicationDataManager.CreateForPackageFamily(App.Package.Id.FamilyName).LocalFolder.Path;
 
         if (!Running || File.Exists(Path.Combine(path, @"games\com.mojang\minecraftpe\resource_init_lock")))
         {
-            var flag = false; using Handle @event = new(CreateEvent(default, default, default, default));
+            using Event @event = new();
+            using FileSystemWatcher watcher = new(path, "resource_init_lock")
+            {
+                NotifyFilter = NotifyFilters.FileName,
+                IncludeSubdirectories = true,
+                EnableRaisingEvents = true
+            };
+            watcher.Deleted += (_, _) => @event.Set();
 
-            using FileSystemWatcher watcher = new(path, "resource_init_lock") { NotifyFilter = NotifyFilters.FileName, IncludeSubdirectories = true, EnableRaisingEvents = true };
-            watcher.Deleted += (_, _) => { flag = true; SetEvent(@event); };
+            var process = App.Activate();
 
             unsafe
             {
-                var handles = stackalloc nint[] { handle = new(OpenProcess(PROCESS_ALL_ACCESS, default, value = App.Launch())), @event };
-                Handle.Wait(2, handles);
+                var handles = stackalloc nint[] { @event, process };
+
+                if (WaitForMultipleObjects(2, handles, default, Timeout.Infinite))
+                    using (process) return default;
             }
 
-            return flag ? value : null;
+            return process;
         }
 
-        handle = new(OpenProcess(PROCESS_ALL_ACCESS, default, value = App.Launch()));
-        return value;
+        return App.Activate();
     }
 
     /// <summary>
@@ -46,11 +55,7 @@ public static class Game
     /// The process ID of the game.
     /// </returns>
 
-    public static int? Launch()
-    {
-        var value = Launch(out var handle);
-        using (handle) return value;
-    }
+    public static int? Launch() { using var @this = Activate(); return @this?.Id; }
 
     /// <summary>
     /// Terminates Minecraft: Bedrock Edition.

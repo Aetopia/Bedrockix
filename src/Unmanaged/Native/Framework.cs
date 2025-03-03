@@ -39,7 +39,7 @@ static class Native
     internal static extern bool CloseHandle(nint hObject);
 
     [DllImport("Kernel32", SetLastError = true)]
-    internal unsafe static extern int WaitForMultipleObjects(int nCount, nint* lpHandles, bool bWaitAll, int dwMilliseconds);
+    internal unsafe static extern bool WaitForMultipleObjects(int nCount, nint* lpHandles, bool bWaitAll, int dwMilliseconds);
 
     [DllImport("Kernel32", SetLastError = true)]
     internal static extern int WaitForSingleObject(nint hHandle, int dwMilliseconds);

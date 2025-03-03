@@ -4,9 +4,10 @@ using Windows.System;
 using System.Threading;
 using System.Collections;
 using Windows.Foundation;
+using Bedrockix.Windows.COM;
 using Windows.ApplicationModel;
 using System.Collections.Generic;
-using Bedrockix.Unmanaged.Components;
+using static Bedrockix.Unmanaged.Native;
 using static Bedrockix.Unmanaged.Constants;
 
 namespace Bedrockix.Windows;
@@ -15,21 +16,21 @@ sealed class App : IEnumerable<AppResourceGroupInfo>
 {
     internal App(string value) => Object = new(() =>
     {
-        var @object = AppDiagnosticInfo.RequestInfoForAppAsync(value);
+        var @this = AppDiagnosticInfo.RequestInfoForAppAsync(value);
         try
         {
-            if (@object.Status is AsyncStatus.Started)
+            if (@this.Status is AsyncStatus.Started)
             {
-                using ManualResetEventSlim @event = new();
-                @object.Completed += (_, _) => @event.Set();
-                @event.Wait();
+                using Event @event = new();
+                @this.Completed += (_, _) => @event.Set();
+                WaitForSingleObject(@event, Timeout.Infinite);
             }
 
-            if (@object.Status is AsyncStatus.Error) throw @object.ErrorCode;
+            if (@this.Status is AsyncStatus.Error) throw @this.ErrorCode;
 
-            return @object.GetResults()[default];
+            return @this.GetResults()[default];
         }
-        finally { @object.Close(); }
+        finally { @this.Close(); }
     }, LazyThreadSafetyMode.PublicationOnly);
 
     readonly Lazy<AppDiagnosticInfo> Object;
@@ -46,16 +47,16 @@ sealed class App : IEnumerable<AppResourceGroupInfo>
     {
         set
         {
-            var @object = Package.Id.FullName;
-            if (value) Settings.EnableDebugging(@object, default, default);
-            else Settings.DisableDebugging(@object);
+            var @this = Package.Id.FullName;
+            if (value) Settings.EnableDebugging(@this, default, default);
+            else Settings.DisableDebugging(@this);
         }
     }
 
-    internal int Launch()
+    internal Process Activate()
     {
         Manager.ActivateApplication(Object.Value.AppInfo.AppUserModelId, default, AO_NOERRORUI, out var value);
-        return value;
+        return new(value);
     }
 
     internal void Terminate() => Settings.TerminateAllProcesses(Package.Id.FullName);
