@@ -1,7 +1,7 @@
 # Documentation
 
 > [!CAUTION]
-> Before calling any APIs, check if [the game is installed](Bedrockix.Minecraft.Game.md#gameinstalled).
+> - Before using this library, check if [the game is installed](Bedrockix.Minecraft.Game.md#gameinstalled).
 
 ## Classes
 
