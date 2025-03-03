@@ -20,7 +20,7 @@ Launches & loads a dynamic link library into Minecraft: Bedrock Edition.
 
 ## `Loader.Launch(params IEnumerable<string>)`
 
-Launches & loads a dynamic link libraries into Minecraft: Bedrock Edition.
+Launches & loads dynamic link libraries into Minecraft: Bedrock Edition.
 
 - Parameter: The dynamic link libraries to load.
 
