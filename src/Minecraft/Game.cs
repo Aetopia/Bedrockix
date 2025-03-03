@@ -28,8 +28,7 @@ public static class Game
                 NotifyFilter = NotifyFilters.FileName,
                 IncludeSubdirectories = true,
                 EnableRaisingEvents = true
-            };
-            watcher.Deleted += (_, _) => @event.Set();
+            }; watcher.Deleted += (_, _) => @event.Set();
 
             var process = App.Activate();
 
