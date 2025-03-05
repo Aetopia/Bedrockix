@@ -25,7 +25,7 @@ public static class Loader
     {
         FileInfo info = new(path);
 
-        if (!info.Exists)
+        if (!info.Exists || !info.Extension.Equals(".dll", StringComparison.OrdinalIgnoreCase))
             throw new FileNotFoundException(default, info.FullName);
 
         if (GetBinaryType(info.FullName, out _) || !FreeLibrary(LoadLibraryExW(info.FullName, default, DONT_RESOLVE_DLL_REFERENCES)))
@@ -68,6 +68,14 @@ public static class Loader
     /// The process ID of the game.
     /// </returns>
 
+    /// <exception cref="FileNotFoundException">
+    /// Thrown when the specified dynamic link library doesn't exist.
+    /// </exception>
+    
+    /// <exception cref="BadImageFormatException">
+    /// Thrown if specified dynamic link library is invalid. 
+    /// </exception>
+
     public static int? Launch(string path)
     {
         path = Validate(path); using var @this = Game.Activate();
@@ -92,6 +100,14 @@ public static class Loader
     /// <returns>
     /// The process ID of the game.
     /// </returns>
+
+    /// <exception cref="FileNotFoundException">
+    /// Thrown if any specified dynamic link library doesn't exist.
+    /// </exception>
+    
+    /// <exception cref="BadImageFormatException">
+    /// Thrown if any specified dynamic link library is invalid. 
+    /// </exception>
 
     public static int? Launch(params IEnumerable<string> paths)
     {

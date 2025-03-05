@@ -18,6 +18,12 @@ Launches & loads a dynamic link library into Minecraft: Bedrock Edition.
 
 - Returns: The process ID of the game.
 
+- Exceptions:
+
+    - `FileNotFoundException`: Thrown when the specified dynamic link library doesn't exist.
+
+    - `BadImageFormatException`: Thrown if specified dynamic link library is invalid. 
+
 ## `Loader.Launch(params IEnumerable<string>)`
 
 Launches & loads dynamic link libraries into Minecraft: Bedrock Edition.
@@ -25,3 +31,9 @@ Launches & loads dynamic link libraries into Minecraft: Bedrock Edition.
 - Parameter: The dynamic link libraries to load.
 
 - Returns: The process ID of the game.
+
+- Exceptions:
+
+    - `FileNotFoundException`: Thrown if any specified dynamic link library doesn't exist.
+
+    - `BadImageFormatException`: Thrown if any specified dynamic link library is invalid. 
