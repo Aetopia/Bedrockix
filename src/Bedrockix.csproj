@@ -8,6 +8,7 @@
     <PublishRelease>true</PublishRelease>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <NoWarn>IDE0130,IDE0057</NoWarn>
+    <PlatformTarget>x64</PlatformTarget>
 
     <PackageId>Bedrockix</PackageId>
     <Title>Bedrockix</Title>
@@ -31,6 +32,7 @@
   <ItemGroup>
     <None Include="..\LICENSE" Pack="true" PackagePath="" />
     <None Include="README.md" Pack="true" PackagePath="" />
+    <None Include="Bedrockix.targets" Pack="true" PackagePath="build" />
   </ItemGroup>
 
   <ItemGroup>

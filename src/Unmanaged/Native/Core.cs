@@ -6,6 +6,15 @@ namespace Bedrockix.Unmanaged;
 
 static partial class Native
 {
+    [DllImport("Kernel32", SetLastError = true, CharSet = CharSet.Auto)]
+    internal static extern bool GetBinaryType(string lpApplicationName, out int lpBinaryType);
+
+    [DllImport("Kernel32", SetLastError = true, CharSet = CharSet.Auto)]
+    internal static extern nint LoadLibraryExW(string lpLibFileName, nint hFile, int dwFlags);
+
+    [DllImport("Kernel32", SetLastError = true)]
+    internal static extern bool FreeLibrary(nint hLibModule);
+
     [LibraryImport("Kernel32", SetLastError = true, StringMarshalling = StringMarshalling.Utf16, EntryPoint = "GetModuleHandleW")]
     internal static partial nint GetModuleHandle(string lpModuleName);
 
@@ -41,7 +50,7 @@ static partial class Native
     internal static partial bool CloseHandle(nint hObject);
 
     [LibraryImport("Kernel32", SetLastError = true)]
-    [return:MarshalAs(UnmanagedType.Bool)]
+    [return: MarshalAs(UnmanagedType.Bool)]
     internal unsafe static partial bool WaitForMultipleObjects(int nCount, nint* lpHandles, [MarshalAs(UnmanagedType.Bool)] bool bWaitAll, int dwMilliseconds);
 
     [LibraryImport("Kernel32", SetLastError = true)]

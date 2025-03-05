@@ -7,6 +7,7 @@ using static Bedrockix.Unmanaged.Native;
 using static Bedrockix.Unmanaged.Constants;
 using System.Linq;
 using System.Threading;
+using System;
 
 namespace Bedrockix.Minecraft;
 
@@ -23,7 +24,12 @@ public static class Loader
     static string Validate(string path)
     {
         FileInfo info = new(path);
-        if (!info.Exists) throw new FileNotFoundException(default, info.FullName);
+
+        if (!info.Exists)
+            throw new FileNotFoundException(default, info.FullName);
+
+        if (GetBinaryType(info.FullName, out _) || !FreeLibrary(LoadLibraryExW(info.FullName, default, DONT_RESOLVE_DLL_REFERENCES)))
+            throw new BadImageFormatException(default, info.FullName);
 
         var security = info.GetAccessControl();
 

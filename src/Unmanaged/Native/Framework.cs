@@ -9,6 +9,15 @@ namespace Bedrockix.Unmanaged;
 static class Native
 {
     [DllImport("Kernel32", SetLastError = true, CharSet = CharSet.Auto)]
+    internal static extern bool GetBinaryType(string lpApplicationName, out int lpBinaryType);
+
+    [DllImport("Kernel32", SetLastError = true, CharSet = CharSet.Auto)]
+    internal static extern nint LoadLibraryExW(string lpLibFileName, nint hFile, int dwFlags);
+
+    [DllImport("Kernel32", SetLastError = true)]
+    internal static extern bool FreeLibrary(nint hLibModule);
+
+    [DllImport("Kernel32", SetLastError = true, CharSet = CharSet.Auto)]
     internal static extern nint GetModuleHandle(string lpModuleName);
 
     [DllImport("Kernel32", SetLastError = true)]

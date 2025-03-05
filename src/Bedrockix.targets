@@ -1,0 +1,6 @@
+<Project>
+    <Target Name="Validation" BeforeTargets="Build">
+        <Error Condition="'$(PlatformTarget)' != 'x64'"
+            Text="Bedrockix validates dynamic link libraries at runtime, set the platform target to x64." />
+    </Target>
+</Project>

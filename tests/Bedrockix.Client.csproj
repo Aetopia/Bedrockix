@@ -7,6 +7,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <Optimize>true</Optimize>
     <PublishRelease>true</PublishRelease>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>

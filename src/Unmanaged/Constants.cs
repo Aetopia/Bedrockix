@@ -15,4 +15,6 @@ static class Constants
     internal const int PAGE_READWRITE = 0x40;
 
     internal const int ERROR_INSUFFICIENT_BUFFER = 0x7A;
+
+    internal const int DONT_RESOLVE_DLL_REFERENCES = 0x00000001;
 }
