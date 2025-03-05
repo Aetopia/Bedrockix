@@ -20,9 +20,9 @@ public static class Loader
 
     static readonly FileSystemAccessRule Rule = new(new SecurityIdentifier("S-1-15-2-1"), FileSystemRights.FullControl, AccessControlType.Allow);
 
-    static string Path(string value)
+    static string Validate(string path)
     {
-        FileInfo info = new(value);
+        FileInfo info = new(path);
         if (!info.Exists) throw new FileNotFoundException(default, info.FullName);
 
         var security = info.GetAccessControl();
@@ -33,19 +33,19 @@ public static class Loader
         return info.FullName;
     }
 
-    static void Load(nint value, string path)
+    static void Load(Process process, string path)
     {
         nint address = default, handle = default;
         var size = sizeof(char) * (path.Length + 1);
 
         try
         {
-            WriteProcessMemory(value, address = VirtualAllocEx(value, default, size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE), path, size, default);
-            WaitForSingleObject(handle = CreateRemoteThread(value, default, default, Address, address, default, default), Timeout.Infinite);
+            WriteProcessMemory(process, address = VirtualAllocEx(process, default, size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE), path, size, default);
+            WaitForSingleObject(handle = CreateRemoteThread(process, default, default, Address, address, default, default), Timeout.Infinite);
         }
         finally
         {
-            VirtualFreeEx(value, address, default, MEM_RELEASE);
+            VirtualFreeEx(process, address, default, MEM_RELEASE);
             CloseHandle(handle);
         }
     }
@@ -54,7 +54,7 @@ public static class Loader
     /// Launches &amp; loads a dynamic link library into Minecraft: Bedrock Edition.
     /// </summary>
 
-    /// <param name="value">
+    /// <param name="path">
     /// The dynamic link library to load.
     /// </param>
 
@@ -62,13 +62,13 @@ public static class Loader
     /// The process ID of the game.
     /// </returns>
 
-    public static int? Launch(string value)
+    public static int? Launch(string path)
     {
-        using var @this = Game.Activate();
+        path = Validate(path); using var @this = Game.Activate();
 
         if (@this is Process process)
         {
-            Load(process, Path(value));
+            Load(process, path);
             return process.Id;
         }
 
@@ -79,7 +79,7 @@ public static class Loader
     /// Launches &amp; loads dynamic link libraries into Minecraft: Bedrock Edition.
     /// </summary>
 
-    /// <param name="value">
+    /// <param name="paths">
     /// The dynamic link libraries to load.
     /// </param>
 
@@ -87,14 +87,13 @@ public static class Loader
     /// The process ID of the game.
     /// </returns>
 
-    public static int? Launch(params IEnumerable<string> value)
+    public static int? Launch(params IEnumerable<string> paths)
     {
-        using var @this = Game.Activate();
+        paths = [.. paths.Select(Validate)]; using var @this = Game.Activate();
 
         if (@this is Process process)
         {
-            foreach (var path in value.Select(Path).ToArray())
-                Load(process, path);
+            foreach (var path in paths) Load(process, path);
             return process.Id;
         }
 
