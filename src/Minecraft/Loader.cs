@@ -28,7 +28,7 @@ public static class Loader
         if (!info.Exists || !info.Extension.Equals(".dll", StringComparison.OrdinalIgnoreCase))
             throw new FileNotFoundException(default, info.FullName);
 
-        if (GetBinaryType(info.FullName, out _) || !FreeLibrary(LoadLibraryExW(info.FullName, default, DONT_RESOLVE_DLL_REFERENCES)))
+        if (GetBinaryType(info.FullName, out _) || !FreeLibrary(LoadLibraryEx(info.FullName, default, DONT_RESOLVE_DLL_REFERENCES)))
             throw new BadImageFormatException(default, info.FullName);
 
         var security = info.GetAccessControl();

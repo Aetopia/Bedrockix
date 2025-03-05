@@ -12,7 +12,7 @@ static class Native
     internal static extern bool GetBinaryType(string lpApplicationName, out int lpBinaryType);
 
     [DllImport("Kernel32", SetLastError = true, CharSet = CharSet.Auto)]
-    internal static extern nint LoadLibraryExW(string lpLibFileName, nint hFile, int dwFlags);
+    internal static extern nint LoadLibraryEx(string lpLibFileName, nint hFile, int dwFlags);
 
     [DllImport("Kernel32", SetLastError = true)]
     internal static extern bool FreeLibrary(nint hLibModule);

@@ -6,12 +6,12 @@ namespace Bedrockix.Unmanaged;
 
 static partial class Native
 {
-    [LibraryImport("Kernel32", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    [LibraryImport("Kernel32", SetLastError = true, EntryPoint = "GetBinaryTypeW", StringMarshalling = StringMarshalling.Utf16)]
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool GetBinaryType(string lpApplicationName, out int lpBinaryType);
 
-    [LibraryImport("Kernel32", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
-    internal static partial nint LoadLibraryExW(string lpLibFileName, nint hFile, int dwFlags);
+    [LibraryImport("Kernel32", SetLastError = true, EntryPoint = "LoadLibraryExW", StringMarshalling = StringMarshalling.Utf16)]
+    internal static partial nint LoadLibraryEx(string lpLibFileName, nint hFile, int dwFlags);
 
     [LibraryImport("Kernel32", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
