@@ -20,9 +20,9 @@ Launches & loads a dynamic link library into Minecraft: Bedrock Edition.
 
 - Exceptions:
 
-    - `FileNotFoundException`: Thrown when the specified dynamic link library doesn't exist.
+    - `FileNotFoundException`: Thrown when a specified dynamic link library doesn't exist.
 
-    - `BadImageFormatException`: Thrown if specified dynamic link library is invalid. 
+    - `BadImageFormatException`: Thrown if a specified dynamic link library is invalid. 
 
 ## `Loader.Launch(params IEnumerable<string>)`
 
