@@ -69,11 +69,11 @@ public static class Loader
     /// </returns>
 
     /// <exception cref="FileNotFoundException">
-    /// Thrown when the specified dynamic link library doesn't exist.
+    /// Thrown if a specified dynamic link library doesn't exist.
     /// </exception>
     
     /// <exception cref="BadImageFormatException">
-    /// Thrown if specified dynamic link library is invalid. 
+    /// Thrown if a specified dynamic link library is invalid. 
     /// </exception>
 
     public static int? Launch(string path)
