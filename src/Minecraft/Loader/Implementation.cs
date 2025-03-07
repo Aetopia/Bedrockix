@@ -1,17 +1,15 @@
+using System;
 using System.IO;
+using System.Linq;
+using System.Threading;
 using Bedrockix.Windows;
 using System.Security.Principal;
 using System.Collections.Generic;
 using System.Security.AccessControl;
 using static Bedrockix.Unmanaged.Native;
 using static Bedrockix.Unmanaged.Constants;
-using System.Linq;
-using System.Threading;
-using System;
-using Windows.UI.Xaml.Controls;
 
 namespace Bedrockix.Minecraft;
-
 
 public static partial class Loader
 {

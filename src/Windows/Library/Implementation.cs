@@ -1,8 +1,6 @@
 using System.IO;
-using System.Linq;
 using static Bedrockix.Unmanaged.Native;
 using static Bedrockix.Unmanaged.Constants;
-using System.Collections.Generic;
 
 namespace Bedrockix.Windows;
 
