@@ -10,13 +10,13 @@ public sealed partial class Library
     /// Check if the dynamic link library exists.
     /// </summary>
 
-    public bool Exists { get; private set; }
+    public readonly bool Exists;
 
     /// <summary>
     /// Check if the dynamic link library is valid.
     /// </summary>
 
-    public bool Valid { get; private set; }
+    public readonly bool Valid;
 
     /// <summary>
     /// Path of the dynamic link library.
