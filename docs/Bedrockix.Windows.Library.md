@@ -22,6 +22,9 @@ Check if the dynamic link library exists.
 
 ## `Library.Valid`
 
+> [!TIP]
+> Use this property to filter invalid dynamic link libraries.
+
 Check if the dynamic link library is valid.
 
 ## `Library.Path`
