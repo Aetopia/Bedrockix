@@ -19,7 +19,7 @@ Resolves a dynamic link library.
 ## `Library.Valid`
 
 > [!TIP]
-> Use this property to filter invalid dynamic link libraries.
+> Use this property to filter dynamic link libraries.
 
 Check if the dynamic link library is valid.
 
