@@ -6,11 +6,11 @@
 
 Provides methods to load dynamic link libraries into Minecraft: Bedrock Edition.
 
-- [`Loader.Launch(string)`](#loaderlaunchstring)
+- [`Loader.Launch(string)`<br>`Loader.Launch(Library)`](#loaderlaunchstring)
 
-- [`Loader.Launch(params IEnumerable<string>)`](#loaderlaunchparams-ienumerablestring)
+- [`Loader.Launch(params IEnumerable<string>)`<br>`Loader.Launch(params IEnumerable<Library>)`](#loaderlaunchparams-ienumerablestring)
 
-## `Loader.Launch(string)`
+## `Loader.Launch(string)`<br>`Loader.Launch(Library)`
 
 Launches & loads a dynamic link library into Minecraft: Bedrock Edition.
 
@@ -24,7 +24,7 @@ Launches & loads a dynamic link library into Minecraft: Bedrock Edition.
 
     - `BadImageFormatException`: Thrown if a specified dynamic link library is invalid. 
 
-## `Loader.Launch(params IEnumerable<string>)`
+## `Loader.Launch(params IEnumerable<string>)`<br>`Loader.Launch(params IEnumerable<Library>)`
 
 Launches & loads dynamic link libraries into Minecraft: Bedrock Edition.
 

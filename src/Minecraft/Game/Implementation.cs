@@ -4,15 +4,10 @@ using Bedrockix.Windows;
 using Windows.Management.Core;
 using static Bedrockix.Unmanaged.Native;
 using static Bedrockix.Unmanaged.Constants;
-using System;
 
 namespace Bedrockix.Minecraft;
 
-/// <summary>
-/// Provides methods to interact with Minecraft: Bedrock Edition.
-/// </summary>
-
-public static class Game
+public static partial class Game
 {
     internal static readonly App App = new("Microsoft.MinecraftUWP_8wekyb3d8bbwe!App");
 
@@ -46,37 +41,13 @@ public static class Game
         return App.Activate();
     }
 
-    /// <summary>
-    /// Launches Minecraft: Bedrock Edition.
-    /// </summary>
+    public static partial int? Launch() { using var @this = Activate(); return @this?.Id; }
 
-    /// <returns>
-    /// The process ID of the game.
-    /// </returns>
+    public static partial void Terminate() => App.Terminate();
 
-    public static int? Launch() { using var @this = Activate(); return @this?.Id; }
+    public static partial bool Installed => GetPackagesByPackageFamily("Microsoft.MinecraftUWP_8wekyb3d8bbwe", out _, default, out _, default) is ERROR_INSUFFICIENT_BUFFER;
 
-    /// <summary>
-    /// Terminates Minecraft: Bedrock Edition.
-    /// </summary>
+    public static partial bool Running => App.Running;
 
-    public static void Terminate() => App.Terminate();
-
-    /// <summary>
-    /// Check if Minecraft: Bedrock Edition is installed.
-    /// </summary>
-
-    public static bool Installed => GetPackagesByPackageFamily("Microsoft.MinecraftUWP_8wekyb3d8bbwe", out _, default, out _, default) is ERROR_INSUFFICIENT_BUFFER;
-
-    /// <summary>
-    /// Check if Minecraft: Bedrock Edition is running.
-    /// </summary>
-
-    public static bool Running => App.Running;
-
-    /// <summary>
-    /// Configure debug mode for Minecraft: Bedrock Edition.
-    /// </summary>
-
-    public static bool Debug { set { App.Debug = value; } }
+    public static partial bool Debug { set { App.Debug = value; } }
 }

@@ -6,23 +6,12 @@ using System.Collections.Generic;
 
 namespace Bedrockix.Minecraft;
 
-/// <summary>
-/// Provides metadata about Minecraft: Bedrock Edition.
-/// </summary>
 
-public static class Metadata
+public static partial class Metadata
 {
-    /// <summary>
-    /// Enumerates any running processes of Minecraft: Bedrock Edition.
-    /// </summary>
+    public static partial IEnumerable<Process> Processes => Game.App.SelectMany(_ => _.GetProcessDiagnosticInfos()).Select(_ => Process.GetProcessById((int)_.ProcessId));
 
-    public static IEnumerable<Process> Processes => Game.App.SelectMany(_ => _.GetProcessDiagnosticInfos()).Select(_ => Process.GetProcessById((int)_.ProcessId));
-
-    /// <summary>
-    /// Retrieves Minecraft Bedrock Edition's currently installed version.
-    /// </summary>
-
-    public static string Version
+    public static partial string Version
     {
         get
         {

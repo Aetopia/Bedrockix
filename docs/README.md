@@ -16,3 +16,7 @@
 - [`Bedrockix.Minecraft.Metadata`](Bedrockix.Minecraft.Metadata.md)
 
     Provides metadata about Minecraft: Bedrock Edition.
+
+- [`Bedrockix.Windows.Library`](Bedrockix.Windows.Library.md)
+
+    Provides properties to validate dynamic link libraries.
