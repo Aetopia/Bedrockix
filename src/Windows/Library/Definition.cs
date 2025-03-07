@@ -7,16 +7,16 @@ namespace Bedrockix.Windows;
 public sealed partial class Library
 {
     /// <summary>
-    /// Check if the dynamic link library exists.
-    /// </summary>
-
-    public readonly bool Exists;
-
-    /// <summary>
     /// Check if the dynamic link library is valid.
     /// </summary>
 
     public readonly bool Valid;
+
+    /// <summary>
+    /// Check if the dynamic link library exists.
+    /// </summary>
+
+    public readonly bool Exists;
 
     /// <summary>
     /// Path of the dynamic link library.
