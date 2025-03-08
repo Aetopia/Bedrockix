@@ -26,12 +26,6 @@ static class Native
     [DllImport("Kernel32", SetLastError = true)]
     internal static extern nint OpenProcess(int dwDesiredAccess, bool bInheritHandle, int dwProcessId);
 
-    [DllImport("Kernel32", SetLastError = true, CharSet = CharSet.Auto)]
-    internal static extern nint CreateEvent(nint lpEventAttributes, bool bManualReset, bool bInitialState, nint lpName);
-
-    [DllImport("Kernel32", SetLastError = true)]
-    internal static extern bool SetEvent(nint hEvent);
-
     [DllImport("Kernel32", SetLastError = true)]
     internal static extern nint CreateRemoteThread(nint hProcess, nint lpThreadAttributes, int dwStackSize, nint lpStartAddress, nint lpParameter, int dwCreationFlags, nint lpThreadId);
 
@@ -49,9 +43,6 @@ static class Native
 
     [DllImport("Kernel32", SetLastError = true)]
     internal static extern bool CloseHandle(nint hObject);
-
-    [DllImport("Kernel32", SetLastError = true)]
-    internal unsafe static extern bool WaitForMultipleObjects(int nCount, nint* lpHandles, bool bWaitAll, int dwMilliseconds);
 
     [DllImport("Kernel32", SetLastError = true)]
     internal static extern int WaitForSingleObject(nint hHandle, int dwMilliseconds);
