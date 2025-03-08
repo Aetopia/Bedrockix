@@ -8,6 +8,9 @@ namespace Bedrockix.Unmanaged;
 [SuppressUnmanagedCodeSecurity]
 static class Native
 {
+    [DllImport("Kernel32", SetLastError = true)]
+    internal static extern bool GetExitCodeProcess(nint hProcess, out int lpExitCode);
+
     [DllImport("Kernel32", SetLastError = true, CharSet = CharSet.Auto)]
     internal static extern bool GetBinaryType(string lpApplicationName, out int lpBinaryType);
 

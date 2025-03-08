@@ -14,28 +14,21 @@ public static partial class Game
     internal static Process? Activate()
     {
         var path = ApplicationDataManager.CreateForPackageFamily(App.Package.Id.FamilyName).LocalFolder.Path;
+        var value = Path.Combine(path, @"games\com.mojang\minecraftpe\resource_init_lock");
+        var flag = File.Exists(value);
 
-        if (!Running || File.Exists(Path.Combine(path, @"games\com.mojang\minecraftpe\resource_init_lock")))
+        if (!Running || flag)
         {
-            using Event @event = new();
-            using FileSystemWatcher watcher = new(path, "resource_init_lock")
-            {
-                NotifyFilter = NotifyFilters.FileName,
-                IncludeSubdirectories = true,
-                EnableRaisingEvents = true
-            }; watcher.Deleted += (_, _) => @event.Set();
-
             var process = App.Activate();
 
-            unsafe
+            SpinWait.SpinUntil(() =>
             {
-                var handles = stackalloc nint[] { @event, process };
+                if (!process.Running) using (process) return true;
+                else if (flag && !File.Exists(value)) return true;
+                flag = File.Exists(value); return false;
+            });
 
-                if (WaitForMultipleObjects(2, handles, default, Timeout.Infinite))
-                    using (process) return default;
-            }
-
-            return process;
+            return process.Running ? process : null;
         }
 
         return App.Activate();

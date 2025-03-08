@@ -6,6 +6,9 @@ namespace Bedrockix.Unmanaged;
 
 static partial class Native
 {
+    [DllImport("Kernel32", SetLastError = true)]
+    internal static extern bool GetExitCodeProcess(nint hProcess, out int lpExitCode);
+
     [LibraryImport("Kernel32", SetLastError = true, EntryPoint = "GetBinaryTypeW", StringMarshalling = StringMarshalling.Utf16)]
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool GetBinaryType(string lpApplicationName, out int lpBinaryType);
