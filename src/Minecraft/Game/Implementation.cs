@@ -13,9 +13,8 @@ public static partial class Game
 
     internal static Process? Activate()
     {
-        var path = ApplicationDataManager.CreateForPackageFamily(App.Package.Id.FamilyName).LocalFolder.Path;
-        var value = Path.Combine(path, @"games\com.mojang\minecraftpe\resource_init_lock");
-        var flag = File.Exists(value);
+        var path = Path.Combine(ApplicationDataManager.CreateForPackageFamily(App.Package.Id.FamilyName).LocalFolder.Path, @"games\com.mojang\minecraftpe\resource_init_lock");
+        var flag = File.Exists(path);
 
         if (!Running || flag)
         {
@@ -24,8 +23,8 @@ public static partial class Game
             SpinWait.SpinUntil(() =>
             {
                 if (!process.Running) using (process) return true;
-                else if (flag && !File.Exists(value)) return true;
-                flag = File.Exists(value); return false;
+                else if (flag && !File.Exists(path)) return true;
+                flag = File.Exists(path); return false;
             });
 
             return process.Running ? process : null;
