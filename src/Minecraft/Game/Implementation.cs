@@ -24,7 +24,8 @@ public static partial class Game
             {
                 if (!process.Running) using (process) return true;
                 else if (flag && !File.Exists(path)) return true;
-                flag = File.Exists(path); return false;
+                else if (!flag) flag = File.Exists(path);
+                return false;
             });
 
             return process.Running ? process : null;
