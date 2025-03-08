@@ -7,7 +7,6 @@ using Windows.Foundation;
 using Bedrockix.Windows.COM;
 using Windows.ApplicationModel;
 using System.Collections.Generic;
-using static Bedrockix.Unmanaged.Native;
 using static Bedrockix.Unmanaged.Constants;
 
 namespace Bedrockix.Windows;
