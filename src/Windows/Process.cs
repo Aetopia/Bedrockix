@@ -4,7 +4,7 @@ using static Bedrockix.Unmanaged.Constants;
 
 namespace Bedrockix.Windows;
 
-readonly struct Process : IDisposable
+sealed class Process : IDisposable
 {
     readonly nint Handle;
 
@@ -14,7 +14,9 @@ readonly struct Process : IDisposable
 
     internal Process(int value) => Handle = OpenProcess(PROCESS_ALL_ACCESS, default, Id = value);
 
-    public void Dispose() => CloseHandle(Handle);
-
     internal bool Running => GetExitCodeProcess(Handle, out var value) && value is STATUS_PENDING;
+
+    public void Dispose() { CloseHandle(Handle); GC.SuppressFinalize(this); }
+
+    ~Process() => Dispose();
 }

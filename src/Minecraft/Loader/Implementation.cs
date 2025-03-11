@@ -47,18 +47,13 @@ public static partial class Loader
         }
     }
 
-    static int? Activate(string path)
-    {
-        using var @this = Game.Activate();
-        if (@this is Process process) { Load(process, path); return process.Id; }
-        return null;
-    }
-
     static int? Activate(IEnumerable<string> paths)
     {
-        using var @this = Game.Activate();
-        if (@this is Process process) { foreach (var path in paths) Load(process, path); return process.Id; }
-        return null;
+        using var process = Game.Activate();
+        if (process is null) return null;
+     
+        foreach (var path in paths) Load(process, path);
+        return process.Id;
     }
 
     public static partial int? Launch(params IEnumerable<string> paths) => Launch(paths.Select(_ => new Library(_)));

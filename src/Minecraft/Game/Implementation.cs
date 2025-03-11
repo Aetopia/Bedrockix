@@ -11,7 +11,7 @@ public static partial class Game
 {
     internal static readonly App App = new("Microsoft.MinecraftUWP_8wekyb3d8bbwe!App");
 
-    internal static Process? Activate()
+    internal static Process Activate()
     {
         var path = Path.Combine(ApplicationDataManager.CreateForPackageFamily(App.Package.Id.FamilyName).LocalFolder.Path, @"games\com.mojang\minecraftpe\resource_init_lock");
         var flag = File.Exists(path);
@@ -34,7 +34,11 @@ public static partial class Game
         return App.Activate();
     }
 
-    public static partial int? Launch() { using var @this = Activate(); return @this?.Id; }
+    public static partial int? Launch()
+    {
+        using var process = Activate();
+        return process?.Id;
+    }
 
     public static partial void Terminate() => App.Terminate();
 
