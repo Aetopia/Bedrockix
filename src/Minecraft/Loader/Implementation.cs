@@ -61,11 +61,7 @@ public static partial class Loader
         return null;
     }
 
-    public static partial int? Launch(string path) => Launch(new Library(path));
-
     public static partial int? Launch(params IEnumerable<string> paths) => Launch(paths.Select(_ => new Library(_)));
-
-    public static partial int? Launch(Library library) => Activate(Get(library));
 
     public static partial int? Launch(params IEnumerable<Library> libraries) => Activate([.. libraries.Select(Get)]);
 }

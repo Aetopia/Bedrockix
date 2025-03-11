@@ -12,28 +12,6 @@ namespace Bedrockix.Minecraft;
 public static partial class Loader
 {
     /// <summary>
-    /// Launches &amp; loads a dynamic link library into Minecraft: Bedrock Edition.
-    /// </summary>
-
-    /// <param name="library">
-    /// The dynamic link library to load.
-    /// </param>
-
-    /// <returns>
-    /// The process ID of the game.
-    /// </returns>
-
-    /// <exception cref="FileNotFoundException">
-    /// Thrown if a specified dynamic link library doesn't exist.
-    /// </exception>
-
-    /// <exception cref="BadImageFormatException">
-    /// Thrown if a specified dynamic link library is invalid. 
-    /// </exception>
-
-    public static partial int? Launch(Library library);
-
-    /// <summary>
     /// Launches &amp; loads dynamic link libraries into Minecraft: Bedrock Edition.
     /// </summary>
 
@@ -54,28 +32,6 @@ public static partial class Loader
     /// </exception>
 
     public static partial int? Launch(params IEnumerable<Library> libraries);
-
-    /// <summary>
-    /// Launches &amp; loads a dynamic link library into Minecraft: Bedrock Edition.
-    /// </summary>
-
-    /// <param name="path">
-    /// The dynamic link library to load.
-    /// </param>
-
-    /// <returns>
-    /// The process ID of the game.
-    /// </returns>
-
-    /// <exception cref="FileNotFoundException">
-    /// Thrown if a specified dynamic link library doesn't exist.
-    /// </exception>
-
-    /// <exception cref="BadImageFormatException">
-    /// Thrown if a specified dynamic link library is invalid. 
-    /// </exception>
-
-    public static partial int? Launch(string path);
 
     /// <summary>
     /// Launches &amp; loads dynamic link libraries into Minecraft: Bedrock Edition.
