@@ -17,5 +17,4 @@ readonly struct Process : IDisposable
     public void Dispose() => CloseHandle(Handle);
 
     internal bool Running => GetExitCodeProcess(Handle, out var value) && value is STATUS_PENDING;
-
 }
