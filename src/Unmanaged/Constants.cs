@@ -19,4 +19,8 @@ static class Constants
     internal const int DONT_RESOLVE_DLL_REFERENCES = 0x00000001;
 
     internal const int STATUS_PENDING = 0x00000103;
+
+    internal const int INVALID_FILE_ATTRIBUTES = -1;
+
+    internal const int FILE_ATTRIBUTE_DIRECTORY = 0x00000010;
 }

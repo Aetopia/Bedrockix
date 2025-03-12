@@ -8,19 +8,22 @@ namespace Bedrockix.Unmanaged;
 [SuppressUnmanagedCodeSecurity]
 static class Native
 {
+    [DllImport("Kernel32", SetLastError = true, EntryPoint = "GetFileAttributesW", CharSet = CharSet.Unicode)]
+    internal unsafe static extern int GetFileAttributes(char* lpFileName);
+
     [DllImport("Kernel32", SetLastError = true)]
     internal static extern bool GetExitCodeProcess(nint hProcess, out int lpExitCode);
 
-    [DllImport("Kernel32", SetLastError = true, CharSet = CharSet.Auto)]
+    [DllImport("Kernel32", SetLastError = true, EntryPoint = "GetBinaryTypeW", CharSet = CharSet.Unicode)]
     internal static extern bool GetBinaryType(string lpApplicationName, out int lpBinaryType);
 
-    [DllImport("Kernel32", SetLastError = true, CharSet = CharSet.Auto)]
+    [DllImport("Kernel32", SetLastError = true, EntryPoint = "LoadLibraryEx", CharSet = CharSet.Unicode)]
     internal static extern nint LoadLibraryEx(string lpLibFileName, nint hFile, int dwFlags);
 
     [DllImport("Kernel32", SetLastError = true)]
     internal static extern bool FreeLibrary(nint hLibModule);
 
-    [DllImport("Kernel32", SetLastError = true, CharSet = CharSet.Auto)]
+    [DllImport("Kernel32", SetLastError = true, EntryPoint = "GetModuleHandleW", CharSet = CharSet.Unicode)]
     internal static extern nint GetModuleHandle(string lpModuleName);
 
     [DllImport("Kernel32", SetLastError = true)]
@@ -38,7 +41,7 @@ static class Native
     [DllImport("Kernel32", SetLastError = true)]
     internal static extern nint VirtualAllocEx(nint hProcess, nint lpAddress, int dwSize, int flAllocationType, int flProtect);
 
-    [DllImport("Kernel32", SetLastError = true, CharSet = CharSet.Auto)]
+    [DllImport("Kernel32", SetLastError = true, CharSet = CharSet.Unicode)]
     internal static extern bool WriteProcessMemory(nint hProcess, nint lpBaseAddress, string lpBuffer, int nSize, nint lpNumberOfBytesWritten);
 
     [DllImport("Kernel32", SetLastError = true)]
@@ -47,6 +50,6 @@ static class Native
     [DllImport("Kernel32", SetLastError = true)]
     internal static extern int WaitForSingleObject(nint hHandle, int dwMilliseconds);
 
-    [DllImport("Kernel32", SetLastError = true, CharSet = CharSet.Auto)]
+    [DllImport("Kernel32", SetLastError = true, CharSet = CharSet.Unicode)]
     internal static extern int GetPackagesByPackageFamily(string packageFamilyName, out uint count, nint packageFullNames, out uint bufferLength, nint buffer);
 }

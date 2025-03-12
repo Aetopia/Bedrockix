@@ -11,27 +11,36 @@ public static partial class Game
 {
     internal static readonly App App = new("Microsoft.MinecraftUWP_8wekyb3d8bbwe!App");
 
-    internal static Process Activate()
+    internal unsafe static Process Activate()
     {
-        var path = Path.Combine(ApplicationDataManager.CreateForPackageFamily(App.Package.Id.FamilyName).LocalFolder.Path, @"games\com.mojang\minecraftpe\resource_init_lock");
-        var flag = File.Exists(path);
-
-        if (!Running || flag)
+        fixed (char* path = Path.Combine(ApplicationDataManager.CreateForPackageFamily(App.Package.Id.FamilyName).LocalFolder.Path, @"games\com.mojang\minecraftpe\resource_init_lock"))
         {
-            var process = App.Activate();
-
-            SpinWait.SpinUntil(() =>
-            {
-                if (!process.Running) using (process) return true;
-                else if (flag && !File.Exists(path)) return true;
-                else if (!flag) flag = File.Exists(path);
-                return false;
-            });
-
-            return process.Running ? process : null;
+            var value = Get(path);
+            if (!Running || value) return Activate(path, value);
+            return App.Activate();
         }
+    }
 
-        return App.Activate();
+    unsafe static Process Activate(char* path, bool value)
+    {
+        var process = App.Activate();
+        
+        SpinWait.SpinUntil(() =>
+        {
+            if (!process.Running) using (process) return true;
+            else if (value && !Get(path)) return true;
+            else if (!value) value = Get(path);
+            return false;
+        });
+       
+        return process.Running ? process : null;
+    }
+
+    unsafe static bool Get(char* path)
+    {
+        var value = GetFileAttributes(path);
+        if (value is INVALID_FILE_ATTRIBUTES) return false;
+        return (value & FILE_ATTRIBUTE_DIRECTORY) == default;
     }
 
     public static partial int? Launch()
