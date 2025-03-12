@@ -6,8 +6,8 @@ namespace Bedrockix.Unmanaged;
 
 static partial class Native
 {
-    [DllImport("Kernel32", SetLastError = true, EntryPoint = "GetFileAttributesW", CharSet = CharSet.Unicode)]
-    internal unsafe static extern int GetFileAttributes(char* lpFileName);
+    [LibraryImport("Kernel32", EntryPoint = "GetFileAttributesW", SetLastError = true)]
+    internal static unsafe partial int GetFileAttributes(char* lpFileName);
 
     [LibraryImport("Kernel32", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
