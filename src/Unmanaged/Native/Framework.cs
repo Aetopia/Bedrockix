@@ -17,7 +17,7 @@ static class Native
     [DllImport("Kernel32", SetLastError = true, EntryPoint = "GetBinaryTypeW", CharSet = CharSet.Unicode)]
     internal static extern bool GetBinaryType(string lpApplicationName, out int lpBinaryType);
 
-    [DllImport("Kernel32", SetLastError = true, EntryPoint = "LoadLibraryEx", CharSet = CharSet.Unicode)]
+    [DllImport("Kernel32", SetLastError = true, EntryPoint = "LoadLibraryExW", CharSet = CharSet.Unicode)]
     internal static extern nint LoadLibraryEx(string lpLibFileName, nint hFile, int dwFlags);
 
     [DllImport("Kernel32", SetLastError = true)]
