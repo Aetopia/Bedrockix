@@ -8,48 +8,48 @@ namespace Bedrockix.Unmanaged;
 [SuppressUnmanagedCodeSecurity]
 static class Native
 {
-    [DllImport("Kernel32", SetLastError = true, EntryPoint = "GetFileAttributesW", CharSet = CharSet.Unicode)]
+    [DllImport("Kernel32", SetLastError = true, EntryPoint = "GetFileAttributesW", ExactSpelling = true)]
     internal unsafe static extern int GetFileAttributes(char* lpFileName);
 
-    [DllImport("Kernel32", SetLastError = true)]
+    [DllImport("Kernel32", SetLastError = true, ExactSpelling = true)]
     internal static extern bool GetExitCodeProcess(nint hProcess, out int lpExitCode);
 
-    [DllImport("Kernel32", SetLastError = true, EntryPoint = "GetBinaryTypeW", CharSet = CharSet.Unicode)]
+    [DllImport("Kernel32", SetLastError = true, EntryPoint = "GetBinaryTypeW", CharSet = CharSet.Unicode, ExactSpelling = true)]
     internal static extern bool GetBinaryType(string lpApplicationName, out int lpBinaryType);
 
-    [DllImport("Kernel32", SetLastError = true, EntryPoint = "LoadLibraryExW", CharSet = CharSet.Unicode)]
+    [DllImport("Kernel32", SetLastError = true, EntryPoint = "LoadLibraryExW", CharSet = CharSet.Unicode, ExactSpelling = true)]
     internal static extern nint LoadLibraryEx(string lpLibFileName, nint hFile, int dwFlags);
 
-    [DllImport("Kernel32", SetLastError = true)]
+    [DllImport("Kernel32", SetLastError = true, ExactSpelling = true)]
     internal static extern bool FreeLibrary(nint hLibModule);
 
-    [DllImport("Kernel32", SetLastError = true, EntryPoint = "GetModuleHandleW", CharSet = CharSet.Unicode)]
+    [DllImport("Kernel32", SetLastError = true, EntryPoint = "GetModuleHandleW", CharSet = CharSet.Unicode, ExactSpelling = true)]
     internal static extern nint GetModuleHandle(string lpModuleName);
 
-    [DllImport("Kernel32", SetLastError = true)]
+    [DllImport("Kernel32", SetLastError = true, ExactSpelling = true)]
     internal static extern nint OpenProcess(int dwDesiredAccess, bool bInheritHandle, int dwProcessId);
 
-    [DllImport("Kernel32", SetLastError = true)]
+    [DllImport("Kernel32", SetLastError = true, ExactSpelling = true)]
     internal static extern nint CreateRemoteThread(nint hProcess, nint lpThreadAttributes, int dwStackSize, nint lpStartAddress, nint lpParameter, int dwCreationFlags, nint lpThreadId);
 
-    [DllImport("Kernel32", SetLastError = true)]
+    [DllImport("Kernel32", SetLastError = true, ExactSpelling = true)]
     internal static extern nint GetProcAddress(nint hModule, string lpProcName);
 
-    [DllImport("Kernel32", SetLastError = true)]
+    [DllImport("Kernel32", SetLastError = true, ExactSpelling = true)]
     internal static extern bool VirtualFreeEx(nint hProcess, nint lpAddress, int dwSize, int dwFreeType);
 
-    [DllImport("Kernel32", SetLastError = true)]
+    [DllImport("Kernel32", SetLastError = true, ExactSpelling = true)]
     internal static extern nint VirtualAllocEx(nint hProcess, nint lpAddress, int dwSize, int flAllocationType, int flProtect);
 
-    [DllImport("Kernel32", SetLastError = true, CharSet = CharSet.Unicode)]
+    [DllImport("Kernel32", SetLastError = true, CharSet = CharSet.Unicode, ExactSpelling = true)]
     internal static extern bool WriteProcessMemory(nint hProcess, nint lpBaseAddress, string lpBuffer, int nSize, nint lpNumberOfBytesWritten);
 
-    [DllImport("Kernel32", SetLastError = true)]
+    [DllImport("Kernel32", SetLastError = true, ExactSpelling = true)]
     internal static extern bool CloseHandle(nint hObject);
 
-    [DllImport("Kernel32", SetLastError = true)]
+    [DllImport("Kernel32", SetLastError = true, ExactSpelling = true)]
     internal static extern int WaitForSingleObject(nint hHandle, int dwMilliseconds);
 
-    [DllImport("Kernel32", SetLastError = true, CharSet = CharSet.Unicode)]
+    [DllImport("Kernel32", SetLastError = true, CharSet = CharSet.Unicode, ExactSpelling = true)]
     internal static extern int GetPackagesByPackageFamily(string packageFamilyName, out uint count, nint packageFullNames, out uint bufferLength, nint buffer);
 }
