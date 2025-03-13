@@ -32,7 +32,7 @@ static class Native
     [DllImport("Kernel32", SetLastError = true, ExactSpelling = true)]
     internal static extern nint CreateRemoteThread(nint hProcess, nint lpThreadAttributes, int dwStackSize, nint lpStartAddress, nint lpParameter, int dwCreationFlags, nint lpThreadId);
 
-    [DllImport("Kernel32", SetLastError = true, ExactSpelling = true)]
+    [DllImport("Kernel32", SetLastError = true, ExactSpelling = true, CharSet = CharSet.Ansi)]
     internal static extern nint GetProcAddress(nint hModule, string lpProcName);
 
     [DllImport("Kernel32", SetLastError = true, ExactSpelling = true)]
