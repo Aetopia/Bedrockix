@@ -31,7 +31,7 @@ public static partial class Loader
     /// Thrown if any specified dynamic link library is invalid. 
     /// </exception>
 
-    public static partial int? Launch(params IEnumerable<Library> libraries);
+    public static partial int? Launch(params IReadOnlyCollection<Library> libraries);
 
     /// <summary>
     /// Launches &amp; loads dynamic link libraries into Minecraft: Bedrock Edition.

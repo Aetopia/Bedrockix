@@ -6,9 +6,9 @@
 
 Provides methods to load dynamic link libraries into Minecraft: Bedrock Edition.
 
-- [`Loader.Launch(params IEnumerable<string>)`<br>`Loader.Launch(params IEnumerable<Library>)`](#loaderlaunchparams-ienumerablestringloaderlaunchparams-ienumerablelibrary)
+- [`Loader.Launch(params IEnumerable<string>)`<br>`Loader.Launch(params IReadOnlyCollection<Library>)`](#loaderlaunchparams-ienumerablestringloaderlaunchparams-ireadonlycollectionlibrary)
 
-## `Loader.Launch(params IEnumerable<string>)`<br>`Loader.Launch(params IEnumerable<Library>)`
+## `Loader.Launch(params IEnumerable<string>)`<br>`Loader.Launch(params IReadOnlyCollection<Library>)`
 
 Launches & loads dynamic link libraries into Minecraft: Bedrock Edition.
 

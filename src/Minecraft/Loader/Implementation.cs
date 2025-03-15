@@ -18,46 +18,43 @@ public static partial class Loader
 
     static readonly FileSystemAccessRule Rule = new(new SecurityIdentifier("S-1-15-2-1"), FileSystemRights.FullControl, AccessControlType.Allow);
 
-    static string Get(Library library)
+    public static partial int? Launch(params IEnumerable<string> paths) => Launch([.. paths.Select(_ => new Library(_))]);
+
+    public static partial int? Launch(params IReadOnlyCollection<Library> libraries)
     {
-        if (!library.Exists) throw new FileNotFoundException(default, library.Path);
-        if (!library.Valid) throw new BadImageFormatException(default, library.Path);
-
-        FileInfo info = new(library.Path);
-        var security = info.GetAccessControl();
-        security.SetAccessRule(Rule);
-        info.SetAccessControl(security);
-
-        return library.Path;
-    }
-
-    static void Load(Process process, string path)
-    {
-        nint address = default, handle = default;
-        var size = Marshal.SystemDefaultCharSize * (path.Length + 1);
-
-        try
+        foreach (var library in libraries)
         {
-            WriteProcessMemory(process, address = VirtualAllocEx(process, default, size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE), path, size, default);
-            WaitForSingleObject(handle = CreateRemoteThread(process, default, default, Address, address, default, default), Timeout.Infinite);
-        }
-        finally
-        {
-            VirtualFreeEx(process, address, default, MEM_RELEASE);
-            CloseHandle(handle);
-        }
-    }
+            if (!library.Exists) throw new FileNotFoundException(default, library.Path);
+            if (!library.Valid) throw new BadImageFormatException(default, library.Path);
 
-    static int? Activate(IEnumerable<string> paths)
-    {
+            FileInfo info = new(library.Path);
+            if (!info.Exists) throw new FileNotFoundException(default, info.FullName);
+
+            var security = info.GetAccessControl();
+            security.SetAccessRule(Rule);
+            info.SetAccessControl(security);
+        }
+
         using var process = Game.Activate();
         if (process is null) return null;
-     
-        foreach (var path in paths) Load(process, path);
+
+        foreach (var library in libraries)
+        {
+            nint address = default, handle = default;
+            var size = Marshal.SystemDefaultCharSize * (library.Path.Length + 1);
+
+            try
+            {
+                WriteProcessMemory(process, address = VirtualAllocEx(process, default, size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE), library.Path, size, default);
+                WaitForSingleObject(handle = CreateRemoteThread(process, default, default, Address, address, default, default), Timeout.Infinite);
+            }
+            finally
+            {
+                VirtualFreeEx(process, address, default, MEM_RELEASE);
+                CloseHandle(handle);
+            }
+        }
+    
         return process.Id;
     }
-
-    public static partial int? Launch(params IEnumerable<string> paths) => Launch(paths.Select(_ => new Library(_)));
-
-    public static partial int? Launch(params IEnumerable<Library> libraries) => Activate([.. libraries.Select(Get)]);
 }
