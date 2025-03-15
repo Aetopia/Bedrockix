@@ -1,6 +1,9 @@
 using System.Runtime.InteropServices;
 
-namespace Bedrockix.Unmanaged.COM;
+namespace Bedrockix.Unmanaged;
+
+[ComImport, Guid("B1AEC16F-2383-4852-B0E9-8F0B1DC66B4D")]
+class PackageDebugSettings;
 
 [Guid("F27C3930-8029-4AD1-94E3-3DBA417810C1"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 interface IPackageDebugSettings

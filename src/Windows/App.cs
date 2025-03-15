@@ -4,7 +4,7 @@ using Windows.System;
 using System.Threading;
 using System.Collections;
 using Windows.Foundation;
-using Bedrockix.Windows.COM;
+using Bedrockix.Unmanaged;
 using Windows.ApplicationModel;
 using System.Collections.Generic;
 using static Bedrockix.Unmanaged.Constants;
@@ -27,9 +27,9 @@ sealed class App : IEnumerable<AppResourceGroupInfo>
 
     readonly Lazy<AppDiagnosticInfo> Object;
 
-    static readonly ApplicationActivationManager Manager = new();
+    static readonly IApplicationActivationManager Manager = (IApplicationActivationManager)new ApplicationActivationManager();
 
-    static readonly PackageDebugSettings Settings = new();
+    static readonly IPackageDebugSettings Settings = (IPackageDebugSettings)new PackageDebugSettings();
 
     internal Package Package => Object.Value.AppInfo.Package;
 
