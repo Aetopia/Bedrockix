@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Security.AccessControl;
 using static Bedrockix.Unmanaged.Native;
 using static Bedrockix.Unmanaged.Constants;
+using System.Runtime.InteropServices;
 
 namespace Bedrockix.Minecraft;
 
@@ -33,7 +34,7 @@ public static partial class Loader
     static void Load(Process process, string path)
     {
         nint address = default, handle = default;
-        var size = sizeof(char) * (path.Length + 1);
+        var size = Marshal.SystemDefaultCharSize * (path.Length + 1);
 
         try
         {
