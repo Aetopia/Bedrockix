@@ -24,11 +24,10 @@ public static partial class Loader
     {
         foreach (var library in libraries)
         {
-            if (!library.Exists) throw new FileNotFoundException(default, library.Path);
-            if (!library.Valid) throw new BadImageFormatException(default, library.Path);
-
             FileInfo info = new(library.Path);
-            if (!info.Exists) throw new FileNotFoundException(default, info.FullName);
+
+            if (!library.Exists || !info.Exists) throw new FileNotFoundException(default, library.Path);
+            if (!library.Valid) throw new BadImageFormatException(default, library.Path);
 
             var security = info.GetAccessControl();
             security.SetAccessRule(Rule);
@@ -54,7 +53,7 @@ public static partial class Loader
                 CloseHandle(handle);
             }
         }
-    
+
         return process.Id;
     }
 }
