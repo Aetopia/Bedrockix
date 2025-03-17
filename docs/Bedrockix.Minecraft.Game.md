@@ -16,7 +16,6 @@ Provides methods to interact with Minecraft: Bedrock Edition.
 
 > [!NOTE]
 > - By default, this method will launch & wait for the game to initiailized.
->
 > - The caller should specify `false` if doesn't need the initialization logic provided by the library.
 
 Launches Minecraft: Bedrock Edition.
