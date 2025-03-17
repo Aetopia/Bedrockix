@@ -15,12 +15,12 @@ Provides methods to interact with Minecraft: Bedrock Edition.
 ## `Game.Launch(bool)`
 
 > [!NOTE]
-> - By default, this method will launch & wait for the game to initiailized.
+> - By default, this method will launch & wait for the game to initiailize.
 > - The caller should specify `false` if doesn't need the initialization logic provided by the library.
 
 Launches Minecraft: Bedrock Edition.
 
-- Parameter: Specify `true` to wait for the game to be initialized else `false` to not.
+- Parameter: Specify `true` to wait for the game to initialize else `false` to not.
 
 - Returns: The process ID of the game.
 
