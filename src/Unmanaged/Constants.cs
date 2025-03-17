@@ -23,4 +23,6 @@ static class Constants
     internal const int INVALID_FILE_ATTRIBUTES = -1;
 
     internal const int FILE_ATTRIBUTE_DIRECTORY = 0x00000010;
+
+    internal const int CLSCTX_INPROC_SERVER = 0x1;
 }

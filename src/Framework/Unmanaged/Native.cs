@@ -1,5 +1,6 @@
 using System.Security;
 using System.Runtime.InteropServices;
+using System;
 
 [assembly: DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
 
@@ -8,6 +9,9 @@ namespace Bedrockix.Unmanaged;
 [SuppressUnmanagedCodeSecurity]
 static class Native
 {
+    [DllImport("Ole32", ExactSpelling = true, PreserveSig = false)]
+    internal static extern void CoCreateInstance(in Guid rclsid, nint pUnkOuter, int dwClsContext, in Guid riid, [MarshalAs(UnmanagedType.IUnknown)] out object ppv);
+
     [DllImport("Kernel32", SetLastError = true, EntryPoint = "GetFileAttributesW", ExactSpelling = true)]
     internal unsafe static extern int GetFileAttributes(char* lpFileName);
 

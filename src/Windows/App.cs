@@ -27,9 +27,9 @@ sealed class App : IEnumerable<AppResourceGroupInfo>
 
     readonly Lazy<AppDiagnosticInfo> Object;
 
-    static readonly IApplicationActivationManager Manager = (IApplicationActivationManager)new ApplicationActivationManager();
+    static readonly IApplicationActivationManager Manager = ApplicationActivationManager.Create();
 
-    static readonly IPackageDebugSettings Settings = (IPackageDebugSettings)new PackageDebugSettings();
+    static readonly IPackageDebugSettings Settings = PackageDebugSettings.Create();
 
     internal Package Package => Object.Value.AppInfo.Package;
 

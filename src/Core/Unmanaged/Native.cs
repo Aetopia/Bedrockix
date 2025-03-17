@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.InteropServices;
 
 [assembly: DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
@@ -6,6 +7,9 @@ namespace Bedrockix.Unmanaged;
 
 static partial class Native
 {
+    [LibraryImport("Ole32")]
+    internal static partial int CoCreateInstance(in Guid rclsid, nint pUnkOuter, int dwClsContext, in Guid riid, out nint ppv);
+
     [LibraryImport("Kernel32", EntryPoint = "GetFileAttributesW", SetLastError = true)]
     internal static unsafe partial int GetFileAttributes(char* lpFileName);
 
