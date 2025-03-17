@@ -77,7 +77,7 @@ sealed class Form : System.Windows.Forms.Form
             if (!(await Task.Run(() =>
             {
                 if (!Game.Running) Invoke(() => tableLayoutPanel.Enabled = false);
-                return Game.Launch();
+                return Game.Launch(false);
             })).HasValue) MessageBox.Show(this, "Minecraft: Bedrock Edition failed to launch!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
             tableLayoutPanel.Enabled = true;
