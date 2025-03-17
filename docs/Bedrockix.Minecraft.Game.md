@@ -26,7 +26,7 @@ Launches Minecraft: Bedrock Edition.
 
 ## `Game.Terminate()`
 
-Terminates of Minecraft: Bedrock Edition.
+Terminates Minecraft: Bedrock Edition.
 
 ## `Game.Running`
 
