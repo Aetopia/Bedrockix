@@ -10,6 +10,10 @@ public static partial class Game
     /// Launches Minecraft: Bedrock Edition.
     /// </summary>
 
+    /// <param name="value">
+    /// Specify <c>true</c> to wait for the game to initialize else <c>false</c> to not.
+    /// </param>
+
     /// <returns>
     /// The process ID of the game.
     /// </returns>
