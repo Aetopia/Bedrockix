@@ -10,6 +10,10 @@ Provides methods to load dynamic link libraries into Minecraft: Bedrock Edition.
 
 ## `Loader.Launch(params IEnumerable<string>)`<br>`Loader.Launch(params IReadOnlyCollection<Library>)`
 
+> [!TIP]
+> - Use the `Library` class to validate dynamic link libraries at runtime.
+> - This allows the caller to ensure that the passed dynamic link libraries are valid.
+
 Launches & loads dynamic link libraries into Minecraft: Bedrock Edition.
 
 - Parameter: The dynamic link libraries to load.
