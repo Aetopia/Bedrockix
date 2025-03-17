@@ -14,7 +14,7 @@ public static partial class Game
     /// The process ID of the game.
     /// </returns>
 
-    public static partial int? Launch();
+    public static partial int? Launch(bool value = true);
 
     /// <summary>
     /// Terminates Minecraft: Bedrock Edition.

@@ -24,7 +24,7 @@ public static partial class Game
     unsafe static Process Activate(char* path, bool value)
     {
         var process = App.Activate();
-        
+
         SpinWait.SpinUntil(() =>
         {
             if (!process.Running) using (process) return true;
@@ -32,7 +32,7 @@ public static partial class Game
             else if (!value) value = Get(path);
             return false;
         });
-       
+
         return process.Running ? process : null;
     }
 
@@ -43,9 +43,9 @@ public static partial class Game
         return (value & FILE_ATTRIBUTE_DIRECTORY) == default;
     }
 
-    public static partial int? Launch()
+    public static partial int? Launch(bool value)
     {
-        using var process = Activate();
+        using var process = value ? Activate() : App.Activate();
         return process?.Id;
     }
 
