@@ -21,7 +21,7 @@ Launches Minecraft: Bedrock Edition.
 
 - Parameter: Specify `true` to wait for the game to initialized else `false` to not.
 
-- Returns: The process ID of the instance.
+- Returns: The process ID of the game.
 
 ## `Game.Terminate()`
 
