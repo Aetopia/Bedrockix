@@ -17,4 +17,4 @@ Enumerates any running processes of Minecraft: Bedrock Edition.
 
 ## `Metadata.Version`
 
- Retrieves Minecraft Bedrock Edition's currently installed version.
+Retrieves Minecraft Bedrock Edition's currently installed version.

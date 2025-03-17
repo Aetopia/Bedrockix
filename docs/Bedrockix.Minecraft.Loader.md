@@ -12,6 +12,7 @@ Provides methods to load dynamic link libraries into Minecraft: Bedrock Edition.
 
 > [!TIP]
 > - Use the [`Library`](Bedrockix.Windows.Library.md) class to validate dynamic link libraries at runtime.
+>
 > - This allows the caller to ensure that the passed dynamic link libraries are valid.
 
 Launches & loads dynamic link libraries into Minecraft: Bedrock Edition.
