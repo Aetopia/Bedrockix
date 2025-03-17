@@ -20,7 +20,7 @@ Provides methods to interact with Minecraft: Bedrock Edition.
 
 Launches Minecraft: Bedrock Edition.
 
-- Parameter: Specify `true` to wait for the game to initialized else `false` to not.
+- Parameter: Specify `true` to wait for the game to be initialized else `false` to not.
 
 - Returns: The process ID of the game.
 
