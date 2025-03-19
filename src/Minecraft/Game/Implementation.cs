@@ -17,12 +17,11 @@ public static partial class Game
     {
         fixed (char* path = Path.Combine(ApplicationDataManager.CreateForPackageFamily(App.Package.Id.FamilyName).LocalFolder.Path, @"games\com.mojang\minecraftpe\resource_init_lock"))
         {
-            var value = Wrappers.Exists(path);
-
-            if (!Running || value || Metadata.Instancing)
+            if (!App.Running || Wrappers.Exists(path) || Metadata.Instancing)
             {
                 Process process = new(App.Launch());
                 SpinWait @this = default;
+                bool value = default;
 
                 while (process.Running)
                 {
