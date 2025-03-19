@@ -20,7 +20,7 @@ Provides methods to interact with Minecraft: Bedrock Edition.
 
 > [!CAUTION]
 > - This method will fail if [multi-instancing](https://learn.microsoft.com/en-us/windows/uwp/launch-resume/multi-instance-uwp) is available and the library's initialization logic is being used.
-> - The caller should check if [multi-instancing is available](Bedrockix.Minecraft.Metadata.md#metadatainstancing) to determine if it should use the library's initialization logic.
+> - The caller should [check if multi-instancing is available](Bedrockix.Minecraft.Metadata.md#metadatainstancing) to determine if it should use the library's initialization logic.
 
 Launches Minecraft: Bedrock Edition.
 
