@@ -20,15 +20,6 @@ public static partial class Metadata
         }
     }
 
-    public static partial bool Instancing
-    {
-        get
-        {
-            if (Package.SignatureKind is PackageSignatureKind.Store) return false;
-            return Application.Attributes().Any(_ => _.Name.LocalName is "SupportsMultipleInstances" && bool.Parse(_.Value));
-        }
-    }
-
     public static partial IEnumerable<Process> Processes => Game.App.SelectMany(_ => _.GetProcessDiagnosticInfos()).Select(_ => Process.GetProcessById((int)_.ProcessId));
 
     public static partial string Version
@@ -39,4 +30,14 @@ public static partial class Metadata
             return value.Substring(default, value.LastIndexOf('.'));
         }
     }
+
+    public static partial bool Instancing
+    {
+        get
+        {
+            if (Package.SignatureKind is PackageSignatureKind.Store) return false;
+            return Application.Attributes().Any(_ => _.Name.LocalName is "SupportsMultipleInstances" && bool.Parse(_.Value));
+        }
+    }
+
 }
