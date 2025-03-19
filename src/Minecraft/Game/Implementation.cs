@@ -5,6 +5,7 @@ using Windows.Management.Core;
 using static Bedrockix.Unmanaged.Native;
 using static Bedrockix.Unmanaged.Constants;
 using Bedrockix.Unmanaged;
+using System;
 
 namespace Bedrockix.Minecraft;
 
@@ -14,6 +15,8 @@ public static partial class Game
 
     internal unsafe static Process Launch()
     {
+        if (Metadata.Instancing) throw new InvalidOperationException();
+
         fixed (char* path = Path.Combine(ApplicationDataManager.CreateForPackageFamily(App.Package.Id.FamilyName).LocalFolder.Path, @"games\com.mojang\minecraftpe\resource_init_lock"))
         {
             var value = Wrappers.Exists(path);
@@ -22,7 +25,7 @@ public static partial class Game
             {
                 Process process = new(App.Launch());
                 SpinWait @this = default;
-                
+
                 while (process.Running)
                 {
                     if (value) { if (!Wrappers.Exists(path)) break; }
