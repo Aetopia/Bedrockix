@@ -35,7 +35,7 @@ public static partial class Metadata
     {
         get
         {
-            if (Package.SignatureKind is PackageSignatureKind.Store) return false;
+            if (!Package.IsDevelopmentMode) return false;
             return Application.Attributes().Any(_ => _.Name.LocalName is "SupportsMultipleInstances" && bool.Parse(_.Value));
         }
     }
