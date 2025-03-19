@@ -6,6 +6,8 @@ Provides metadata about Minecraft: Bedrock Edition.
 
 - [`Metadata.Version`](#metadataversion)
 
+- [`Metadata.Instancing`](#metadatainstancing)
+
 ## `Metadata.Processes`
 
 > [!NOTE]
