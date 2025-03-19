@@ -31,13 +31,5 @@ public static partial class Metadata
         }
     }
 
-    public static partial bool Instancing
-    {
-        get
-        {
-            if (!Package.IsDevelopmentMode) return false;
-            return Application.Attributes().Any(_ => _.Name.LocalName is "SupportsMultipleInstances" && bool.Parse(_.Value));
-        }
-    }
-
+    public static partial bool Instancing => Package.IsDevelopmentMode && Application.Attributes().Any(_ => _.Name.LocalName is "SupportsMultipleInstances" && bool.Parse(_.Value));
 }
