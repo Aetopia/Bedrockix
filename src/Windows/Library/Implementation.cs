@@ -19,7 +19,6 @@ public sealed partial class Library
         unsafe
         {
             fixed (char* path = Path = System.IO.Path.GetFullPath(value))
-
                 if (Exists = Wrappers.Exists(path) && System.IO.Path.HasExtension(Path))
                     Valid = !GetBinaryType(Path, out _) && FreeLibrary(LoadLibraryEx(Path, default, DONT_RESOLVE_DLL_REFERENCES));
         }
