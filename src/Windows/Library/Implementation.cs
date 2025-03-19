@@ -1,4 +1,4 @@
-using System.IO;
+using Bedrockix.Unmanaged;
 using static Bedrockix.Unmanaged.Native;
 using static Bedrockix.Unmanaged.Constants;
 
@@ -9,15 +9,18 @@ public sealed partial class Library
     /// <summary>
     /// Resolves a dynamic link library.
     /// </summary>
-    
-    /// <param name="path">
+
+    /// <param name="value">
     /// The dynamic link library to resolve.
     /// </param>
 
-    public Library(string path)
+    public Library(string value)
     {
-        Path = System.IO.Path.GetFullPath(path);
-        if (Exists = File.Exists(Path) && System.IO.Path.HasExtension(Path))
-            Valid = !GetBinaryType(Path, out _) && FreeLibrary(LoadLibraryEx(Path, default, DONT_RESOLVE_DLL_REFERENCES));
+        unsafe
+        {
+            fixed (char* path = Path = System.IO.Path.GetFullPath(value))
+                if (Exists = Wrappers.Exists(path) && System.IO.Path.HasExtension(Path))
+                    Valid = !GetBinaryType(Path, out _) && FreeLibrary(LoadLibraryEx(Path, default, DONT_RESOLVE_DLL_REFERENCES));
+        }
     }
 }

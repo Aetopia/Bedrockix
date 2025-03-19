@@ -6,13 +6,13 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace Bedrockix.Unmanaged;
 
-static class COM
+static partial class Wrappers
 {
-    static readonly StrategyBasedComWrappers Wrappers = new();
+    static readonly StrategyBasedComWrappers Object = new();
 
     internal static T Create<T>(in Guid clsid, in Guid iid)
     {
         Marshal.ThrowExceptionForHR(CoCreateInstance(clsid, default, CLSCTX_INPROC_SERVER, iid, out var ppv));
-        return (T)Wrappers.GetOrCreateObjectForComInstance(ppv, CreateObjectFlags.None);
+        return (T)Object.GetOrCreateObjectForComInstance(ppv, CreateObjectFlags.None);
     }
 }

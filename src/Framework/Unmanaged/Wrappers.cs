@@ -4,7 +4,7 @@ using static Bedrockix.Unmanaged.Constants;
 
 namespace Bedrockix.Unmanaged;
 
-static class COM
+static partial class Wrappers
 {
     internal static T Create<T>(in Guid clsid, in Guid iid)
     {

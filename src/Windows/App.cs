@@ -45,10 +45,10 @@ sealed class App : IEnumerable<AppResourceGroupInfo>
         }
     }
 
-    internal Process Activate()
+    internal int Launch()
     {
         Manager.ActivateApplication(Object.Value.AppInfo.AppUserModelId, default, AO_NOERRORUI, out var value);
-        return new(value);
+        return value;
     }
 
     internal void Terminate() => Settings.TerminateAllProcesses(Package.Id.FullName);

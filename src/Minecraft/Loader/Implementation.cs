@@ -18,11 +18,11 @@ public static partial class Loader
 
     static readonly FileSystemAccessRule Rule = new(new SecurityIdentifier("S-1-15-2-1"), FileSystemRights.FullControl, AccessControlType.Allow);
 
-    public static partial int? Launch(params IEnumerable<string> paths) => Launch([.. paths.Select(_ => new Library(_))]);
+    public static partial int? Launch(params IEnumerable<string> value) => Launch([.. value.Select(_ => new Library(_))]);
 
-    public static partial int? Launch(params IReadOnlyCollection<Library> libraries)
+    public static partial int? Launch(params IReadOnlyCollection<Library> value)
     {
-        foreach (var library in libraries)
+        foreach (var library in value)
         {
             FileInfo info = new(library.Path);
 
@@ -34,22 +34,22 @@ public static partial class Loader
             info.SetAccessControl(security);
         }
 
-        using var process = Game.Activate();
-        if (process is null) return null;
+        using var process = Game.Launch();
+        if (!process.Running) return null;
 
-        foreach (var library in libraries)
+        foreach (var library in value)
         {
             nint address = default, handle = default;
             var size = Marshal.SystemDefaultCharSize * (library.Path.Length + 1);
 
             try
             {
-                WriteProcessMemory(process, address = VirtualAllocEx(process, default, size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE), library.Path, size, default);
-                WaitForSingleObject(handle = CreateRemoteThread(process, default, default, Address, address, default, default), Timeout.Infinite);
+                WriteProcessMemory(process.Handle, address = VirtualAllocEx(process.Handle, default, size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE), library.Path, size, default);
+                WaitForSingleObject(handle = CreateRemoteThread(process.Handle, default, default, Address, address, default, default), Timeout.Infinite);
             }
             finally
             {
-                VirtualFreeEx(process, address, default, MEM_RELEASE);
+                VirtualFreeEx(process.Handle, address, default, MEM_RELEASE);
                 CloseHandle(handle);
             }
         }

@@ -1,5 +1,4 @@
 using System;
-using System.Runtime.InteropServices;
 
 namespace Bedrockix.Unmanaged;
 
@@ -9,5 +8,5 @@ static class ApplicationActivationManager
 
     readonly static Guid IID = new("2E941141-7F97-4756-BA1D-9DECDE894A3D");
 
-    internal static IApplicationActivationManager Create() => COM.Create<IApplicationActivationManager>(CLSID, IID);
+    internal static IApplicationActivationManager Create() => Wrappers.Create<IApplicationActivationManager>(CLSID, IID);
 }

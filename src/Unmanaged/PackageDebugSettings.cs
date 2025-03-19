@@ -1,5 +1,4 @@
 using System;
-using System.Runtime.InteropServices;
 
 namespace Bedrockix.Unmanaged;
 
@@ -9,5 +8,5 @@ static class PackageDebugSettings
 
     readonly static Guid IID = new("F27C3930-8029-4AD1-94E3-3DBA417810C1");
 
-    internal static IPackageDebugSettings Create() => COM.Create<IPackageDebugSettings>(CLSID, IID);
+    internal static IPackageDebugSettings Create() => Wrappers.Create<IPackageDebugSettings>(CLSID, IID);
 }
