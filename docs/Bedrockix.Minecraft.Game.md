@@ -18,10 +18,6 @@ Provides methods to interact with Minecraft: Bedrock Edition.
 > - By default, this method will launch & wait for the game to initiailize.
 > - The caller should specify `false` if doesn't need the library's initialization logic.
 
-> [!CAUTION]
-> - This method will fail if [multi-instancing](https://learn.microsoft.com/en-us/windows/uwp/launch-resume/multi-instance-uwp) is available and the library's initialization logic is being used.
-> - The caller should [check if multi-instancing is available](Bedrockix.Minecraft.Metadata.md#metadatainstancing) to determine if it should use the library's initialization logic.
-
 Launches Minecraft: Bedrock Edition.
 
 - Parameter: Specify `true` to wait for the game to initialize else `false` to not.
