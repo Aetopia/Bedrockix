@@ -7,7 +7,6 @@ using Windows.Management.Core;
 using static Bedrockix.Unmanaged.Native;
 using static Bedrockix.Unmanaged.Constants;
 
-
 namespace Bedrockix.Minecraft;
 
 public static partial class Game
