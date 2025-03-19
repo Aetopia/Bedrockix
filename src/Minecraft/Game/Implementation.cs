@@ -15,13 +15,11 @@ public static partial class Game
 
     internal unsafe static Process Launch()
     {
-        if (Metadata.Instancing) return default;
-
         fixed (char* path = Path.Combine(ApplicationDataManager.CreateForPackageFamily(App.Package.Id.FamilyName).LocalFolder.Path, @"games\com.mojang\minecraftpe\resource_init_lock"))
         {
             var value = Wrappers.Exists(path);
 
-            if (!Running || value)
+            if (!Running || value || Metadata.Instancing)
             {
                 Process process = new(App.Launch());
                 SpinWait @this = default;
