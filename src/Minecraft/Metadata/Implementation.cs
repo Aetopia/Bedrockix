@@ -1,6 +1,5 @@
 using System.IO;
 using System.Linq;
-using System.Xml.Linq;
 using System.Diagnostics;
 using Windows.ApplicationModel;
 using System.Collections.Generic;
@@ -26,7 +25,7 @@ public static partial class Metadata
         get
         {
             var package = Game.App.Package;
-            if (!package.IsDevelopmentMode) return false;
+            if (package.SignatureKind is PackageSignatureKind.Store) return default;
             return Manifest.Application(package.InstalledPath).Attributes().Any(_ => _.Name.LocalName is "SupportsMultipleInstances" && bool.Parse(_.Value));
         }
     }

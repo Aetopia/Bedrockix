@@ -5,7 +5,6 @@ using Bedrockix.Unmanaged;
 using Windows.Management.Core;
 using static Bedrockix.Unmanaged.Native;
 using static Bedrockix.Unmanaged.Constants;
-using Windows.ApplicationModel;
 
 namespace Bedrockix.Minecraft;
 
