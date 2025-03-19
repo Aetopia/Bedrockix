@@ -17,3 +17,7 @@ Enumerates any running processes of Minecraft: Bedrock Edition.
 ## `Metadata.Version`
 
 Retrieves Minecraft Bedrock Edition's currently installed version.
+
+## `Metadata.Instancing`
+
+Check if multi-instancing is available for Minecraft: Bedrock Edition.
