@@ -53,7 +53,7 @@ public static partial class Loader
                 CloseHandle(handle);
             }
         }
-
+        
         return process.Id;
     }
 }
