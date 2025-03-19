@@ -16,7 +16,7 @@ public static partial class Game
     internal unsafe static Process Launch()
     {
         fixed (char* path = Path.Combine(ApplicationDataManager.CreateForPackageFamily(App.Package.Id.FamilyName).LocalFolder.Path, @"games\com.mojang\minecraftpe\resource_init_lock"))
-
+           
             if (!App.Running || Wrappers.Exists(path) || Metadata.Instancing)
             {
                 Process process = new(App.Launch());
