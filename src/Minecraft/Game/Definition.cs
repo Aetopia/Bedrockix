@@ -17,7 +17,7 @@ public static partial class Game
     /// <returns>
     /// The process ID of the game.
     /// </returns>
-
+    
     public static partial int? Launch(bool value = true);
 
     /// <summary>
