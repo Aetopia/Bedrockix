@@ -9,27 +9,25 @@ namespace Bedrockix.Minecraft;
 
 public static partial class Metadata
 {
-    static Package Package => Game.App.Package;
-
-    static XElement Application
-    {
-        get
-        {
-            using var stream = File.OpenRead(Path.Combine(Package.InstalledPath, "AppxManifest.xml"));
-            return XElement.Load(stream).Descendants().First(_ => _.Name.LocalName is "Application");
-        }
-    }
-
     public static partial IEnumerable<Process> Processes => Game.App.SelectMany(_ => _.GetProcessDiagnosticInfos()).Select(_ => Process.GetProcessById((int)_.ProcessId));
 
     public static partial string Version
     {
         get
         {
-            var value = FileVersionInfo.GetVersionInfo(Path.Combine(Package.InstalledPath, Application.Attribute("Executable").Value)).FileVersion;
+            var path = Game.App.Package.InstalledPath;
+            var value = FileVersionInfo.GetVersionInfo(Path.Combine(path, Manifest.Application(path).Attribute("Executable").Value)).FileVersion;
             return value.Substring(default, value.LastIndexOf('.'));
         }
     }
 
-    public static partial bool Instancing => Package.IsDevelopmentMode && Application.Attributes().Any(_ => _.Name.LocalName is "SupportsMultipleInstances" && bool.Parse(_.Value));
+    public static partial bool Instancing
+    {
+        get
+        {
+            var package = Game.App.Package;
+            if (!package.IsDevelopmentMode) return false;
+            return Manifest.Application(package.InstalledPath).Attributes().Any(_ => _.Name.LocalName is "SupportsMultipleInstances" && bool.Parse(_.Value));
+        }
+    }
 }
