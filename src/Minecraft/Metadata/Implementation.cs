@@ -20,7 +20,7 @@ public static partial class Metadata
         }
     }
 
-    internal static bool Instancing
+    public static partial bool Instancing
     {
         get
         {

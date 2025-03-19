@@ -20,4 +20,10 @@ public static partial class Metadata
     /// </summary>
 
     public static partial string Version { get; }
+
+    /// <summary>
+    /// Check if multi-instancing is available for Minecraft: Bedrock Edition.
+    /// </summary>
+
+    public static partial bool Instancing { get; }
 }
