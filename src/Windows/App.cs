@@ -18,7 +18,13 @@ sealed class App : IEnumerable<AppResourceGroupInfo>
         var @this = AppDiagnosticInfo.RequestInfoForAppAsync(value);
         try
         {
-            SpinWait.SpinUntil(() => @this.Status != AsyncStatus.Started);
+            if (@this.Status is AsyncStatus.Started)
+            {
+                using ManualResetEventSlim @event = new();
+                @this.Completed += (_, _) => @event.Set();
+                @event.Wait();
+            }
+
             if (@this.Status is AsyncStatus.Error) throw @this.ErrorCode;
             return @this.GetResults()[default];
         }
