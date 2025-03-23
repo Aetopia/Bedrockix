@@ -9,13 +9,6 @@ sealed partial class Manifest
 {
     static Manifest Object;
 
-    readonly static XmlReaderSettings Settings = new()
-    {
-        IgnoreComments = true,
-        IgnoreWhitespace = true,
-        IgnoreProcessingInstructions = true
-    };
-
     internal static Manifest Current
     {
         get
@@ -29,7 +22,7 @@ sealed partial class Manifest
                 if (Object is null || Object.Timestamp != timestamp || !path.Equals(Object.Path, StringComparison.OrdinalIgnoreCase))
                 {
                     string version = default; bool instancing = default;
-                    using XmlReader reader = XmlReader.Create(path, Settings);
+                    using XmlReader reader = XmlReader.Create(path);
 
                     if (reader.ReadToFollowing("Application"))
                         while (reader.MoveToNextAttribute())
