@@ -37,7 +37,6 @@ sealed partial class Manifest
                             {
                                 case "Executable":
                                     version = FileVersionInfo.GetVersionInfo(System.IO.Path.Combine(package.InstalledPath, reader.ReadContentAsString())).FileVersion;
-                                    version = version.Substring(default, version.LastIndexOf('.'));
                                     break;
 
                                 case "SupportsMultipleInstances":
@@ -45,7 +44,7 @@ sealed partial class Manifest
                                     break;
                             }
 
-                    Object = new(path, version, timestamp, instancing);
+                    Object = new(path, version.Substring(default, version.LastIndexOf('.')), timestamp, instancing);
                 }
 
                 return Object;
