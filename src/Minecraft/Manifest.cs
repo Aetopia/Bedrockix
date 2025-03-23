@@ -33,16 +33,17 @@ sealed partial class Manifest
 
                     if (reader.ReadToFollowing("Application"))
                         while (reader.MoveToNextAttribute())
-                        {
-                            var value = reader.LocalName;
-                            if (string.IsNullOrEmpty(version) && value is "Executable")
+                            switch (reader.LocalName)
                             {
-                                version = FileVersionInfo.GetVersionInfo(System.IO.Path.Combine(package.InstalledPath, reader.ReadContentAsString())).FileVersion;
-                                version = version.Substring(default, version.LastIndexOf('.'));
+                                case "Executable":
+                                    version = FileVersionInfo.GetVersionInfo(System.IO.Path.Combine(package.InstalledPath, reader.ReadContentAsString())).FileVersion;
+                                    version = version.Substring(default, version.LastIndexOf('.'));
+                                    break;
+
+                                case "SupportsMultipleInstances":
+                                    if (!instancing) instancing = reader.ReadContentAsBoolean();
+                                    break;
                             }
-                            else if (!instancing && value is "SupportsMultipleInstances")
-                                instancing = reader.ReadContentAsBoolean();
-                        }
 
                     Object = new(path, version, timestamp, instancing);
                 }
