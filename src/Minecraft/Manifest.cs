@@ -8,7 +8,7 @@ using Windows.ApplicationModel;
 
 namespace Bedrockix.Minecraft;
 
-sealed partial class Manifest
+sealed class Manifest
 {
     static Manifest Object;
 
