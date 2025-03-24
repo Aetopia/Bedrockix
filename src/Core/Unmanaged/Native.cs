@@ -17,12 +17,12 @@ static partial class Native
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool GetExitCodeProcess(nint hProcess, out int lpExitCode);
 
-    [LibraryImport("Kernel32", SetLastError = true, EntryPoint = "GetBinaryTypeW", StringMarshalling = StringMarshalling.Utf16)]
+    [LibraryImport("Kernel32", SetLastError = true, EntryPoint = "GetBinaryTypeW")]
     [return: MarshalAs(UnmanagedType.Bool)]
-    internal static partial bool GetBinaryType(string lpApplicationName, out int lpBinaryType);
+    internal static unsafe partial bool GetBinaryType(char* lpApplicationName, out int lpBinaryType);
 
-    [LibraryImport("Kernel32", SetLastError = true, EntryPoint = "LoadLibraryExW", StringMarshalling = StringMarshalling.Utf16)]
-    internal static partial nint LoadLibraryEx(string lpLibFileName, nint hFile, int dwFlags);
+    [LibraryImport("Kernel32", SetLastError = true, EntryPoint = "LoadLibraryExW")]
+    internal static unsafe partial nint LoadLibraryEx(char *lpLibFileName, nint hFile, int dwFlags);
 
     [LibraryImport("Kernel32", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
