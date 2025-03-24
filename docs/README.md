@@ -1,7 +1,6 @@
 # Documentation
 
 > [!CAUTION]
-> - The library provides facilities that operate only synchronously.
 > - Before using this library, check if [the game is installed](Bedrockix.Minecraft.Game.md#gameinstalled) to avoid issues at runtime.
 
 ## Classes
