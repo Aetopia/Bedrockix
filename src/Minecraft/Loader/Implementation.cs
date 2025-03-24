@@ -37,17 +37,17 @@ public static partial class Loader
     {
         foreach (var library in libraries)
         {
-            nint address = default, thread = default;
+            nint parameter = default, thread = default;
             var size = Marshal.SystemDefaultCharSize * (library.Path.Length + 1);
 
             try
             {
-                WriteProcessMemory(process, address = VirtualAllocEx(process, default, size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE), library.Path, size, default);
-                WaitForSingleObject(thread = CreateRemoteThread(process, default, default, Address, address, default, default), Timeout.Infinite);
+                WriteProcessMemory(process, parameter = VirtualAllocEx(process, default, size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE), library.Path, size, default);
+                WaitForSingleObject(thread = CreateRemoteThread(process, default, default, Address, parameter, default, default), Timeout.Infinite);
             }
             finally
             {
-                VirtualFreeEx(process, address, default, MEM_RELEASE);
+                VirtualFreeEx(process, parameter, default, MEM_RELEASE);
                 CloseHandle(thread);
             }
         }
