@@ -20,10 +20,10 @@ sealed class Manifest
     {
         get
         {
+            Semaphore.Wait();
+
             try
             {
-                Semaphore.Wait();
-           
                 var properties = Properties;
 
                 if (properties.Uncached)
@@ -62,10 +62,10 @@ sealed class Manifest
 
     internal async static Task<Manifest> CurrentAsync()
     {
+        await Semaphore.WaitAsync().ConfigureAwait(false);
+
         try
         {
-            await Semaphore.WaitAsync().ConfigureAwait(false);
-            
             var properties = Properties;
 
             if (properties.Uncached)
