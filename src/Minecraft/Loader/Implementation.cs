@@ -18,11 +18,9 @@ public static partial class Loader
 
     static readonly FileSystemAccessRule Rule = new(new SecurityIdentifier("S-1-15-2-1"), FileSystemRights.FullControl, AccessControlType.Allow);
 
-    public static partial int? Launch(params IEnumerable<string> value) => Launch([.. value.Select(_ => new Library(_))]);
-
-    public static partial int? Launch(params IReadOnlyCollection<Library> value)
+    static void Validate(IReadOnlyCollection<Library> libraries)
     {
-        foreach (var library in value)
+        foreach (var library in libraries)
         {
             FileInfo info = new(library.Path);
 
@@ -33,11 +31,11 @@ public static partial class Loader
             security.SetAccessRule(Rule);
             info.SetAccessControl(security);
         }
+    }
 
-        using var process = Game.Launch();
-        if (!process.Running) return null;
-
-        foreach (var library in value)
+    static void Load(IReadOnlyCollection<Library> libraries, in Process process)
+    {
+        foreach (var library in libraries)
         {
             nint address = default, handle = default;
             var size = Marshal.SystemDefaultCharSize * (library.Path.Length + 1);
@@ -53,7 +51,14 @@ public static partial class Loader
                 CloseHandle(handle);
             }
         }
-        
-        return process.Id;
+    }
+
+    public static partial int? Launch(params IEnumerable<string> paths) => Launch([.. paths.Select(_ => new Library(_))]);
+
+    public static partial int? Launch(params IReadOnlyCollection<Library> libraries)
+    {
+        Validate(libraries); using var process = Game.Launch();
+        if (!process.Running) return null;
+        Load(libraries, process); return process.Id;
     }
 }

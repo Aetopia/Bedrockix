@@ -14,23 +14,22 @@ public static partial class Game
 
     internal unsafe static Process Launch()
     {
-        fixed (char* path = Path.Combine(ApplicationDataManager.CreateForPackageFamily(App.Package.Id.FamilyName).LocalFolder.Path, @"games\com.mojang\minecraftpe\resource_init_lock"))
-            if (!App.Running || Wrappers.Exists(path) || Metadata.Instancing)
+        fixed (char* path = @$"{ApplicationDataManager.CreateForPackageFamily(App.Package.Id.FamilyName).LocalFolder.Path}\games\com.mojang\minecraftpe\resource_init_lock")
+            if (!App.Running || Wrappers.Exists(path) || Manifest.Current.Instancing)
             {
                 Process process = new(App.Launch());
-                SpinWait @this = default;
-                bool value = default;
+                SpinWait wait = new(); var value = false;
 
                 while (process.Running)
                 {
                     if (value) { if (!Wrappers.Exists(path)) break; }
                     else value = Wrappers.Exists(path);
-                    @this.SpinOnce();
+                    wait.SpinOnce();
                 }
 
                 return process;
             }
-       
+
         return new(App.Launch());
     }
 

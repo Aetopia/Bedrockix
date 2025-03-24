@@ -45,9 +45,9 @@ sealed class App : IEnumerable<AppResourceGroupInfo>
     {
         set
         {
-            var @this = Package.Id.FullName;
-            if (value) Settings.EnableDebugging(@this, default, default);
-            else Settings.DisableDebugging(@this);
+            var name = Package.Id.FullName;
+            if (value) Settings.EnableDebugging(name, default, default);
+            else Settings.DisableDebugging(name);
         }
     }
 

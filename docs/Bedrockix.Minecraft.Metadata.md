@@ -8,6 +8,10 @@ Provides metadata about Minecraft: Bedrock Edition.
 
 - [`Metadata.Instancing`](#metadatainstancing)
 
+- [`Metadata.VersionAsync()`](#metadataversionasync)
+
+- [`Metadata.InstancingAsync()`](#metadatainstancingasync)
+
 ## `Metadata.Processes`
 
 > [!NOTE]
@@ -23,3 +27,11 @@ Retrieves Minecraft Bedrock Edition's currently installed version.
 ## `Metadata.Instancing`
 
 Check if multi-instancing is available for Minecraft: Bedrock Edition.
+
+## `Metadata.VersionAsync()`
+
+Asynchronously retrieves Minecraft Bedrock Edition's currently installed version.
+    
+## `Metadata.InstancingAsync()`
+
+Asynchronously check if multi-instancing is available for Minecraft: Bedrock Edition.
