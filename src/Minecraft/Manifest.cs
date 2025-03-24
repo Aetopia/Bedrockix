@@ -42,23 +42,22 @@ sealed class Manifest
 
     static (string Version, bool Instancing) Attributes(XmlReader reader, Package package)
     {
-        (string Version, bool Instancing) attributes = new();
+        string version = default; bool instancing = default;
 
         while (reader.MoveToNextAttribute())
             switch (reader.LocalName)
             {
                 case "Executable":
-                    attributes.Version = Get(@$"{package.InstalledPath}\{reader.ReadContentAsString()}");
+                    version = Get(@$"{package.InstalledPath}\{reader.ReadContentAsString()}");
                     break;
 
                 case "SupportsMultipleInstances":
-                    attributes.Instancing = reader.ReadContentAsBoolean();
+                    instancing = reader.ReadContentAsBoolean();
                     break;
             }
 
-        return attributes;
+        return new(version, instancing);
     }
-
 
     internal async static Task<Manifest> CurrentAsync()
     {
@@ -85,26 +84,26 @@ sealed class Manifest
 
     static async Task<(string Version, bool Instancing)> AttributesAsync(XmlReader reader, Package package)
     {
-        (string Version, bool Instancing) attributes = new();
+        string version = default; bool instancing = default;
 
         while (reader.MoveToNextAttribute())
             switch (reader.LocalName)
             {
                 case "Executable":
-                    attributes.Version = Get(@$"{package.InstalledPath}\{await reader.ReadContentAsStringAsync().ConfigureAwait(false)}");
+                    version = Get(@$"{package.InstalledPath}\{await reader.ReadContentAsStringAsync().ConfigureAwait(false)}");
                     break;
 
                 case "SupportsMultipleInstances":
-                    attributes.Instancing = reader.ReadContentAsBoolean();
+                    instancing = reader.ReadContentAsBoolean();
                     break;
             }
 
-        return attributes;
+        return new(version, instancing);
     }
 
-    static string Get(string value)
+    static string Get(string path)
     {
-        var version = FileVersionInfo.GetVersionInfo(value).FileVersion;
+        var version = FileVersionInfo.GetVersionInfo(path).FileVersion;
         return version.Substring(default, version.LastIndexOf('.'));
     }
 
@@ -112,13 +111,11 @@ sealed class Manifest
     {
         get
         {
-            (Package Package, string Path, DateTime Timestamp, bool Uncached) properties = new() { Package = Game.App.Package };
-
-            properties.Path = @$"{properties.Package.InstalledPath}\AppxManifest.xml";
-            properties.Timestamp = File.GetLastWriteTimeUtc(properties.Path);
-            properties.Uncached = Object is null || Object.Timestamp != properties.Timestamp || !properties.Path.Equals(Object.Path, StringComparison.OrdinalIgnoreCase);
-
-            return properties;
+            var package = Game.App.Package;
+            var path = @$"{package.InstalledPath}\AppxManifest.xml";
+            var timestamp = File.GetLastWriteTimeUtc(path);
+            var uncached = Object is null || Object.Timestamp != timestamp || !path.Equals(Object.Path, StringComparison.OrdinalIgnoreCase);
+            return new(package, path, timestamp, uncached);
         }
     }
 
