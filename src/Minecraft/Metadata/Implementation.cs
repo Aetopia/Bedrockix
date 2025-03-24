@@ -13,7 +13,7 @@ public static partial class Metadata
 
     public static partial bool Instancing => Manifest.Current.Instancing;
 
-    public static partial async Task<string> VersionAsync() => (await Manifest.CurrentAsync()).Version;
+    public static partial async Task<string> VersionAsync() => (await Manifest.CurrentAsync().ConfigureAwait(false)).Version;
 
-    public static partial async Task<bool> InstancingAsync() => (await Manifest.CurrentAsync()).Instancing;
+    public static partial async Task<bool> InstancingAsync() => (await Manifest.CurrentAsync().ConfigureAwait(false)).Instancing;
 }
