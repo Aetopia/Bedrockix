@@ -35,6 +35,7 @@ public static partial class Game
     public static partial int? Launch(bool value)
     {
         if (!value) return App.Launch();
+
         using var process = Launch();
         return process.Running ? process.Id : null;
     }

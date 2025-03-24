@@ -33,7 +33,7 @@ public static partial class Loader
         }
     }
 
-    static void Load(IReadOnlyCollection<Library> libraries, in Process process)
+    static void Load(nint value, IReadOnlyCollection<Library> libraries)
     {
         foreach (var library in libraries)
         {
@@ -42,12 +42,12 @@ public static partial class Loader
 
             try
             {
-                WriteProcessMemory(process.Handle, address = VirtualAllocEx(process.Handle, default, size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE), library.Path, size, default);
-                WaitForSingleObject(handle = CreateRemoteThread(process.Handle, default, default, Address, address, default, default), Timeout.Infinite);
+                WriteProcessMemory(value, address = VirtualAllocEx(value, default, size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE), library.Path, size, default);
+                WaitForSingleObject(handle = CreateRemoteThread(value, default, default, Address, address, default, default), Timeout.Infinite);
             }
             finally
             {
-                VirtualFreeEx(process.Handle, address, default, MEM_RELEASE);
+                VirtualFreeEx(value, address, default, MEM_RELEASE);
                 CloseHandle(handle);
             }
         }
@@ -57,8 +57,12 @@ public static partial class Loader
 
     public static partial int? Launch(params IReadOnlyCollection<Library> libraries)
     {
-        Validate(libraries); using var process = Game.Launch();
+        Validate(libraries);
+
+        using var process = Game.Launch();
         if (!process.Running) return null;
-        Load(libraries, process); return process.Id;
+
+        Load(process.Handle, libraries);
+        return process.Id;
     }
 }
