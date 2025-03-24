@@ -23,6 +23,7 @@ sealed class Manifest
             try
             {
                 Semaphore.Wait();
+           
                 var properties = Properties;
 
                 if (properties.Uncached)
@@ -64,6 +65,7 @@ sealed class Manifest
         try
         {
             await Semaphore.WaitAsync().ConfigureAwait(false);
+            
             var properties = Properties;
 
             if (properties.Uncached)
