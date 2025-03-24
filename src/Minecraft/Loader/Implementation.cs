@@ -33,22 +33,22 @@ public static partial class Loader
         }
     }
 
-    static void Load(nint value, IReadOnlyCollection<Library> libraries)
+    static void Load(nint process, IReadOnlyCollection<Library> libraries)
     {
         foreach (var library in libraries)
         {
-            nint address = default, handle = default;
+            nint address = default, thread = default;
             var size = Marshal.SystemDefaultCharSize * (library.Path.Length + 1);
 
             try
             {
-                WriteProcessMemory(value, address = VirtualAllocEx(value, default, size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE), library.Path, size, default);
-                WaitForSingleObject(handle = CreateRemoteThread(value, default, default, Address, address, default, default), Timeout.Infinite);
+                WriteProcessMemory(process, address = VirtualAllocEx(process, default, size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE), library.Path, size, default);
+                WaitForSingleObject(thread = CreateRemoteThread(process, default, default, Address, address, default, default), Timeout.Infinite);
             }
             finally
             {
-                VirtualFreeEx(value, address, default, MEM_RELEASE);
-                CloseHandle(handle);
+                VirtualFreeEx(process, address, default, MEM_RELEASE);
+                CloseHandle(thread);
             }
         }
     }
