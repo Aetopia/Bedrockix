@@ -18,11 +18,11 @@ static class Native
     [DllImport("Kernel32", SetLastError = true, ExactSpelling = true)]
     internal static extern bool GetExitCodeProcess(nint hProcess, out int lpExitCode);
 
-    [DllImport("Kernel32", SetLastError = true, EntryPoint = "GetBinaryTypeW", CharSet = CharSet.Unicode, ExactSpelling = true)]
-    internal static extern bool GetBinaryType(string lpApplicationName, out int lpBinaryType);
+    [DllImport("Kernel32", SetLastError = true, EntryPoint = "GetBinaryTypeW", ExactSpelling = true)]
+    internal unsafe static extern bool GetBinaryType(char* lpApplicationName, out int lpBinaryType);
 
-    [DllImport("Kernel32", SetLastError = true, EntryPoint = "LoadLibraryExW", CharSet = CharSet.Unicode, ExactSpelling = true)]
-    internal static extern nint LoadLibraryEx(string lpLibFileName, nint hFile, int dwFlags);
+    [DllImport("Kernel32", SetLastError = true, EntryPoint = "LoadLibraryExW", ExactSpelling = true)]
+    internal unsafe static extern nint LoadLibraryEx(char* lpLibFileName, nint hFile, int dwFlags);
 
     [DllImport("Kernel32", SetLastError = true, ExactSpelling = true)]
     internal static extern bool FreeLibrary(nint hLibModule);

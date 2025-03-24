@@ -20,7 +20,7 @@ public sealed partial class Library
         {
             fixed (char* @this = Path = System.IO.Path.GetFullPath(path))
                 if (Exists = Wrappers.Exists(@this) && System.IO.Path.HasExtension(Path))
-                    Valid = !GetBinaryType(Path, out _) && FreeLibrary(LoadLibraryEx(Path, default, DONT_RESOLVE_DLL_REFERENCES));
+                    Valid = !GetBinaryType(@this, out _) && FreeLibrary(LoadLibraryEx(@this, default, DONT_RESOLVE_DLL_REFERENCES));
         }
     }
 }
