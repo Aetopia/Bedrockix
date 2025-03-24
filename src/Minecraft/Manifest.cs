@@ -61,7 +61,7 @@ sealed class Manifest
 
     internal async static Task<Manifest> CurrentAsync()
     {
-        await Semaphore.WaitAsync().ConfigureAwait(false);
+        await Semaphore.WaitAsync();
 
         try
         {
@@ -69,10 +69,10 @@ sealed class Manifest
 
             if (properties.Uncached)
                 using (var reader = XmlReader.Create(properties.Path, Settings))
-                    while (await reader.ReadAsync().ConfigureAwait(false))
+                    while (await reader.ReadAsync())
                         if (reader.NodeType is XmlNodeType.Element && reader.LocalName is "Application")
                         {
-                            var attributes = await AttributesAsync(reader, properties.Package).ConfigureAwait(false);
+                            var attributes = await AttributesAsync(reader, properties.Package);
                             Object = new(properties.Path, properties.Timestamp, attributes.Version, attributes.Instancing);
                             break;
                         }
@@ -90,7 +90,7 @@ sealed class Manifest
             switch (reader.LocalName)
             {
                 case "Executable":
-                    version = Get(@$"{package.InstalledPath}\{await reader.ReadContentAsStringAsync().ConfigureAwait(false)}");
+                    version = Get(@$"{package.InstalledPath}\{await reader.ReadContentAsStringAsync()}");
                     break;
 
                 case "SupportsMultipleInstances":
