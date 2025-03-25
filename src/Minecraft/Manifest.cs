@@ -1,125 +1,28 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Xml;
-using System.Threading;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using Windows.ApplicationModel;
 
 namespace Bedrockix.Minecraft;
 
-sealed class Manifest
+sealed partial class Manifest
 {
-    static Manifest Object;
+    static Manifest Value;
 
-    static readonly SemaphoreSlim Semaphore = new(1, 1);
-
-    static readonly XmlReaderSettings Settings = new() { Async = true };
-
-    internal static Manifest Current
+    static readonly XmlReaderSettings Settings = new()
     {
-        get
-        {
-            Semaphore.Wait();
+        IgnoreComments = true,
+        IgnoreWhitespace = true,
+        IgnoreProcessingInstructions = true
+    };
 
-            try
-            {
-                var properties = Properties;
+    internal readonly string Path, Version;
 
-                if (properties.Uncached)
-                    using (XmlReader reader = XmlReader.Create(properties.Path))
-                        if (reader.ReadToFollowing("Application"))
-                        {
-                            var attributes = Attributes(reader, properties.Package);
-                            Object = new(properties.Path, properties.Timestamp, attributes.Version, attributes.Instancing);
-                        }
+    internal readonly DateTime Timestamp;
 
-                return Object;
-            }
-            finally { Semaphore.Release(); }
-        }
-    }
+    internal readonly bool Instancing;
 
-    static (string Version, bool Instancing) Attributes(XmlReader reader, Package package)
-    {
-        string version = default; bool instancing = default;
-
-        while (reader.MoveToNextAttribute())
-            switch (reader.LocalName)
-            {
-                case "Executable":
-                    version = Get(@$"{package.InstalledPath}\{reader.ReadContentAsString()}");
-                    break;
-
-                case "SupportsMultipleInstances":
-                    instancing = reader.ReadContentAsBoolean();
-                    break;
-            }
-
-        return new(version, instancing);
-    }
-
-    internal async static Task<Manifest> CurrentAsync()
-    {
-        await Semaphore.WaitAsync();
-
-        try
-        {
-            var properties = Properties;
-
-            if (properties.Uncached)
-                using (var reader = XmlReader.Create(properties.Path, Settings))
-                    while (await reader.ReadAsync())
-                        if (reader.NodeType is XmlNodeType.Element && reader.LocalName is "Application")
-                        {
-                            var attributes = await AttributesAsync(reader, properties.Package);
-                            Object = new(properties.Path, properties.Timestamp, attributes.Version, attributes.Instancing);
-                            break;
-                        }
-
-            return Object;
-        }
-        finally { Semaphore.Release(); }
-    }
-
-    static async Task<(string Version, bool Instancing)> AttributesAsync(XmlReader reader, Package package)
-    {
-        string version = default; bool instancing = default;
-
-        while (reader.MoveToNextAttribute())
-            switch (reader.LocalName)
-            {
-                case "Executable":
-                    version = Get(@$"{package.InstalledPath}\{await reader.ReadContentAsStringAsync()}");
-                    break;
-
-                case "SupportsMultipleInstances":
-                    instancing = reader.ReadContentAsBoolean();
-                    break;
-            }
-
-        return new(version, instancing);
-    }
-
-    static string Get(string path)
-    {
-        var version = FileVersionInfo.GetVersionInfo(path).FileVersion;
-        return version.Substring(default, version.LastIndexOf('.'));
-    }
-
-    static (Package Package, string Path, DateTime Timestamp, bool Uncached) Properties
-    {
-        get
-        {
-            var package = Game.App.Package;
-            var path = @$"{package.InstalledPath}\AppxManifest.xml";
-            var timestamp = File.GetLastWriteTimeUtc(path);
-            var uncached = Object is null || Object.Timestamp != timestamp || !path.Equals(Object.Path, StringComparison.OrdinalIgnoreCase);
-            return new(package, path, timestamp, uncached);
-        }
-    }
-
-    Manifest(string path, DateTime timestamp, string version, bool instancing)
+    Manifest(string path, string version, DateTime timestamp, bool instancing)
     {
         Path = path;
         Version = version;
@@ -127,11 +30,40 @@ sealed class Manifest
         Instancing = instancing;
     }
 
-    readonly string Path;
+    internal static Manifest Current
+    {
+        get
+        {
+            lock (Lock)
+            {
+                var package = Game.App.Package;
+                var path = @$"{package.InstalledPath}\AppxManifest.xml";
+                var timestamp = File.GetLastWriteTimeUtc(path);
 
-    readonly DateTime Timestamp;
+                if (Value is null || Value.Timestamp != timestamp || !Value.Path.Equals(path, StringComparison.OrdinalIgnoreCase))
+                {
+                    string version = default;
+                    bool instancing = default;
+                    using var reader = XmlReader.Create(path, Settings);
 
-    internal readonly string Version;
+                    if (reader.ReadToFollowing("Application"))
+                        while (reader.MoveToNextAttribute())
+                            switch (reader.LocalName)
+                            {
+                                case "Executable":
+                                    version = FileVersionInfo.GetVersionInfo(@$"{package.InstalledPath}\{reader.ReadContentAsString()}").FileVersion;
+                                    break;
 
-    internal readonly bool Instancing;
+                                case "SupportsMultipleInstances":
+                                    instancing = reader.ReadContentAsBoolean();
+                                    break;
+                            }
+
+                    Value = new(path, version.Substring(default, version.LastIndexOf('.')), timestamp, instancing);
+                }
+
+                return Value;
+            }
+        }
+    }
 }

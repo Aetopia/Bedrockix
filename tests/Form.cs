@@ -70,14 +70,6 @@ sealed class Form : System.Windows.Forms.Form
             AutoSizeMode = AutoSizeMode.GrowAndShrink
         };
 
-        Button button5 = new()
-        {
-            Text = "Information",
-            Dock = DockStyle.Fill,
-            AutoSize = true,
-            AutoSizeMode = AutoSizeMode.GrowAndShrink
-        };
-
         button1.Click += async (sender, _) =>
         {
             if (!Game.Installed) return;
@@ -116,18 +108,10 @@ sealed class Form : System.Windows.Forms.Form
             tableLayoutPanel.Enabled = true;
         };
 
-        button5.Click += async (_, _) =>
-        {
-            tableLayoutPanel.Enabled = false;
-            MessageBox.Show(this, $"Version: {await Metadata.VersionAsync()}\nInstancing: {await Metadata.InstancingAsync()}", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            tableLayoutPanel.Enabled = true;
-        };
-
         tableLayoutPanel.Controls.Add(button1, 0, 0);
         tableLayoutPanel.Controls.Add(button2, 0, 1);
         tableLayoutPanel.Controls.Add(button3, 0, 2);
         tableLayoutPanel.Controls.Add(button4, 0, 3);
-        tableLayoutPanel.Controls.Add(button5, 0, 4);
         tableLayoutPanel.Controls.Add(new Control() { Dock = DockStyle.Fill }, 0, -1);
 
         Application.ThreadExit += (_, _) =>
