@@ -34,19 +34,13 @@ Terminates Minecraft: Bedrock Edition.
 
 Check if Minecraft: Bedrock Edition is running.
 
-- Returns: If running then `true` else `false`.
-
 ## `Game.Installed`
 
 Check if Minecraft: Bedrock Edition is installed.
 
-- Returns: If installed then `true` else `false`. 
-
 ## `Game.Debug` 
 
 Configure debug mode for Minecraft: Bedrock Edition.
-
-- Property: Set to `true` to enable else `false` to disable.
 
 ## `Game.Unpackaged`
 
