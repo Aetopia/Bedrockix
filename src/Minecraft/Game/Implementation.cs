@@ -47,4 +47,6 @@ public static partial class Game
     public static partial bool Running => App.Running;
 
     public static partial bool Debug { set { App.Debug = value; } }
+
+    public static partial bool Unpackaged => App.Package.IsDevelopmentMode;
 }

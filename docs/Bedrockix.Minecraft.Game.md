@@ -12,6 +12,8 @@ Provides methods to interact with Minecraft: Bedrock Edition.
 
 - [`Game.Debug`](#gamedebug)
 
+- [`Game.Unpackaged`](#gameunpackaged)
+
 ## `Game.Launch(bool)`
 
 > [!NOTE]
@@ -45,3 +47,7 @@ Check if Minecraft: Bedrock Edition is installed.
 Configure debug mode for Minecraft: Bedrock Edition.
 
 - Property: Set to `true` to enable else `false` to disable.
+
+## `Game.Unpackaged`
+
+Check if Minecraft: Bedrock Edition is unpackaged.

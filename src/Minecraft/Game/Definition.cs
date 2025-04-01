@@ -17,7 +17,7 @@ public static partial class Game
     /// <returns>
     /// The process ID of the game.
     /// </returns>
-    
+
     public static partial int? Launch(bool value = true);
 
     /// <summary>
@@ -43,4 +43,10 @@ public static partial class Game
     /// </summary>
 
     public static partial bool Debug { set; }
+
+    /// <summary>
+    /// Check if Minecraft: Bedrock Edition is unpackaged.
+    /// </summary>
+
+    public static partial bool Unpackaged { get; }
 }
