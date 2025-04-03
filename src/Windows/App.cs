@@ -39,15 +39,15 @@ sealed class App : IEnumerable<AppResourceGroupInfo>
 
     internal Package Package => Object.Value.AppInfo.Package;
 
-    internal bool Running => this.Any(_ => _.GetMemoryReport()?.PrivateCommitUsage > default(ulong));
+    internal bool Running => this.Any(_ => _.GetProcessDiagnosticInfos().Any());
 
     internal bool Debug
     {
         set
         {
-            var name = Package.Id.FullName;
-            if (value) Settings.EnableDebugging(name, default, default);
-            else Settings.DisableDebugging(name);
+            var @this = Package.Id.FullName;
+            if (value) Settings.EnableDebugging(@this, default, default);
+            else Settings.DisableDebugging(@this);
         }
     }
 
