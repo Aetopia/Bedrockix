@@ -39,7 +39,7 @@ sealed class App : IEnumerable<AppResourceGroupInfo>
 
     internal Package Package => Object.Value.AppInfo.Package;
 
-    internal bool Running => this.Any(_ => _.GetProcessDiagnosticInfos().Any());
+    internal bool Running => this.Any(_ => _.GetProcessDiagnosticInfos().Count != default);
 
     internal bool Debug
     {
