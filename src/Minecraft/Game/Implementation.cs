@@ -2,14 +2,12 @@ using System.Threading;
 using Bedrockix.Windows;
 using Bedrockix.Unmanaged;
 using Windows.Management.Core;
-using static Bedrockix.Unmanaged.Native;
-using static Bedrockix.Unmanaged.Constants;
 
 namespace Bedrockix.Minecraft;
 
 public static partial class Game
 {
-    internal static readonly App App = new("Microsoft.MinecraftUWP_8wekyb3d8bbwe!App");
+    internal static readonly App App = new("Microsoft.MinecraftUWP_8wekyb3d8bbwe");
 
     internal unsafe static Process Launch()
     {
@@ -42,7 +40,7 @@ public static partial class Game
 
     public static partial void Terminate() => App.Terminate();
 
-    public static partial bool Installed => GetPackagesByPackageFamily("Microsoft.MinecraftUWP_8wekyb3d8bbwe", out _, default, out _, default) is ERROR_INSUFFICIENT_BUFFER;
+    public static partial bool Installed => App.Installed;
 
     public static partial bool Running => App.Running;
 
