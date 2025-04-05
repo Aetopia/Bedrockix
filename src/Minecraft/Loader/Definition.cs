@@ -15,7 +15,7 @@ public static partial class Loader
     /// Launches &amp; loads dynamic link libraries into Minecraft: Bedrock Edition.
     /// </summary>
 
-    /// <param name="libraries">
+    /// <param name="value">
     /// The dynamic link libraries to load.
     /// </param>
 
@@ -31,13 +31,13 @@ public static partial class Loader
     /// Thrown if any specified dynamic link library is invalid. 
     /// </exception>
 
-    public static partial int? Launch(params IReadOnlyCollection<Library> libraries);
+    public static partial int? Launch(params IReadOnlyCollection<Library> value);
 
     /// <summary>
     /// Launches &amp; loads dynamic link libraries into Minecraft: Bedrock Edition.
     /// </summary>
 
-    /// <param name="paths">
+    /// <param name="value">
     /// The dynamic link libraries to load.
     /// </param>
 
@@ -53,5 +53,5 @@ public static partial class Loader
     /// Thrown if any specified dynamic link library is invalid. 
     /// </exception>
 
-    public static partial int? Launch(params IEnumerable<string> paths);
+    public static partial int? Launch(params IEnumerable<string> value);
 }

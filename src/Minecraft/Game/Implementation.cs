@@ -9,22 +9,22 @@ public static partial class Game
 {
     internal static readonly App App = new("Microsoft.MinecraftUWP_8wekyb3d8bbwe");
 
-    internal unsafe static Process Launch()
+    internal unsafe static Instance Launch()
     {
         fixed (char* path = @$"{ApplicationDataManager.CreateForPackageFamily(App.Package.Id.FamilyName).LocalFolder.Path}\games\com.mojang\minecraftpe\resource_init_lock")
             if (!App.Running || Wrappers.Exists(path) || Manifest.Current.Instancing)
             {
-                Process process = new(App.Launch());
+                Instance instance = new(App.Launch());
                 SpinWait wait = new(); var value = false;
 
-                while (process.Running)
+                while (instance.Running)
                 {
                     if (value) { if (!Wrappers.Exists(path)) break; }
                     else value = Wrappers.Exists(path);
                     wait.SpinOnce();
                 }
 
-                return process;
+                return instance;
             }
 
         return new(App.Launch());
@@ -34,8 +34,8 @@ public static partial class Game
     {
         if (!value) return App.Launch();
 
-        using var process = Launch();
-        return process.Running ? process.Id : null;
+        using var instance = Launch();
+        return instance.Running ? instance.Id : null;
     }
 
     public static partial void Terminate() => App.Terminate();

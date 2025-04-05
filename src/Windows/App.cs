@@ -3,6 +3,7 @@ using System.Linq;
 using Windows.System;
 using System.Threading;
 using System.Collections;
+using System.Diagnostics;
 using Windows.Foundation;
 using Bedrockix.Unmanaged;
 using Windows.ApplicationModel;
@@ -46,9 +47,11 @@ sealed class App : IEnumerable<AppResourceGroupInfo>
 
     internal Package Package => Object.Value.AppInfo.Package;
 
+    internal bool Running => this.Any(_ => _.GetProcessDiagnosticInfos().Count != default);
+
     internal bool Installed => GetPackagesByPackageFamily(Value, out _, default, out _, default) is ERROR_INSUFFICIENT_BUFFER;
 
-    internal bool Running => this.Any(_ => _.GetProcessDiagnosticInfos().Count != default);
+    internal IEnumerable<Process> Processes => this.SelectMany(_ => _.GetProcessDiagnosticInfos().Select(_ => Process.GetProcessById((int)_.ProcessId)));
 
     internal bool Debug
     {

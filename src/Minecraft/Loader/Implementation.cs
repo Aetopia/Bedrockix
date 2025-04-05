@@ -18,51 +18,42 @@ public static partial class Loader
 
     static readonly FileSystemAccessRule Rule = new(new SecurityIdentifier("S-1-15-2-1"), FileSystemRights.FullControl, AccessControlType.Allow);
 
-    static void Validate(IReadOnlyCollection<Library> libraries)
-    {
-        foreach (var library in libraries)
-        {
-            FileInfo info = new(library.Path);
+    public static partial int? Launch(params IEnumerable<string> value) => Launch([.. value.Select(_ => new Library(_))]);
 
-            if (!library.Exists || !info.Exists) throw new FileNotFoundException(default, library.Path);
-            if (!library.Valid) throw new BadImageFormatException(default, library.Path);
+    public static partial int? Launch(params IReadOnlyCollection<Library> value)
+    {
+        foreach (var item in value)
+        {
+            FileInfo info = new(item.Path);
+
+            if (!item.Exists || !info.Exists) throw new FileNotFoundException(default, item.Path);
+            if (!item.Valid) throw new BadImageFormatException(default, item.Path);
 
             var security = info.GetAccessControl();
             security.SetAccessRule(Rule);
             info.SetAccessControl(security);
         }
-    }
 
-    static void Load(nint process, IReadOnlyCollection<Library> libraries)
-    {
-        foreach (var library in libraries)
+        using var instance = Game.Launch();
+        if (!instance.Running) return null;
+
+        foreach (var item in value)
         {
-            nint parameter = default, thread = default;
-            var size = Marshal.SystemDefaultCharSize * (library.Path.Length + 1);
+            nint address = default, handle = default;
+            var size = Marshal.SystemDefaultCharSize * (item.Path.Length + 1);
 
             try
             {
-                WriteProcessMemory(process, parameter = VirtualAllocEx(process, default, size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE), library.Path, size, default);
-                WaitForSingleObject(thread = CreateRemoteThread(process, default, default, Address, parameter, default, default), Timeout.Infinite);
+                WriteProcessMemory(instance.Handle, address = VirtualAllocEx(instance.Handle, default, size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE), item.Path, size, default);
+                WaitForSingleObject(handle = CreateRemoteThread(instance.Handle, default, default, Address, address, default, default), Timeout.Infinite);
             }
             finally
             {
-                VirtualFreeEx(process, parameter, default, MEM_RELEASE);
-                CloseHandle(thread);
+                VirtualFreeEx(instance.Handle, address, default, MEM_RELEASE);
+                CloseHandle(handle);
             }
         }
-    }
 
-    public static partial int? Launch(params IEnumerable<string> paths) => Launch([.. paths.Select(_ => new Library(_))]);
-
-    public static partial int? Launch(params IReadOnlyCollection<Library> libraries)
-    {
-        Validate(libraries);
-
-        using var process = Game.Launch();
-        if (!process.Running) return null;
-
-        Load(process.Handle, libraries);
-        return process.Id;
+        return instance.Id;
     }
 }
