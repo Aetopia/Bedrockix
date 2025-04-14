@@ -20,7 +20,7 @@
     <RepositoryUrl>https://github.com/Aetopia/Bedrockix</RepositoryUrl>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
-    <AssemblyVersion>1.6.7.0</AssemblyVersion>
+    <AssemblyVersion>1.7.0.1</AssemblyVersion>
     <AssemblyTitle>Bedrockix</AssemblyTitle>
     <Product>Bedrockix</Product>
     <Copyright>Copyright (C) 2025</Copyright>
