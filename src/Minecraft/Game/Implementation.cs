@@ -19,8 +19,8 @@ public static partial class Game
         if (!App.Running || File.Exists(path) || Manifest.Current.Instancing)
         {
             SpinWait _ = new();
-            nint handle = INVALID_HANDLE_VALUE;
             Process @this = new(App.Launch());
+            nint handle = INVALID_HANDLE_VALUE;
 
             try
             {
