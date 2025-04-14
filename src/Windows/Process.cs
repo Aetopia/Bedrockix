@@ -4,7 +4,6 @@ using static Bedrockix.Unmanaged.Constants;
 
 namespace Bedrockix.Windows;
 
-
 readonly ref struct Process : IDisposable
 {
     internal readonly nint Handle;
