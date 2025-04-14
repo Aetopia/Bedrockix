@@ -1,12 +1,14 @@
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Xml;
+using System.Diagnostics;
 
 namespace Bedrockix.Minecraft;
 
 sealed partial class Manifest
 {
+    static readonly object _ = new();
+
     static Manifest Value;
 
     static readonly XmlReaderSettings Settings = new()
@@ -34,7 +36,7 @@ sealed partial class Manifest
     {
         get
         {
-            lock (Lock)
+            lock (_)
             {
                 var package = Game.App.Package;
                 var path = @$"{package.InstalledPath}\AppxManifest.xml";

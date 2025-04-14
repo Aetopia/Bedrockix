@@ -1,4 +1,4 @@
-using Bedrockix.Unmanaged;
+using System.IO;
 using static Bedrockix.Unmanaged.Native;
 using static Bedrockix.Unmanaged.Constants;
 
@@ -16,11 +16,7 @@ public sealed partial class Library
 
     public Library(string path)
     {
-        unsafe
-        {
-            fixed (char* @this = Path = System.IO.Path.GetFullPath(path))
-                if (Exists = Wrappers.Exists(@this) && System.IO.Path.HasExtension(Path))
-                    Valid = !GetBinaryType(@this, out _) && FreeLibrary(LoadLibraryEx(@this, default, DONT_RESOLVE_DLL_REFERENCES));
-        }
+        if (Exists = File.Exists(Path = System.IO.Path.GetFullPath(path)) && System.IO.Path.HasExtension(Path))
+            Valid = !GetBinaryType(Path, out _) && FreeLibrary(LoadLibraryEx(Path, default, DONT_RESOLVE_DLL_REFERENCES));
     }
 }

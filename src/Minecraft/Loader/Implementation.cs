@@ -34,8 +34,8 @@ public static partial class Loader
             info.SetAccessControl(security);
         }
 
-        using var instance = Game.Launch();
-        if (!instance.Running) return null;
+        using var @this= Game.Launch();
+        if (!@this.Running) return null;
 
         foreach (var item in value)
         {
@@ -44,16 +44,16 @@ public static partial class Loader
 
             try
             {
-                WriteProcessMemory(instance.Handle, address = VirtualAllocEx(instance.Handle, default, size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE), item.Path, size, default);
-                WaitForSingleObject(handle = CreateRemoteThread(instance.Handle, default, default, Address, address, default, default), Timeout.Infinite);
+                WriteProcessMemory(@this.Handle, address = VirtualAllocEx(@this.Handle, default, size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE), item.Path, size, default);
+                WaitForSingleObject(handle = CreateRemoteThread(@this.Handle, default, default, Address, address, default, default), Timeout.Infinite);
             }
             finally
             {
-                VirtualFreeEx(instance.Handle, address, default, MEM_RELEASE);
+                VirtualFreeEx(@this.Handle, address, default, MEM_RELEASE);
                 CloseHandle(handle);
             }
         }
 
-        return instance.Id;
+        return @this.Id;
     }
 }

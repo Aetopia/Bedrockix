@@ -3,10 +3,9 @@ using System.Linq;
 using Windows.System;
 using System.Threading;
 using System.Collections;
-using System.Diagnostics;
 using Windows.Foundation;
-using Bedrockix.Unmanaged;
 using Windows.ApplicationModel;
+using Bedrockix.Unmanaged.Types;
 using System.Collections.Generic;
 using static Bedrockix.Unmanaged.Native;
 using static Bedrockix.Unmanaged.Constants;
@@ -25,9 +24,9 @@ sealed class App : IEnumerable<AppResourceGroupInfo>
             {
                 if (@this.Status is AsyncStatus.Started)
                 {
-                    using ManualResetEventSlim @event = new();
-                    @this.Completed += (_, _) => @event.Set();
-                    @event.Wait();
+                    using ManualResetEventSlim _ = new();
+                    @this.Completed += (_, _) => _.Set();
+                    _.Wait();
                 }
 
                 if (@this.Status is AsyncStatus.Error) throw @this.ErrorCode;
@@ -41,9 +40,9 @@ sealed class App : IEnumerable<AppResourceGroupInfo>
 
     readonly Lazy<AppDiagnosticInfo> Object;
 
-    static readonly IApplicationActivationManager Manager = ApplicationActivationManager.Create();
+    static readonly IApplicationActivationManager Manager = (IApplicationActivationManager)new ApplicationActivationManager();
 
-    static readonly IPackageDebugSettings Settings = PackageDebugSettings.Create();
+    static readonly IPackageDebugSettings Settings = (IPackageDebugSettings)new PackageDebugSettings();
 
     internal Package Package => Object.Value.AppInfo.Package;
 
@@ -51,7 +50,7 @@ sealed class App : IEnumerable<AppResourceGroupInfo>
 
     internal bool Installed => GetPackagesByPackageFamily(Value, out _, default, out _, default) is ERROR_INSUFFICIENT_BUFFER;
 
-    internal IEnumerable<Process> Processes => this.SelectMany(_ => _.GetProcessDiagnosticInfos().Select(_ => Process.GetProcessById((int)_.ProcessId)));
+    internal IEnumerable<System.Diagnostics.Process> Processes => this.SelectMany(_ => _.GetProcessDiagnosticInfos().Select(_ => System.Diagnostics.Process.GetProcessById((int)_.ProcessId)));
 
     internal bool Debug
     {
