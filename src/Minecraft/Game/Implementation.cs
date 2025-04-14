@@ -14,7 +14,7 @@ public static partial class Game
 
     internal unsafe static Process Launch()
     {
-        var path = @$"{ApplicationDataManager.CreateForPackageFamily(App.Package.Id.FamilyName).LocalFolder.Path}\games\com.mojang\minecraftpe\menu_load_lock";
+        var path = @$"{ApplicationDataManager.CreateForPackageFamily(App.Package.Id.FamilyName).LocalFolder.Path}\games\com.mojang\minecraftpe\resource_init_lock";
 
         if (!App.Running || File.Exists(path) || Manifest.Current.Instancing)
         {
