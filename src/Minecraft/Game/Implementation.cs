@@ -24,12 +24,12 @@ public static partial class Game
 
             try
             {
-                do { _.SpinOnce(); if (!@this.Running) break; }
+                do { _.SpinOnce(); if (!@this.Running) return @this; }
                 while ((handle = CreateFile2(path, default, FILE_SHARE_DELETE, OPEN_EXISTING, default)) is INVALID_HANDLE_VALUE);
 
                 _.Reset();
 
-                do { _.SpinOnce(); if (!@this.Running) break; }
+                do { _.SpinOnce(); if (!@this.Running) return @this; }
                 while (GetFileInformationByHandleEx(handle, FileStandardInfo, out var value, sizeof(FILE_STANDARD_INFO)) && !value.DeletePending);
 
                 return @this;
