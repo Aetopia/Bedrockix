@@ -6,13 +6,13 @@ namespace Bedrockix.Windows;
 
 readonly ref struct Process : IDisposable
 {
+    internal readonly int Id;
+
     internal readonly nint Handle;
 
-    internal readonly int Id;
+    public void Dispose() => CloseHandle(Handle);
 
     internal Process(int value) => Handle = OpenProcess(PROCESS_ALL_ACCESS, default, Id = value);
 
     internal bool Running => GetExitCodeProcess(Handle, out var value) && value is STATUS_PENDING;
-
-    public void Dispose() => CloseHandle(Handle);
 }

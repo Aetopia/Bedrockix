@@ -7,6 +7,16 @@ namespace Bedrockix.Windows;
 public sealed partial class Library
 {
     /// <summary>
+    /// Resolves a dynamic link library.
+    /// </summary>
+
+    /// <param name="path">
+    /// The dynamic link library to resolve.
+    /// </param>
+
+    public partial Library(string path);
+
+    /// <summary>
     /// Check if the dynamic link library is valid.
     /// </summary>
 
