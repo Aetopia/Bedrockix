@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net9.0-windows10.0.19041.0;net481</TargetFrameworks>
-    <LangVersion>preview</LangVersion>
+    <LangVersion>latest</LangVersion>
     <Optimize>true</Optimize>
     <PackRelease>true</PackRelease>
     <PublishRelease>true</PublishRelease>

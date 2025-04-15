@@ -6,7 +6,15 @@ namespace Bedrockix.Windows;
 
 public sealed partial class Library
 {
-    public partial Library(string path)
+    /// <summary>
+    /// Resolves a dynamic link library.
+    /// </summary>
+
+    /// <param name="path">
+    /// The dynamic link library to resolve.
+    /// </param>
+
+    public Library(string path)
     {
         if (Exists = File.Exists(Path = System.IO.Path.GetFullPath(path)) && System.IO.Path.HasExtension(Path))
             Valid = !GetBinaryType(Path, out _) && FreeLibrary(LoadLibraryEx(Path, default, DONT_RESOLVE_DLL_REFERENCES));
