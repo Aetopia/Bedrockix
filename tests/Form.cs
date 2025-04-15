@@ -76,17 +76,23 @@ sealed class Form : System.Windows.Forms.Form
 
             tableLayoutPanel.Enabled = false;
 
-            if (!await Task.Run(() => Game.Launch().HasValue)) MessageBox.Show(this, "Minecraft: Bedrock Edition failed to launch!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            if (!await Task.Run(() => Game.Launch().HasValue))
+                MessageBox.Show(this, "Minecraft: Bedrock Edition failed to launch!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
             tableLayoutPanel.Enabled = true;
         };
 
-        button2.Click += async (_, _) => { if (Game.Installed) await Task.Run(Game.Terminate); };
+        button2.Click += async (_, _) =>
+        {
+            if (Game.Installed)
+                await Task.Run(Game.Terminate);
+        };
 
         bool value = default;
         button3.Click += async (_, _) =>
         {
-            if (!Game.Installed) return;
+            if (!Game.Installed)
+                return;
 
             await Task.Run(() =>
             {
