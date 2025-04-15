@@ -52,7 +52,4 @@ static class Native
 
     [DllImport("Kernel32", SetLastError = true, ExactSpelling = true)]
     internal static extern void WaitForSingleObject(nint hHandle, int dwMilliseconds);
-
-    [DllImport("Kernel32", SetLastError = true, CharSet = CharSet.Unicode, ExactSpelling = true)]
-    internal static extern int GetPackagesByPackageFamily(string packageFamilyName, out uint count, nint packageFullNames, out uint bufferLength, nint buffer);
 }
