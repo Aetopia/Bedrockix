@@ -14,27 +14,22 @@ public static partial class Game
 
     internal unsafe static Process Launch()
     {
-        var path = @$"{ApplicationDataManager.CreateForPackageFamily(App.Package.Id.FamilyName).LocalFolder.Path}\games\com.mojang\minecraftpe\resource_init_lock";
+        var @object = INVALID_HANDLE_VALUE;
 
-        if (!App.Running || File.Exists(path))
+        fixed (char* path = @$"{ApplicationDataManager.CreateForPackageFamily(App.Package.Id.FamilyName).LocalFolder.Path}\games\com.mojang\minecraftpe\resource_init_lock")
         {
-            SpinWait _ = new();
-            Process @this = new(App.Launch());
-            nint handle = INVALID_HANDLE_VALUE;
-
             try
             {
-                do { _.SpinOnce(); if (!@this.Running) return @this; }
-                while ((handle = CreateFile2(path, default, FILE_SHARE_DELETE, OPEN_EXISTING, default)) is INVALID_HANDLE_VALUE);
-
-                _.Reset();
-
-                do { _.SpinOnce(); if (!@this.Running) return @this; }
-                while (GetFileInformationByHandleEx(handle, FileStandardInfo, out var value, sizeof(FILE_STANDARD_INFO)) && !value.DeletePending);
-
-                return @this;
+                if (!App.Running || (@object = CreateFile2(path)) != INVALID_HANDLE_VALUE)
+                {
+                    SpinWait _ = new(); Process @this = new(App.Launch());
+                    while (@object is INVALID_HANDLE_VALUE) if (@this.Running) { @object = CreateFile2(path); _.SpinOnce(); } else return @this;
+                    do if (@this.Running) _.SpinOnce(); else return @this;
+                    while (GetFileInformationByHandleEx(@object, FileStandardInfo, out var value, sizeof(FILE_STANDARD_INFO)) && !value.DeletePending);
+                    return @this;
+                }
             }
-            finally { CloseHandle(handle); }
+            finally { CloseHandle(@object); }
         }
 
         return new(App.Launch());

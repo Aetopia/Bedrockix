@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Security.AccessControl;
 using System.Runtime.InteropServices;
 using static Bedrockix.Unmanaged.Native;
-using static Bedrockix.Unmanaged.Constants;
 
 namespace Bedrockix.Minecraft;
 
@@ -34,24 +33,20 @@ public static partial class Loader
             info.SetAccessControl(security);
         }
 
-        using var @this= Game.Launch();
+        using var @this = Game.Launch();
         if (!@this.Running) return null;
 
         foreach (var item in value)
         {
-            nint address = default, handle = default;
+            nint parameter = default, @object = default;
             var size = Marshal.SystemDefaultCharSize * (item.Path.Length + 1);
 
             try
             {
-                WriteProcessMemory(@this.Handle, address = VirtualAllocEx(@this.Handle, default, size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE), item.Path, size, default);
-                WaitForSingleObject(handle = CreateRemoteThread(@this.Handle, default, default, Address, address, default, default), Timeout.Infinite);
+                WriteProcessMemory(@this.Handle, parameter = VirtualAllocEx(@this.Handle, default, size), item.Path, size, default);
+                WaitForSingleObject(@object = CreateRemoteThread(@this.Handle, default, default, Address, parameter), Timeout.Infinite);
             }
-            finally
-            {
-                VirtualFreeEx(@this.Handle, address, default, MEM_RELEASE);
-                CloseHandle(handle);
-            }
+            finally { VirtualFreeEx(@this.Handle, parameter); CloseHandle(@object); }
         }
 
         return @this.Id;
