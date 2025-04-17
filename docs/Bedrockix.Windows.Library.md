@@ -1,5 +1,8 @@
 # `Bedrockix.Windows.Library`
 
+> [!CAUTION]
+> The validation features provided by this class only work when a library consumer's platform target is `x64`.
+
 Provides properties to validate dynamic link libraries.
 
 - [`Library(string)`](#librarystring)
