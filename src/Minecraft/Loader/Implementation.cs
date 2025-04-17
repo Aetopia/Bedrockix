@@ -34,7 +34,7 @@ public static partial class Loader
         }
 
         using var process = Game.Launch();
-        if (!process.Running) return null;
+        if (!process[true]) return null;
 
         foreach (var item in value)
         {

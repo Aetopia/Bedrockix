@@ -22,20 +22,14 @@ public static partial class Game
             {
                 if (!App.Running || (handle = CreateFile2(path)) != INVALID_HANDLE_VALUE)
                 {
-                    SpinWait wait = new();
                     Process process = new(App.Launch());
 
                     while (handle is INVALID_HANDLE_VALUE)
-                        if (process.Running)
-                        {
-                            handle = CreateFile2(path);
-                            wait.SpinOnce();
-                        }
+                        if (process[true]) handle = CreateFile2(path);
                         else return process;
 
                     while (GetFileInformationByHandleEx(handle, FileStandardInfo, out var value, sizeof(FILE_STANDARD_INFO)) && !value.DeletePending)
-                        if (process.Running) wait.SpinOnce();
-                        else return process;
+                        if (!process[true]) return process;
 
                     return process;
                 }
@@ -52,7 +46,7 @@ public static partial class Game
             return App.Launch();
 
         using var process = Launch();
-        return process.Running ? process.Id : null;
+        return process[false] ? process.Id : null;
     }
 
     public static partial void Terminate() => App.Terminate();

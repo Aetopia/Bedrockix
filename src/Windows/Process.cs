@@ -14,5 +14,5 @@ readonly ref struct Process : IDisposable
 
     internal Process(int value) => Handle = OpenProcess(PROCESS_ALL_ACCESS, default, Id = value);
 
-    internal bool Running => WaitForSingleObject(Handle) is WAIT_TIMEOUT;
+    internal bool this[bool value] => WaitForSingleObject(Handle, value ? 1 : 0) is WAIT_TIMEOUT;
 }
