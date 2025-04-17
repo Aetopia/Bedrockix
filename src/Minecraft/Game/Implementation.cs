@@ -33,10 +33,9 @@ public static partial class Game
                         }
                         else return process;
 
-                    do
+                    while (GetFileInformationByHandleEx(handle, FileStandardInfo, out var value, sizeof(FILE_STANDARD_INFO)) && !value.DeletePending)
                         if (process.Running) wait.SpinOnce();
                         else return process;
-                    while (GetFileInformationByHandleEx(handle, FileStandardInfo, out var value, sizeof(FILE_STANDARD_INFO)) && !value.DeletePending);
 
                     return process;
                 }
