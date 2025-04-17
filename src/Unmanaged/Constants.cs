@@ -18,10 +18,6 @@ static class Constants
 
     internal const int DONT_RESOLVE_DLL_REFERENCES = 0x00000001;
 
-    internal const int INVALID_FILE_ATTRIBUTES = -1;
-
-    internal const int CLSCTX_INPROC_SERVER = 0x1;
-
     internal const int FILE_SHARE_DELETE = 0x00000004;
 
     internal const nint INVALID_HANDLE_VALUE = -1;
