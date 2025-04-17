@@ -16,7 +16,7 @@ public static partial class Game
     {
         var path = @$"{ApplicationDataManager.CreateForPackageFamily(App.Package.Id.FamilyName).LocalFolder.Path}\games\com.mojang\minecraftpe\resource_init_lock";
 
-        if (!App.Running || File.Exists(path) || Manifest.Current.Instancing)
+        if (!App.Running || File.Exists(path))
         {
             SpinWait _ = new();
             Process @this = new(App.Launch());
