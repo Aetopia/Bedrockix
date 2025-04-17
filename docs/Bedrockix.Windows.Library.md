@@ -3,7 +3,7 @@
 > [!CAUTION]
 > For dynamic library validation to work properly ensure:
 > - Any parent & child consumers of this library, target `x64` specifically.
-> - This ensures the correct bitness is used for library validation. 
+> - This ensures the correct bitness is used for dynamic link library validation. 
 
 Provides properties to validate dynamic link libraries.
 
