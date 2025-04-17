@@ -22,10 +22,22 @@ public static partial class Game
             {
                 if (!App.Running || (@object = CreateFile2(path)) != INVALID_HANDLE_VALUE)
                 {
-                    SpinWait _ = new(); Process @this = new(App.Launch());
-                    while (@object is INVALID_HANDLE_VALUE) if (@this.Running) { @object = CreateFile2(path); _.SpinOnce(); } else return @this;
-                    do if (@this.Running) _.SpinOnce(); else return @this;
+                    SpinWait _ = new();
+                    Process @this = new(App.Launch());
+
+                    while (@object is INVALID_HANDLE_VALUE)
+                        if (@this.Running)
+                        {
+                            @object = CreateFile2(path);
+                            _.SpinOnce();
+                        }
+                        else return @this;
+
+                    do
+                        if (@this.Running) _.SpinOnce();
+                        else return @this;
                     while (GetFileInformationByHandleEx(@object, FileStandardInfo, out var value, sizeof(FILE_STANDARD_INFO)) && !value.DeletePending);
+
                     return @this;
                 }
             }
