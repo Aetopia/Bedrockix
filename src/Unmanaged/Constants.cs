@@ -2,8 +2,6 @@ namespace Bedrockix.Unmanaged;
 
 static class Constants
 {
-    internal const int SHGFI_EXETYPE = 0x000002000;
-
     internal const int WAIT_TIMEOUT = 0x00000102;
 
     internal const int AO_NOERRORUI = 0x00000002;
