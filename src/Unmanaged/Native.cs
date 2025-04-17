@@ -8,14 +8,14 @@ namespace Bedrockix.Unmanaged;
 [SuppressUnmanagedCodeSecurity]
 static class Native
 {
+    [DllImport("Shell32", CharSet = CharSet.Unicode, ExactSpelling = true, EntryPoint = "SHGetFileInfoW")]
+    internal static extern bool SHGetFileInfo(string pszPath, int dwFileAttributes, nint psfi, int cbFileInfo, int uFlags);
+
     [DllImport("Kernel32", ExactSpelling = true, SetLastError = true)]
     internal static extern bool GetFileInformationByHandleEx(nint hFile, int FileInformationClass, out Types.FILE_STANDARD_INFO lpFileInformation, int dwBufferSize);
 
     [DllImport("Kernel32", ExactSpelling = true, CharSet = CharSet.Unicode, SetLastError = true)]
     internal unsafe static extern nint CreateFile2(string lpFileName, int dwDesiredAccess, int dwShareMode, int dwCreationDisposition, nint pCreateExParams);
-
-    [DllImport("Kernel32", SetLastError = true, CharSet = CharSet.Unicode, EntryPoint = "GetBinaryTypeW", ExactSpelling = true)]
-    internal unsafe static extern bool GetBinaryType(string lpApplicationName, out int lpBinaryType);
 
     [DllImport("Kernel32", SetLastError = true, CharSet = CharSet.Unicode, EntryPoint = "LoadLibraryExW", ExactSpelling = true)]
     internal unsafe static extern nint LoadLibraryEx(string lpLibFileName, nint hFile, int dwFlags);
