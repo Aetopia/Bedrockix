@@ -33,22 +33,22 @@ public static partial class Loader
             info.SetAccessControl(security);
         }
 
-        using var @this = Game.Launch();
-        if (!@this.Running) return null;
+        using var process = Game.Launch();
+        if (!process.Running) return null;
 
         foreach (var item in value)
         {
-            nint parameter = default, @object = default;
+            nint parameter = default, handle = default;
             var size = Marshal.SystemDefaultCharSize * (item.Path.Length + 1);
 
             try
             {
-                WriteProcessMemory(@this.Handle, parameter = VirtualAllocEx(@this.Handle, default, size), item.Path, size, default);
-                WaitForSingleObject(@object = CreateRemoteThread(@this.Handle, default, default, Address, parameter), Timeout.Infinite);
+                WriteProcessMemory(process.Handle, parameter = VirtualAllocEx(process.Handle, default, size), item.Path, size, default);
+                WaitForSingleObject( handle = CreateRemoteThread(process.Handle, default, default, Address, parameter), Timeout.Infinite);
             }
-            finally { VirtualFreeEx(@this.Handle, parameter); CloseHandle(@object); }
+            finally { VirtualFreeEx(process.Handle, parameter); CloseHandle( handle); }
         }
 
-        return @this.Id;
+        return process.Id;
     }
 }

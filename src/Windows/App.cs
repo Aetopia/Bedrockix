@@ -24,9 +24,9 @@ sealed class App : IEnumerable<AppResourceGroupInfo>
             {
                 if (@this.Status is AsyncStatus.Started)
                 {
-                    using ManualResetEventSlim _ = new();
-                    @this.Completed += (_, _) => _.Set();
-                    _.Wait();
+                    using ManualResetEventSlim @event = new();
+                    @this.Completed += (_, _) => @event.Set();
+                    @event.Wait();
                 }
 
                 if (@this.Status is AsyncStatus.Error) throw @this.ErrorCode;

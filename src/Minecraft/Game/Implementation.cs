@@ -14,34 +14,34 @@ public static partial class Game
 
     internal unsafe static Process Launch()
     {
-        var @object = INVALID_HANDLE_VALUE;
+        var handle = INVALID_HANDLE_VALUE;
 
         fixed (char* path = @$"{ApplicationDataManager.CreateForPackageFamily(App.Package.Id.FamilyName).LocalFolder.Path}\games\com.mojang\minecraftpe\resource_init_lock")
         {
             try
             {
-                if (!App.Running || (@object = CreateFile2(path)) != INVALID_HANDLE_VALUE)
+                if (!App.Running || (handle = CreateFile2(path)) != INVALID_HANDLE_VALUE)
                 {
-                    SpinWait _ = new();
-                    Process @this = new(App.Launch());
+                    SpinWait wait = new();
+                    Process process = new(App.Launch());
 
-                    while (@object is INVALID_HANDLE_VALUE)
-                        if (@this.Running)
+                    while (handle is INVALID_HANDLE_VALUE)
+                        if (process.Running)
                         {
-                            @object = CreateFile2(path);
-                            _.SpinOnce();
+                            handle = CreateFile2(path);
+                            wait.SpinOnce();
                         }
-                        else return @this;
+                        else return process;
 
                     do
-                        if (@this.Running) _.SpinOnce();
-                        else return @this;
-                    while (GetFileInformationByHandleEx(@object, FileStandardInfo, out var value, sizeof(FILE_STANDARD_INFO)) && !value.DeletePending);
+                        if (process.Running) wait.SpinOnce();
+                        else return process;
+                    while (GetFileInformationByHandleEx(handle, FileStandardInfo, out var value, sizeof(FILE_STANDARD_INFO)) && !value.DeletePending);
 
-                    return @this;
+                    return process;
                 }
             }
-            finally { CloseHandle(@object); }
+            finally { CloseHandle(handle); }
         }
 
         return new(App.Launch());
@@ -49,9 +49,11 @@ public static partial class Game
 
     public static partial int? Launch(bool value)
     {
-        if (!value) return App.Launch();
-        using var @this = Launch();
-        return @this.Running ? @this.Id : null;
+        if (!value)
+            return App.Launch();
+
+        using var process = Launch();
+        return process.Running ? process.Id : null;
     }
 
     public static partial void Terminate() => App.Terminate();
