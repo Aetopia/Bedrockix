@@ -14,9 +14,6 @@ static class Native
     [DllImport("Kernel32", ExactSpelling = true, CharSet = CharSet.Unicode, SetLastError = true)]
     internal unsafe static extern nint CreateFile2(string lpFileName, int dwDesiredAccess, int dwShareMode, int dwCreationDisposition, nint pCreateExParams);
 
-    [DllImport("Kernel32", SetLastError = true, ExactSpelling = true)]
-    internal static extern bool GetExitCodeProcess(nint hProcess, out int lpExitCode);
-
     [DllImport("Kernel32", SetLastError = true, CharSet = CharSet.Unicode, EntryPoint = "GetBinaryTypeW", ExactSpelling = true)]
     internal unsafe static extern bool GetBinaryType(string lpApplicationName, out int lpBinaryType);
 
@@ -51,5 +48,5 @@ static class Native
     internal static extern void CloseHandle(nint hObject);
 
     [DllImport("Kernel32", SetLastError = true, ExactSpelling = true)]
-    internal static extern void WaitForSingleObject(nint hHandle, int dwMilliseconds);
+    internal static extern int WaitForSingleObject(nint hHandle, int dwMilliseconds);
 }

@@ -2,6 +2,8 @@ namespace Bedrockix.Unmanaged;
 
 static class Constants
 {
+    internal const int WAIT_TIMEOUT = 0x00000102;
+
     internal const int AO_NOERRORUI = 0x00000002;
 
     internal const int PROCESS_ALL_ACCESS = 0X1FFFFF;
@@ -16,8 +18,6 @@ static class Constants
 
     internal const int DONT_RESOLVE_DLL_REFERENCES = 0x00000001;
 
-    internal const int STATUS_PENDING = 0x00000103;
-
     internal const int INVALID_FILE_ATTRIBUTES = -1;
 
     internal const int FILE_ATTRIBUTE_DIRECTORY = 0x00000010;
@@ -26,7 +26,7 @@ static class Constants
 
     internal const int FILE_SHARE_DELETE = 0x00000004;
 
-    internal const int INVALID_HANDLE_VALUE = -1;
+    internal const nint INVALID_HANDLE_VALUE = -1;
 
     internal const int FileStandardInfo = 1;
 
