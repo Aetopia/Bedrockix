@@ -8,9 +8,6 @@ namespace Bedrockix.Unmanaged;
 [SuppressUnmanagedCodeSecurity]
 static class Native
 {
-    [DllImport("Shell32", CharSet = CharSet.Unicode, ExactSpelling = true, EntryPoint = "SHGetFileInfoW")]
-    internal static extern bool SHGetFileInfo(string pszPath, int dwFileAttributes, nint psfi, int cbFileInfo, int uFlags);
-
     [DllImport("Kernel32", ExactSpelling = true, SetLastError = true)]
     internal static extern bool GetFileInformationByHandleEx(nint hFile, int FileInformationClass, out Types.FILE_STANDARD_INFO lpFileInformation, int dwBufferSize);
 

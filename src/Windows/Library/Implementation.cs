@@ -17,6 +17,6 @@ public sealed partial class Library
     public Library(string value)
     {
         if (Exists = File.Exists(Path = System.IO.Path.GetFullPath(value)) && System.IO.Path.HasExtension(Path))
-            Valid = !SHGetFileInfo(Path, default, default, default, SHGFI_EXETYPE) && FreeLibrary(LoadLibraryEx(Path, default, DONT_RESOLVE_DLL_REFERENCES));
+            Valid = FreeLibrary(LoadLibraryEx(Path, default, DONT_RESOLVE_DLL_REFERENCES));
     }
 }
