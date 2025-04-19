@@ -1,6 +1,7 @@
 using Bedrockix.Windows;
 using Windows.Management.Core;
 using Bedrockix.Unmanaged.Types;
+using System.Runtime.InteropServices;
 using static Bedrockix.Unmanaged.Native;
 using static Bedrockix.Unmanaged.Constants;
 
@@ -9,6 +10,8 @@ namespace Bedrockix.Minecraft;
 public static partial class Game
 {
     internal static readonly App App = new("Microsoft.MinecraftUWP_8wekyb3d8bbwe!App");
+
+    static readonly GCHandle Handle = GCHandle.Alloc("Microsoft.MinecraftUWP_8wekyb3d8bbwe", GCHandleType.Pinned);
 
     public static partial int? Launch(bool value)
     {
@@ -19,7 +22,7 @@ public static partial class Game
 
     public static partial void Terminate() => App.Terminate();
 
-    public static partial bool Installed { get { GetPackagesByPackageFamily("Microsoft.MinecraftUWP_8wekyb3d8bbwe", out var value, default, out _, default); return value; } }
+    public static partial bool Installed { get { GetPackagesByPackageFamily(Handle.AddrOfPinnedObject(), out var value, default, out _, default); return value; } }
 
     public static partial bool Running => App.Running;
 
