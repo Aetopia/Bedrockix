@@ -17,7 +17,7 @@ static class Native
     internal unsafe static extern int CompareStringOrdinal(char* lpString1 = default, int cchCount1 = -1, char* lpString2 = default, int cchCount2 = -1, bool bIgnoreCase = default);
 
     [DllImport("Kernel32", ExactSpelling = true, SetLastError = true)]
-    internal unsafe static extern void GetApplicationUserModelId(nint hProcess, in int applicationUserModelIdLength = APPLICATION_USER_MODEL_ID_MAX_LENGTH, char* applicationUserModelId = default);
+    internal unsafe static extern bool GetApplicationUserModelId(nint hProcess, in int applicationUserModelIdLength = APPLICATION_USER_MODEL_ID_MAX_LENGTH, char* applicationUserModelId = default);
 
     [DllImport("User32", ExactSpelling = true, SetLastError = true)]
     internal static extern void GetWindowThreadProcessId(nint hWnd, out int lpdwProcessId);

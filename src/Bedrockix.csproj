@@ -11,7 +11,7 @@
 
     <PackageId>Bedrockix</PackageId>
     <Title>Bedrockix</Title>
-    <Version>1.9.0.0</Version>
+    <Version>1.9.0.1</Version>
     <Description>A library for interacting &amp; managing Minecraft: Bedrock Edition.</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <Authors>Aetopia</Authors>
@@ -21,7 +21,7 @@
 
     <DeterministicSourcePaths>true</DeterministicSourcePaths>
     <DebugType>embedded</DebugType>
-    <AssemblyVersion>1.9.0.0</AssemblyVersion>
+    <AssemblyVersion>1.9.0.1</AssemblyVersion>
     <AssemblyTitle>Bedrockix</AssemblyTitle>
     <Product>Bedrockix</Product>
     <Copyright>Copyright (C) 2025</Copyright>
