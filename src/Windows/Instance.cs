@@ -8,7 +8,7 @@ readonly ref struct Instance(int value) : IDisposable
 {
     internal readonly int Id = value;
 
-    internal readonly nint Handle = OpenProcess(PROCESS_ALL_ACCESS, default, value);
+    internal readonly nint Handle = OpenProcess(PROCESS_ALL_ACCESS, dwProcessId: value);
 
     public void Dispose() => CloseHandle(Handle);
 
