@@ -44,7 +44,7 @@ static class Native
     internal static extern nint OpenProcess(int dwDesiredAccess, bool bInheritHandle, int dwProcessId);
 
     [DllImport("Kernel32", SetLastError = true, ExactSpelling = true)]
-    internal static extern nint CreateRemoteThread(nint hProcess, nint lpThreadAttributes, int dwStackSize, nint lpStartAddress, nint lpParameter, int dwCreationFlags = default, nint lpThreadId = default);
+    internal static extern nint CreateRemoteThread(nint hProcess, nint lpThreadAttributes = default, int dwStackSize = default, nint lpStartAddress = default, nint lpParameter = default, int dwCreationFlags = default, nint lpThreadId = default);
 
     [DllImport("Kernel32", SetLastError = true, ExactSpelling = true, CharSet = CharSet.Ansi)]
     internal static extern nint GetProcAddress(nint hModule, string lpProcName);

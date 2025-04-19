@@ -43,8 +43,8 @@ public static partial class Loader
 
             try
             {
-                WriteProcessMemory(@this.Handle, lpParameter = VirtualAllocEx(@this.Handle, default, nSize), item.Path, nSize, default);
-                _ = WaitForSingleObject(hThread = CreateRemoteThread(@this.Handle, default, default, LoadLibraryW, lpParameter), Timeout.Infinite);
+                WriteProcessMemory(@this.Handle, lpParameter = VirtualAllocEx(@this.Handle, default, nSize), item.Path, nSize);
+                _ = WaitForSingleObject(hThread = CreateRemoteThread(@this.Handle, lpStartAddress: LoadLibraryW, lpParameter: lpParameter), Timeout.Infinite);
             }
             finally
             {

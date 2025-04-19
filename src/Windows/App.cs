@@ -43,7 +43,7 @@ unsafe sealed class App(string value)
                     {
                         GetWindowThreadProcessId(hWnd, out var dwProcessId);
                         GetApplicationUserModelId(hProcess = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, false, dwProcessId), applicationUserModelId: lpString2);
-                        if (CompareStringOrdinal(lpString1: lpString1, lpString2: lpString2, bIgnoreCase: true) == CSTR_EQUAL) return true;
+                        if (CompareStringOrdinal(lpString1, lpString2: lpString2, bIgnoreCase: true) == CSTR_EQUAL) return true;
                     }
                     finally { CloseHandle(hProcess); }
 
