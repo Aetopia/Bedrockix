@@ -12,5 +12,5 @@ readonly ref struct Instance(int value) : IDisposable
 
     public void Dispose() => CloseHandle(Handle);
 
-    internal bool this[bool value] => WaitForSingleObject(Handle, value ? 1 : 0) is WAIT_TIMEOUT;
+    internal bool this[bool value] => WaitForSingleObject(Handle, value ? 1 : default) is WAIT_TIMEOUT;
 }

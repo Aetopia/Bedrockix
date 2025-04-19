@@ -36,17 +36,14 @@ unsafe sealed class App(string value)
             fixed (char* lpString1 = Id)
             {
                 nint hWnd = default, hProcess = default;
-                char* lpString2 = stackalloc char[APPLICATION_USER_MODEL_ID_MAX_LENGTH];
+                var lpString2 = stackalloc char[APPLICATION_USER_MODEL_ID_MAX_LENGTH];
 
                 while ((hWnd = FindWindowEx(hWndChildAfter: hWnd)) != default)
                     try
                     {
                         GetWindowThreadProcessId(hWnd, out var dwProcessId);
-                        hProcess = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, false, dwProcessId);
-
-                        GetApplicationUserModelId(hProcess: hProcess, applicationUserModelId: lpString2);
-                        if (CompareStringOrdinal(lpString1: lpString1, lpString2: lpString2, bIgnoreCase: true) == CSTR_EQUAL)
-                            return true;
+                        GetApplicationUserModelId(hProcess = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, false, dwProcessId), applicationUserModelId: lpString2);
+                        if (CompareStringOrdinal(lpString1: lpString1, lpString2: lpString2, bIgnoreCase: true) == CSTR_EQUAL) return true;
                     }
                     finally { CloseHandle(hProcess); }
 

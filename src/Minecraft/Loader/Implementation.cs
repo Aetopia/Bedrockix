@@ -34,7 +34,7 @@ public static partial class Loader
         }
 
         using var @this = Game.Launch();
-        if (!@this[true]) return null;
+        if (!@this[default]) return null;
 
         foreach (var item in value)
         {
