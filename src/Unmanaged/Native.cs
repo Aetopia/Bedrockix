@@ -10,8 +10,8 @@ namespace Bedrockix.Unmanaged;
 [SuppressUnmanagedCodeSecurity]
 static class Native
 {
-    [DllImport("Kernel32", ExactSpelling = true, SetLastError = true)]
-    internal static extern void GetPackagesByPackageFamily(nint packageFamilyName, out bool count, nint packageFullNames, out bool bufferLength, nint buffer);
+    [DllImport("Kernel32", ExactSpelling = true, SetLastError = true, CharSet = CharSet.Unicode)]
+    internal static extern void GetPackagesByPackageFamily(string packageFamilyName, out bool count, nint packageFullNames, out bool bufferLength, nint buffer);
 
     [DllImport("Kernel32", ExactSpelling = true, SetLastError = true)]
     internal unsafe static extern int CompareStringOrdinal(char* lpString1 = default, int cchCount1 = -1, char* lpString2 = default, int cchCount2 = -1, bool bIgnoreCase = default);
