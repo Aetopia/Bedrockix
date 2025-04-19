@@ -11,7 +11,7 @@ public static partial class Game
 {
     internal static readonly App App = new("Microsoft.MinecraftUWP_8wekyb3d8bbwe!App");
 
-    static readonly GCHandle Handle = GCHandle.Alloc("Microsoft.MinecraftUWP_8wekyb3d8bbwe", GCHandleType.Pinned);
+    static readonly nint Object = GCHandle.Alloc("Microsoft.MinecraftUWP_8wekyb3d8bbwe", GCHandleType.Pinned).AddrOfPinnedObject();
 
     public static partial int? Launch(bool value)
     {
@@ -22,7 +22,7 @@ public static partial class Game
 
     public static partial void Terminate() => App.Terminate();
 
-    public static partial bool Installed { get { GetPackagesByPackageFamily(Handle.AddrOfPinnedObject(), out var value, default, out _, default); return value; } }
+    public static partial bool Installed { get { GetPackagesByPackageFamily(Object, out var value, default, out _, default); return value; } }
 
     public static partial bool Running => App.Running;
 
