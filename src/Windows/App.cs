@@ -1,78 +1,61 @@
 using System;
-using System.Linq;
-using Windows.System;
 using System.Threading;
-using System.Collections;
-using Windows.Foundation;
 using Windows.ApplicationModel;
 using Bedrockix.Unmanaged.Types;
-using System.Collections.Generic;
-using Windows.Management.Deployment;
+using static Bedrockix.Unmanaged.Native;
 using static Bedrockix.Unmanaged.Constants;
 
 namespace Bedrockix.Windows;
 
-sealed class App : IEnumerable<AppResourceGroupInfo>
+unsafe sealed class App(string value)
 {
-    internal App(string value)
-    {
-        Value = value;
-        Object = new(() =>
-        {
-            var @this = AppDiagnosticInfo.RequestInfoForPackageAsync(value);
-            try
-            {
-                if (@this.Status is AsyncStatus.Started)
-                {
-                    using ManualResetEventSlim @event = new();
-                    @this.Completed += (_, _) => @event.Set();
-                    @event.Wait();
-                }
+    readonly Lazy<AppInfo> Object = new(() => AppInfo.GetFromAppUserModelId(value), LazyThreadSafetyMode.PublicationOnly);
 
-                if (@this.Status is AsyncStatus.Error) throw @this.ErrorCode;
-                return @this.GetResults()[default];
-            }
-            finally { @this.Close(); }
-        }, LazyThreadSafetyMode.PublicationOnly);
-    }
+    static readonly IApplicationActivationManager Manager = (IApplicationActivationManager)new ApplicationActivationManager();
 
-    readonly string Value;
+    static readonly IPackageDebugSettings Settings = (IPackageDebugSettings)new PackageDebugSettings();
 
-    readonly Lazy<AppDiagnosticInfo> Object;
+    internal string Id => Object.Value.AppUserModelId;
 
-    static readonly PackageManager PackageManager = new();
-
-    static readonly IApplicationActivationManager ApplicationActivationManager = (IApplicationActivationManager)new ApplicationActivationManager();
-
-    static readonly IPackageDebugSettings PackageDebugSettings = (IPackageDebugSettings)new PackageDebugSettings();
-
-    internal Package Package => Object.Value.AppInfo.Package;
-
-    internal bool Running => this.Any(_ => _.GetProcessDiagnosticInfos().Count != default);
-
-    internal bool Installed => PackageManager.FindPackagesForUser(string.Empty, Value).Any();
-
-    internal IEnumerable<System.Diagnostics.Process> Processes => this.SelectMany(_ => _.GetProcessDiagnosticInfos().Select(_ => System.Diagnostics.Process.GetProcessById((int)_.ProcessId)));
+    internal Package Package => Object.Value.Package;
 
     internal bool Debug
     {
         set
         {
             var @this = Package.Id.FullName;
-            if (value) PackageDebugSettings.EnableDebugging(@this, default, default);
-            else PackageDebugSettings.DisableDebugging(@this);
+            if (value) Settings.EnableDebugging(@this, default, default);
+            else Settings.DisableDebugging(@this);
         }
     }
 
-    internal int Launch()
+    internal bool Running
     {
-        ApplicationActivationManager.ActivateApplication(Object.Value.AppInfo.AppUserModelId, default, AO_NOERRORUI, out var value);
-        return value;
+        get
+        {
+            fixed (char* lpString1 = Id)
+            {
+                nint hWnd = default, hProcess = default;
+                char* lpString2 = stackalloc char[APPLICATION_USER_MODEL_ID_MAX_LENGTH];
+
+                while ((hWnd = FindWindowEx(hWndChildAfter: hWnd)) != default)
+                    try
+                    {
+                        GetWindowThreadProcessId(hWnd, out var dwProcessId);
+                        hProcess = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, false, dwProcessId);
+
+                        GetApplicationUserModelId(hProcess: hProcess, applicationUserModelId: lpString2);
+                        if (CompareStringOrdinal(lpString1: lpString1, lpString2: lpString2, bIgnoreCase: true) == CSTR_EQUAL)
+                            return true;
+                    }
+                    finally { CloseHandle(hProcess); }
+
+                return false;
+            }
+        }
     }
 
-    internal void Terminate() => PackageDebugSettings.TerminateAllProcesses(Package.Id.FullName);
+    internal int Launch() { Manager.ActivateApplication(Id, default, AO_NOERRORUI, out var value); return value; }
 
-    public IEnumerator<AppResourceGroupInfo> GetEnumerator() => Object.Value.GetResourceGroups().GetEnumerator();
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    internal void Terminate() => Settings.TerminateAllProcesses(Package.Id.FullName);
 }

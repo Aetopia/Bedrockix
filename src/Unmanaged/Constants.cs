@@ -25,4 +25,10 @@ static class Constants
     internal const int FileStandardInfo = 1;
 
     internal const int OPEN_EXISTING = 3;
+
+    internal const int PROCESS_QUERY_LIMITED_INFORMATION = 0x1000;
+
+    internal const int APPLICATION_USER_MODEL_ID_MAX_LENGTH = 130;
+
+    internal const int CSTR_EQUAL = 2;
 }

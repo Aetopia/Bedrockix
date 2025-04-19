@@ -1,6 +1,7 @@
 using System.Security;
 using System.Runtime.InteropServices;
 using static Bedrockix.Unmanaged.Constants;
+using Bedrockix.Unmanaged.Types;
 
 [assembly: DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
 
@@ -9,8 +10,23 @@ namespace Bedrockix.Unmanaged;
 [SuppressUnmanagedCodeSecurity]
 static class Native
 {
+    [DllImport("Kernel32", ExactSpelling = true, SetLastError = true, CharSet = CharSet.Unicode)]
+    internal static extern void GetPackagesByPackageFamily(string packageFamilyName, out bool count, nint packageFullNames, out bool bufferLength, nint buffer);
+
     [DllImport("Kernel32", ExactSpelling = true, SetLastError = true)]
-    internal static extern bool GetFileInformationByHandleEx(nint hFile, int FileInformationClass, out Types.FILE_STANDARD_INFO lpFileInformation, int dwBufferSize);
+    internal unsafe static extern int CompareStringOrdinal(char* lpString1 = default, int cchCount1 = -1, char* lpString2 = default, int cchCount2 = -1, bool bIgnoreCase = default);
+
+    [DllImport("Kernel32", ExactSpelling = true, SetLastError = true)]
+    internal unsafe static extern void GetApplicationUserModelId(nint hProcess, in int applicationUserModelIdLength = APPLICATION_USER_MODEL_ID_MAX_LENGTH, char* applicationUserModelId = default);
+
+    [DllImport("User32", ExactSpelling = true, SetLastError = true)]
+    internal static extern void GetWindowThreadProcessId(nint hWnd, out int lpdwProcessId);
+
+    [DllImport("User32", ExactSpelling = true, EntryPoint = "FindWindowExW", SetLastError = true)]
+    internal static extern nint FindWindowEx(nint hWndParent = default, nint hWndChildAfter = default, nint lpszClass = default, nint lpszWindow = default);
+
+    [DllImport("Kernel32", ExactSpelling = true, SetLastError = true)]
+    internal static extern bool GetFileInformationByHandleEx(nint hFile, int FileInformationClass, out FILE_STANDARD_INFO lpFileInformation, int dwBufferSize);
 
     [DllImport("Kernel32", ExactSpelling = true, CharSet = CharSet.Unicode, SetLastError = true)]
     internal unsafe static extern nint CreateFile2(char* lpFileName, int dwDesiredAccess = default, int dwShareMode = FILE_SHARE_DELETE, int dwCreationDisposition = OPEN_EXISTING, nint pCreateExParams = default);

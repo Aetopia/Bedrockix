@@ -8,11 +8,9 @@ sealed class Form : System.Windows.Forms.Form
 {
     internal Form()
     {
-        Application.ThreadException += (_, e) =>
+        Application.ThreadException += (_, args) =>
         {
-            var exception = e.Exception;
-            while (exception.InnerException != default) exception = exception.InnerException;
-            MessageBox.Show(this, exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(this, $"{args.Exception}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             Application.ExitThread();
         };
 
@@ -76,7 +74,7 @@ sealed class Form : System.Windows.Forms.Form
 
             tableLayoutPanel.Enabled = false;
 
-            if (!await Task.Run(() => Game.Launch().HasValue))
+            if (!await Task.Run(() => Game.Launch(!Game.Running).HasValue))
                 MessageBox.Show(this, "Minecraft: Bedrock Edition failed to launch!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
             tableLayoutPanel.Enabled = true;

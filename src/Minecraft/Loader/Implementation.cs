@@ -13,7 +13,7 @@ namespace Bedrockix.Minecraft;
 
 public static partial class Loader
 {
-    static readonly nint Address = GetProcAddress(GetModuleHandle("Kernel32"), "LoadLibraryW");
+    static readonly nint LoadLibraryW = GetProcAddress(GetModuleHandle("Kernel32"), "LoadLibraryW");
 
     static readonly FileSystemAccessRule Rule = new(new SecurityIdentifier("S-1-15-2-1"), FileSystemRights.FullControl, AccessControlType.Allow);
 
@@ -33,22 +33,26 @@ public static partial class Loader
             info.SetAccessControl(security);
         }
 
-        using var process = Game.Launch();
-        if (!process[true]) return null;
+        using var @this = Game.Launch();
+        if (!@this[true]) return null;
 
         foreach (var item in value)
         {
-            nint parameter = default, handle = default;
-            var size = Marshal.SystemDefaultCharSize * (item.Path.Length + 1);
+            nint lpParameter = default, hThread = default;
+            var nSize = Marshal.SystemDefaultCharSize * (item.Path.Length + 1);
 
             try
             {
-                WriteProcessMemory(process.Handle, parameter = VirtualAllocEx(process.Handle, default, size), item.Path, size, default);
-                WaitForSingleObject( handle = CreateRemoteThread(process.Handle, default, default, Address, parameter), Timeout.Infinite);
+                WriteProcessMemory(@this.Handle, lpParameter = VirtualAllocEx(@this.Handle, default, nSize), item.Path, nSize, default);
+                _ = WaitForSingleObject(hThread = CreateRemoteThread(@this.Handle, default, default, LoadLibraryW, lpParameter), Timeout.Infinite);
             }
-            finally { VirtualFreeEx(process.Handle, parameter); CloseHandle( handle); }
+            finally
+            {
+                VirtualFreeEx(@this.Handle, lpParameter);
+                CloseHandle(hThread);
+            }
         }
 
-        return process.Id;
+        return @this.Id;
     }
 }
