@@ -20,7 +20,7 @@ public static partial class Game
 
     public static partial void Terminate() => App.Terminate();
 
-    public static partial bool Installed { get { GetPackagesByPackageFamily("Microsoft.MinecraftUWP_8wekyb3d8bbwe", out var value, default, out _, default); return value; } }
+    public static partial bool Installed { get { GetPackagesByPackageFamily("Microsoft.MinecraftUWP_8wekyb3d8bbwe", out var value, default, out _); return value; } }
 
     public static partial bool Running => App.Running;
 
