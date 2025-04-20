@@ -22,8 +22,8 @@ static class Native
     [DllImport("User32", ExactSpelling = true, SetLastError = true)]
     internal static extern void GetWindowThreadProcessId(nint hWnd, out int lpdwProcessId);
 
-    [DllImport("User32", ExactSpelling = true, EntryPoint = "FindWindowExW", SetLastError = true)]
-    internal static extern nint FindWindowEx(nint hWndParent = default, nint hWndChildAfter = default, nint lpszClass = default, nint lpszWindow = default);
+    [DllImport("User32", ExactSpelling = true, EntryPoint = "FindWindowExW", SetLastError = true, CharSet = CharSet.Unicode)]
+    internal static extern nint FindWindowEx(nint hWndParent = default, nint hWndChildAfter = default, string lpszClass = "MSCTFIME UI", nint lpszWindow = default);
 
     [DllImport("Kernel32", ExactSpelling = true, SetLastError = true)]
     internal static extern bool GetFileInformationByHandleEx(nint hFile, int FileInformationClass, out FILE_STANDARD_INFO lpFileInformation, int dwBufferSize);
