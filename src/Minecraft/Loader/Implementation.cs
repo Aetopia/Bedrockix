@@ -13,7 +13,7 @@ namespace Bedrockix.Minecraft;
 
 public static partial class Loader
 {
-    static readonly nint LoadLibraryW = GetProcAddress(GetModuleHandle("Kernel32"));
+    static readonly nint lpStartAddress = GetProcAddress(GetModuleHandle("Kernel32"));
 
     static readonly FileSystemAccessRule Rule = new(new SecurityIdentifier("S-1-15-2-1"), FileSystemRights.FullControl, AccessControlType.Allow);
 
@@ -44,7 +44,7 @@ public static partial class Loader
             try
             {
                 WriteProcessMemory(@this.Handle, lpParameter = VirtualAllocEx(@this.Handle, default, nSize), item.Path, nSize);
-                _ = WaitForSingleObject(hThread = CreateRemoteThread(@this.Handle, lpStartAddress: LoadLibraryW, lpParameter: lpParameter), Timeout.Infinite);
+                _ = WaitForSingleObject(hThread = CreateRemoteThread(@this.Handle, lpStartAddress: lpStartAddress, lpParameter: lpParameter), Timeout.Infinite);
             }
             finally
             {
