@@ -13,7 +13,7 @@ namespace Bedrockix.Minecraft;
 
 public static partial class Loader
 {
-    static readonly nint LoadLibraryW = GetProcAddress(GetModuleHandle("Kernel32"), "LoadLibraryW");
+    static readonly nint LoadLibraryW = GetProcAddress(GetModuleHandle("Kernel32"));
 
     static readonly FileSystemAccessRule Rule = new(new SecurityIdentifier("S-1-15-2-1"), FileSystemRights.FullControl, AccessControlType.Allow);
 

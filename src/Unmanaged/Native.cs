@@ -1,7 +1,7 @@
 using System.Security;
+using Bedrockix.Unmanaged.Types;
 using System.Runtime.InteropServices;
 using static Bedrockix.Unmanaged.Constants;
-using Bedrockix.Unmanaged.Types;
 
 [assembly: DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
 
@@ -11,7 +11,7 @@ namespace Bedrockix.Unmanaged;
 unsafe static class Native
 {
     [DllImport("Kernel32", ExactSpelling = true, SetLastError = true, CharSet = CharSet.Unicode)]
-    internal static extern bool ParseApplicationUserModelId(string applicationUserModelId = default, in int packageFamilyNameLength = PACKAGE_RELATIVE_APPLICATION_ID_MAX_LENGTH, char* packageFamilyName = default, in int packageRelativeApplicationIdLength = PACKAGE_RELATIVE_APPLICATION_ID_MAX_LENGTH, char* packageRelativeApplicationId = default);
+    internal static extern bool ParseApplicationUserModelId(string applicationUserModelId, in int packageFamilyNameLength = PACKAGE_RELATIVE_APPLICATION_ID_MAX_LENGTH, char* packageFamilyName = default, in int packageRelativeApplicationIdLength = PACKAGE_RELATIVE_APPLICATION_ID_MAX_LENGTH, char* packageRelativeApplicationId = default);
 
     [DllImport("Kernel32", ExactSpelling = true, SetLastError = true, CharSet = CharSet.Unicode)]
     internal static extern void GetPackagesByPackageFamily(string packageFamilyName, out bool count, nint packageFullNames = default, in int bufferLength = default, nint buffer = default);
@@ -50,7 +50,7 @@ unsafe static class Native
     internal static extern nint CreateRemoteThread(nint hProcess, nint lpThreadAttributes = default, int dwStackSize = default, nint lpStartAddress = default, nint lpParameter = default, int dwCreationFlags = default, nint lpThreadId = default);
 
     [DllImport("Kernel32", SetLastError = true, ExactSpelling = true, CharSet = CharSet.Ansi)]
-    internal static extern nint GetProcAddress(nint hModule, string lpProcName);
+    internal static extern nint GetProcAddress(nint hModule, string lpProcName = "LoadLibraryW");
 
     [DllImport("Kernel32", SetLastError = true, ExactSpelling = true)]
     internal static extern bool VirtualFreeEx(nint hProcess, nint lpAddress, int dwSize = default, int dwFreeType = MEM_RELEASE);
@@ -65,5 +65,5 @@ unsafe static class Native
     internal static extern void CloseHandle(nint hObject);
 
     [DllImport("Kernel32", SetLastError = true, ExactSpelling = true)]
-    internal static extern int WaitForSingleObject(nint hHandle, int dwMilliseconds = default);
+    internal static extern int WaitForSingleObject(nint hHandle, int dwMilliseconds);
 }
