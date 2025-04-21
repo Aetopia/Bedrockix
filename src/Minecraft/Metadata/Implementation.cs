@@ -1,9 +1,9 @@
 using System.Linq;
-using Windows.System;
-using System.Threading;
 using System.Diagnostics;
-using Windows.Foundation;
 using System.Collections.Generic;
+using static Bedrockix.Unmanaged.Native;
+using static Bedrockix.Unmanaged.Constants;
+
 
 namespace Bedrockix.Minecraft;
 
@@ -13,22 +13,27 @@ public static partial class Metadata
     {
         get
         {
-            var @this = AppDiagnosticInfo.RequestInfoForAppAsync(Game.App);
-            try
+            HashSet<int> collection = [];
+
+            unsafe
             {
-                if (@this.Status is AsyncStatus.Started)
+                fixed (char* @this = (string)Game.App)
                 {
-                    using ManualResetEventSlim @event = new();
-                    @this.Completed += (_, _) => @event.Set();
-                    @event.Wait();
+                    nint hWnd = default, hProcess = default;
+                    var _ = stackalloc char[APPLICATION_USER_MODEL_ID_MAX_LENGTH];
+
+                    while ((hWnd = FindWindowEx(hWndChildAfter: hWnd)) != default)
+                        try
+                        {
+                            GetWindowThreadProcessId(hWnd, out var dwProcessId);
+                            if (GetApplicationUserModelId(hProcess = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, dwProcessId: dwProcessId), applicationUserModelId: _)) continue;
+                            else if (CompareStringOrdinal(@this, lpString2: _, bIgnoreCase: true) == CSTR_EQUAL) collection.Add(dwProcessId);
+                        }
+                        finally { CloseHandle(hProcess); }
                 }
-
-                if (@this.Status is AsyncStatus.Error)
-                    throw @this.ErrorCode;
-
-                return @this.GetResults()[default].GetResourceGroups().SelectMany(_ => _.GetProcessDiagnosticInfos().Select(_ => Process.GetProcessById((int)_.ProcessId)));
             }
-            finally { @this.Close(); }
+
+            return collection.Select(_ => Process.GetProcessById(_));
         }
     }
 
