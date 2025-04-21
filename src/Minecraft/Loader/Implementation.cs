@@ -39,7 +39,7 @@ public static partial class Loader
         foreach (var item in value)
         {
             nint lpParameter = default, hThread = default;
-            var nSize = Marshal.SystemDefaultCharSize * (item.Path.Length + 1);
+            var nSize = sizeof(char) * (item.Path.Length + 1);
 
             try
             {
