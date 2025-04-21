@@ -44,7 +44,8 @@ unsafe sealed class App
         {
             fixed (char* @this = (string)this)
             {
-                nint hWnd = default, hProcess = default; var _ = stackalloc char[APPLICATION_USER_MODEL_ID_MAX_LENGTH];
+                nint hWnd = default, hProcess = default;
+                var _ = stackalloc char[APPLICATION_USER_MODEL_ID_MAX_LENGTH];
 
                 while ((hWnd = FindWindowEx(hWndChildAfter: hWnd)) != default)
                     try
