@@ -26,7 +26,7 @@ unsafe sealed class App
 
     internal Package Package => Object.Value.Package;
 
-    internal bool Installed => GetPackagesByPackageFamily(_) is ERROR_INSUFFICIENT_BUFFER;
+    internal bool Installed { get { GetPackagesByPackageFamily(_, out var value); return value; } }
 
     internal bool Debug
     {

@@ -14,7 +14,7 @@ unsafe static class Native
     internal static extern bool ParseApplicationUserModelId(string applicationUserModelId = default, in int packageFamilyNameLength = PACKAGE_RELATIVE_APPLICATION_ID_MAX_LENGTH, char* packageFamilyName = default, in int packageRelativeApplicationIdLength = PACKAGE_RELATIVE_APPLICATION_ID_MAX_LENGTH, char* packageRelativeApplicationId = default);
 
     [DllImport("Kernel32", ExactSpelling = true, SetLastError = true, CharSet = CharSet.Unicode)]
-    internal static extern int GetPackagesByPackageFamily(string packageFamilyName, in int count = default, nint packageFullNames = default, in int bufferLength = default, nint buffer = default);
+    internal static extern void GetPackagesByPackageFamily(string packageFamilyName, out bool count, nint packageFullNames = default, in int bufferLength = default, nint buffer = default);
 
     [DllImport("Kernel32", ExactSpelling = true, SetLastError = true)]
     internal static extern int CompareStringOrdinal(char* lpString1 = default, int cchCount1 = -1, char* lpString2 = default, int cchCount2 = -1, bool bIgnoreCase = default);
