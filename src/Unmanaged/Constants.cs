@@ -31,4 +31,8 @@ static class Constants
     internal const int APPLICATION_USER_MODEL_ID_MAX_LENGTH = 130;
 
     internal const int CSTR_EQUAL = 2;
+
+    internal const int PACKAGE_RELATIVE_APPLICATION_ID_MAX_LENGTH = 65;
+
+    internal const int ERROR_INSUFFICIENT_BUFFER = 0x7A;
 }

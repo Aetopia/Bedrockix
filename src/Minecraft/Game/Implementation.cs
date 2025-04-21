@@ -1,7 +1,6 @@
 using Bedrockix.Windows;
 using Windows.Management.Core;
 using Bedrockix.Unmanaged.Types;
-using System.Runtime.InteropServices;
 using static Bedrockix.Unmanaged.Native;
 using static Bedrockix.Unmanaged.Constants;
 
@@ -20,7 +19,7 @@ public static partial class Game
 
     public static partial void Terminate() => App.Terminate();
 
-    public static partial bool Installed { get { GetPackagesByPackageFamily("Microsoft.MinecraftUWP_8wekyb3d8bbwe", out var value, default, out _); return value; } }
+    public static partial bool Installed => App.Installed;
 
     public static partial bool Running => App.Running;
 

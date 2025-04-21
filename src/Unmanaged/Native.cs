@@ -8,16 +8,19 @@ using Bedrockix.Unmanaged.Types;
 namespace Bedrockix.Unmanaged;
 
 [SuppressUnmanagedCodeSecurity]
-static class Native
+unsafe static class Native
 {
     [DllImport("Kernel32", ExactSpelling = true, SetLastError = true, CharSet = CharSet.Unicode)]
-    internal static extern void GetPackagesByPackageFamily(string packageFamilyName, out bool count, nint packageFullNames, out bool bufferLength, nint buffer = default);
+    internal static extern bool ParseApplicationUserModelId(string applicationUserModelId = default, in int packageFamilyNameLength = PACKAGE_RELATIVE_APPLICATION_ID_MAX_LENGTH, char* packageFamilyName = default, in int packageRelativeApplicationIdLength = PACKAGE_RELATIVE_APPLICATION_ID_MAX_LENGTH, char* packageRelativeApplicationId = default);
+
+    [DllImport("Kernel32", ExactSpelling = true, SetLastError = true, CharSet = CharSet.Unicode)]
+    internal static extern int GetPackagesByPackageFamily(string packageFamilyName, in int count = default, nint packageFullNames = default, in int bufferLength = default, nint buffer = default);
 
     [DllImport("Kernel32", ExactSpelling = true, SetLastError = true)]
-    internal unsafe static extern int CompareStringOrdinal(char* lpString1 = default, int cchCount1 = -1, char* lpString2 = default, int cchCount2 = -1, bool bIgnoreCase = default);
+    internal static extern int CompareStringOrdinal(char* lpString1 = default, int cchCount1 = -1, char* lpString2 = default, int cchCount2 = -1, bool bIgnoreCase = default);
 
     [DllImport("Kernel32", ExactSpelling = true, SetLastError = true)]
-    internal unsafe static extern bool GetApplicationUserModelId(nint hProcess, in int applicationUserModelIdLength = APPLICATION_USER_MODEL_ID_MAX_LENGTH, char* applicationUserModelId = default);
+    internal static extern bool GetApplicationUserModelId(nint hProcess, in int applicationUserModelIdLength = APPLICATION_USER_MODEL_ID_MAX_LENGTH, char* applicationUserModelId = default);
 
     [DllImport("User32", ExactSpelling = true, SetLastError = true)]
     internal static extern void GetWindowThreadProcessId(nint hWnd, out int lpdwProcessId);
@@ -29,7 +32,7 @@ static class Native
     internal static extern bool GetFileInformationByHandleEx(nint hFile, int FileInformationClass, out FILE_STANDARD_INFO lpFileInformation, int dwBufferSize);
 
     [DllImport("Kernel32", ExactSpelling = true, CharSet = CharSet.Unicode, SetLastError = true)]
-    internal unsafe static extern nint CreateFile2(char* lpFileName, int dwDesiredAccess = default, int dwShareMode = FILE_SHARE_DELETE, int dwCreationDisposition = OPEN_EXISTING, nint pCreateExParams = default);
+    internal static extern nint CreateFile2(char* lpFileName, int dwDesiredAccess = default, int dwShareMode = FILE_SHARE_DELETE, int dwCreationDisposition = OPEN_EXISTING, nint pCreateExParams = default);
 
     [DllImport("Kernel32", SetLastError = true, CharSet = CharSet.Unicode, EntryPoint = "LoadLibraryExW", ExactSpelling = true)]
     internal static extern nint LoadLibraryEx(string lpLibFileName, nint hFile = default, int dwFlags = DONT_RESOLVE_DLL_REFERENCES);

@@ -13,7 +13,7 @@ public static partial class Metadata
     {
         get
         {
-            var @this = AppDiagnosticInfo.RequestInfoForAppAsync(Game.App.Id);
+            var @this = AppDiagnosticInfo.RequestInfoForAppAsync(Game.App);
             try
             {
                 if (@this.Status is AsyncStatus.Started)
