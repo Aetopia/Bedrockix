@@ -1,5 +1,13 @@
 # `Game`
 
+## `Game.Loader`
+
+Provides methods to load dynamic link libraries into Minecraft: Bedrock Edition.
+
+## `Game.Metadata` 
+
+Provides metadata about Minecraft: Bedrock Edition.
+
 ## `Game.Launch(bool)`
 
 > [!NOTE]
