@@ -1,10 +1,10 @@
-# `Game`
+# [`Game`](../Bedrockix.Windows/App.md)
 
-## `Game.Loader`
+## [`Game.Loader`](Loader.md)
 
 Provides methods to load dynamic link libraries into Minecraft: Bedrock Edition.
 
-## `Game.Metadata` 
+## [`Game.Metadata`](Metadata.md)
 
 Provides metadata about Minecraft: Bedrock Edition.
 
