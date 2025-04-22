@@ -1,7 +1,7 @@
 # Documentation
 
 > [!CAUTION]
-> - Before using this library, check if [the game is installed](Core/Game.md#gameinstalled) to avoid issues at runtime.
+> - Before using this library, check if [the game is installed](Windows/App.md#appinstalled) to avoid issues at runtime.
 
 ## `Bedrockix.Legacy`
 
