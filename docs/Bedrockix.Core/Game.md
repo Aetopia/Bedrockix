@@ -11,7 +11,3 @@ Launches Minecraft: Bedrock Edition.
 - Parameter: Specify `true` to wait for the game to initialize else `false` to not.
 
 - Returns: The process ID of the game.
-
-## `Game.Unpackaged`
-
-Check if Minecraft: Bedrock Edition is unpackaged.
