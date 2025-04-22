@@ -31,7 +31,7 @@ public sealed partial class Game : App
 
             try
             {
-                if (!Running || (hFile = CreateFile2(lpFileName)) != INVALID_HANDLE_VALUE)
+                if (!Running || (hFile = CreateFile2(lpFileName)) != INVALID_HANDLE_VALUE || Metadata.Instancing)
                 {
                     Instance @this = new(base.Launch());
 

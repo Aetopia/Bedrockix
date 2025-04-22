@@ -1,18 +1,4 @@
-# `Bedrockix.Minecraft.Game`
-
-Provides methods to interact with Minecraft: Bedrock Edition.
-
-- [`Game.Launch(bool)`](#gamelaunchbool)
-
-- [`Game.Terminate()`](#gameterminate)
-
-- [`Game.Running`](#gamerunning)
-
-- [`Game.Installed`](#gameinstalled)
-
-- [`Game.Debug`](#gamedebug)
-
-- [`Game.Unpackaged`](#gameunpackaged)
+# `Game`
 
 ## `Game.Launch(bool)`
 

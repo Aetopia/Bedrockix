@@ -1,22 +1,28 @@
 # Documentation
 
 > [!CAUTION]
-> - Before using this library, check if [the game is installed](Bedrockix.Minecraft.Game.md#gameinstalled) to avoid issues at runtime.
+> - Before using this library, check if [the game is installed](Core/Game.md#gameinstalled) to avoid issues at runtime.
 
-## Classes
+## `Bedrockix.Core`
 
-- [`Bedrockix.Minecraft.Game`](Bedrockix.Minecraft.Game.md)
+- [`Game`](Core/Game.md)
 
     Provides methods to interact with Minecraft: Bedrock Edition.
 
-- [`Bedrockix.Minecraft.Loader`](Bedrockix.Minecraft.Loader.md)
+- [`Loader`](Core/Loader.md)
 
     Provides methods to load dynamic link libraries into Minecraft: Bedrock Edition.
 
-- [`Bedrockix.Minecraft.Metadata`](Bedrockix.Minecraft.Metadata.md)
+- [`Metadata`](Core/Metadata.md)
 
     Provides metadata about Minecraft: Bedrock Edition.
 
-- [`Bedrockix.Windows.Library`](Bedrockix.Windows.Library.md)
+## `Bedrockix.Windows`
+
+- [`App`](Windows/App.md)
+
+    Represents a packaged app.
+
+- [`Library`](Windows/Library.md)
 
     Provides properties to validate dynamic link libraries.

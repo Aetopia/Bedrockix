@@ -1,14 +1,6 @@
-# `Bedrockix.Windows.Library`
+# `Library`
 
 Provides properties to validate dynamic link libraries.
-
-- [`Library(string)`](#librarystring)
-
-- [`Library.Valid`](#libraryvalid)
-
-- [`Library.Exists`](#libraryexists)
-
-- [`Library.Path`](#librarypath)
 
 ## `Library(string)`
 
