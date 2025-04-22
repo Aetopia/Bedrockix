@@ -2,10 +2,10 @@
 
 Provides access to Minecraft & Minecraft: Preview.
 
-## Release 
+## [Release](../Bedrockix.Core/Game.md)
 
 Provides access to Minecraft.
 
-## Preview
+## [Preview](../Bedrockix.Core/Game.md)
 
 Provides access to Minecraft Preview.
