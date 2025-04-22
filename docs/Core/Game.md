@@ -12,22 +12,6 @@ Launches Minecraft: Bedrock Edition.
 
 - Returns: The process ID of the game.
 
-## `Game.Terminate()`
-
-Terminates Minecraft: Bedrock Edition.
-
-## `Game.Running`
-
-Check if Minecraft: Bedrock Edition is running.
-
-## `Game.Installed`
-
-Check if Minecraft: Bedrock Edition is installed.
-
-## `Game.Debug` 
-
-Configure debug mode for Minecraft: Bedrock Edition.
-
 ## `Game.Unpackaged`
 
 Check if Minecraft: Bedrock Edition is unpackaged.
