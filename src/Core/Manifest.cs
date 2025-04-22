@@ -42,7 +42,8 @@ sealed class Manifest
                         switch (reader.LocalName)
                         {
                             case "Executable":
-                                Version = FileVersionInfo.GetVersionInfo(@$"{package.InstalledPath}\{reader.ReadContentAsString()}").FileVersion;
+                                var _ = FileVersionInfo.GetVersionInfo(@$"{package.InstalledPath}\{reader.ReadContentAsString()}").FileVersion;
+                                Version = _.Substring(default, _.LastIndexOf('.'));
                                 break;
 
                             case "SupportsMultipleInstances":
