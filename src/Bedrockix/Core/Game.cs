@@ -19,12 +19,6 @@ public partial class Game
     public readonly Metadata Metadata;
 
     /// <summary>
-    /// Check if Minecraft: Bedrock Edition is unpackaged.
-    /// </summary>
-
-    public partial bool Unpackaged { get; }
-
-    /// <summary>
     /// Launches Minecraft: Bedrock Edition.
     /// </summary>
 

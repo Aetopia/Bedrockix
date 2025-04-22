@@ -25,8 +25,14 @@ public partial class App
     public partial bool Running { get; }
 
     /// <summary>
+    /// Check if the app is unpackaged.
+    /// </summary>
+
+    public partial bool Unpackaged { get; }
+
+    /// <summary>
     /// Terminate the app.
     /// </summary>
-   
+
     public partial void Terminate();
 }

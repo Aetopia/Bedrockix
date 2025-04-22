@@ -14,8 +14,6 @@ public sealed partial class Game : App
         Metadata = new(this);
     }
 
-    public partial bool Unpackaged => Package.IsDevelopmentMode;
-
     public partial int? Launch(bool value)
     {
         if (!value) return base.Launch();

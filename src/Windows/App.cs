@@ -28,6 +28,8 @@ public unsafe partial class App
 
     internal Package Package => Object.Value.Package;
 
+    public partial bool Unpackaged => Package.IsDevelopmentMode;
+
     public partial bool Installed { get { GetPackagesByPackageFamily(_, out var value); return value; } }
 
     public partial bool Debug

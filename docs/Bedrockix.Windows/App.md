@@ -10,6 +10,10 @@ Configure debug mode for the app.
 
 ## `App.Running`
 Check if the app is running.
+
+## `App.Unpackaged`
+
+Check if the app is unpackaged.
    
 ## `App.Terminate()`
 
