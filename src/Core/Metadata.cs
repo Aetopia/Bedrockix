@@ -4,12 +4,17 @@ using System.Collections.Generic;
 using static Bedrockix.Unmanaged.Native;
 using static Bedrockix.Unmanaged.Constants;
 
+namespace Bedrockix.Core;
 
-namespace Bedrockix.Minecraft;
-
-public static partial class Metadata
+public sealed partial class Metadata
 {
-    public static partial IEnumerable<Process> Processes
+    readonly Game Game;
+
+    readonly Manifest Manifest;
+
+    internal Metadata(Game value) => Manifest = new(Game = value);
+
+    public partial IEnumerable<Process> Processes
     {
         get
         {
@@ -17,7 +22,7 @@ public static partial class Metadata
 
             unsafe
             {
-                fixed (char* @this = (string)Game.App)
+                fixed (char* @this = Game.Id)
                 {
                     nint hWnd = default, hProcess = default;
                     var _ = stackalloc char[APPLICATION_USER_MODEL_ID_MAX_LENGTH];
@@ -37,7 +42,7 @@ public static partial class Metadata
         }
     }
 
-    public static partial string Version => Manifest.Current.Version;
+    public partial string Version => Manifest.Version;
 
-    public static partial bool Instancing => Manifest.Current.Instancing;
+    public partial bool Instancing => Manifest.Instancing;
 }

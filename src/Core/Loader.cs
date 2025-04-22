@@ -6,20 +6,23 @@ using Bedrockix.Windows;
 using System.Security.Principal;
 using System.Collections.Generic;
 using System.Security.AccessControl;
-using System.Runtime.InteropServices;
 using static Bedrockix.Unmanaged.Native;
 
-namespace Bedrockix.Minecraft;
+namespace Bedrockix.Core;
 
-public static partial class Loader
+public sealed partial class Loader
 {
+    internal Loader(Game value) => Game = value;
+
+    readonly Game Game;
+
     static readonly nint lpStartAddress = GetProcAddress(GetModuleHandle("Kernel32"));
 
     static readonly FileSystemAccessRule Rule = new(new SecurityIdentifier("S-1-15-2-1"), FileSystemRights.FullControl, AccessControlType.Allow);
 
-    public static partial int? Launch(params IEnumerable<string> value) => Launch([.. value.Select(_ => new Library(_))]);
+    public partial int? Launch(params IEnumerable<string> value) => Launch([.. value.Select(_ => new Library(_))]);
 
-    public static partial int? Launch(params IReadOnlyCollection<Library> value)
+    public partial int? Launch(params IReadOnlyCollection<Library> value)
     {
         foreach (var item in value)
         {

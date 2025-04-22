@@ -3,13 +3,13 @@ using System.IO;
 using Bedrockix.Windows;
 using System.Collections.Generic;
 
-namespace Bedrockix.Minecraft;
+namespace Bedrockix.Core;
 
 /// <summary>
 /// Provides methods to load dynamic link libraries into Minecraft: Bedrock Edition.
 /// </summary>
 
-public static partial class Loader
+public partial class Loader
 {
     /// <summary>
     /// Launches &amp; loads dynamic link libraries into Minecraft: Bedrock Edition.
@@ -31,7 +31,7 @@ public static partial class Loader
     /// Thrown if any specified dynamic link library is invalid. 
     /// </exception>
 
-    public static partial int? Launch(params IReadOnlyCollection<Library> value);
+    public partial int? Launch(params IReadOnlyCollection<Library> value);
 
     /// <summary>
     /// Launches &amp; loads dynamic link libraries into Minecraft: Bedrock Edition.
@@ -53,5 +53,5 @@ public static partial class Loader
     /// Thrown if any specified dynamic link library is invalid. 
     /// </exception>
 
-    public static partial int? Launch(params IEnumerable<string> value);
+    public partial int? Launch(params IEnumerable<string> value);
 }

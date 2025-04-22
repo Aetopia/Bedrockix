@@ -1,4 +1,4 @@
-namespace Bedrockix.Minecraft;
+namespace Bedrockix.Legacy;
 
 /// <summary>
 /// Provides methods to interact with Minecraft: Bedrock Edition.

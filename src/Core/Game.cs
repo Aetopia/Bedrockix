@@ -4,32 +4,28 @@ using Bedrockix.Unmanaged.Types;
 using static Bedrockix.Unmanaged.Native;
 using static Bedrockix.Unmanaged.Constants;
 
-namespace Bedrockix.Minecraft;
+namespace Bedrockix.Core;
 
-public static partial class Game
+public sealed partial class Game : App
 {
-    internal static readonly App App = new("Microsoft.MinecraftUWP_8wekyb3d8bbwe!App");
-
-    public static partial int? Launch(bool value)
+    internal Game(string value) : base(value)
     {
-        if (!value) return App.Launch();
+        Loader = new(this);
+        Metadata = new(this);
+    }
+
+    public partial bool Unpackaged => Package.IsDevelopmentMode;
+
+    public partial int? Launch(bool value)
+    {
+        if (!value) return base.Launch();
         using var @this = Launch();
         return @this[default] ? @this.Id : null;
     }
 
-    public static partial void Terminate() => App.Terminate();
-
-    public static partial bool Installed => App.Installed;
-
-    public static partial bool Running => App.Running;
-
-    public static partial bool Debug { set => App.Debug = value; }
-
-    public static partial bool Unpackaged => App.Package.IsDevelopmentMode;
-
-    internal unsafe static Instance Launch()
+    internal new unsafe Instance Launch()
     {
-        fixed (char* lpFileName = @$"{ApplicationDataManager.CreateForPackageFamily(App.Package.Id.FamilyName).LocalFolder.Path}\games\com.mojang\minecraftpe\resource_init_lock")
+        fixed (char* lpFileName = @$"{ApplicationDataManager.CreateForPackageFamily(Package.Id.FamilyName).LocalFolder.Path}\games\com.mojang\minecraftpe\resource_init_lock")
         {
             var hFile = INVALID_HANDLE_VALUE;
 
@@ -37,7 +33,7 @@ public static partial class Game
             {
                 if (!Running || (hFile = CreateFile2(lpFileName)) != INVALID_HANDLE_VALUE)
                 {
-                    Instance @this = new(App.Launch());
+                    Instance @this = new(base.Launch());
 
                     while (hFile is INVALID_HANDLE_VALUE)
                         if (!@this[true]) return @this;
@@ -50,8 +46,8 @@ public static partial class Game
                 }
             }
             finally { CloseHandle(hFile); }
-        }
 
-        return new(App.Launch());
+            return new(base.Launch());
+        }
     }
 }

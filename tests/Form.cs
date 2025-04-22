@@ -1,6 +1,6 @@
 using System;
 using System.Drawing;
-using Bedrockix.Minecraft;
+using Bedrockix.Legacy;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 
