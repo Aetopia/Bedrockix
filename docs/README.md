@@ -3,40 +3,32 @@
 > [!CAUTION]
 > - Before using this library, check if [the game is installed](Windows/App.md#appinstalled) to avoid issues at runtime.
 
-## `Bedrockix.Legacy`
+## `Bedrockix`
 
-- [`Game`](Legacy/Game.md)
+- [`Minecraft`](Bedrockix/Minecraft.md)
 
-    Provides methods to interact with Minecraft: Bedrock Edition.
-
-- [`Loader`](Legacy/Loader.md)
-
-    Provides methods to load dynamic link libraries into Minecraft: Bedrock Edition.
-
-- [`Metadata`](Legacy/Metadata.md)
-
-    Provides metadata about Minecraft: Bedrock Edition.
+    Provides access to Minecraft & Minecraft: Preview.
 
 ## `Bedrockix.Core`
 
-- [`Game`](Core/Game.md)
+- [`Game`](Bedrockix.Core/Game.md)
 
     Provides methods to interact with Minecraft: Bedrock Edition.
 
-- [`Loader`](Core/Loader.md)
+- [`Loader`](Bedrockix.Core/Loader.md)
 
     Provides methods to load dynamic link libraries into Minecraft: Bedrock Edition.
 
-- [`Metadata`](Core/Metadata.md)
+- [`Metadata`](Bedrockix.Core/Metadata.md)
 
     Provides metadata about Minecraft: Bedrock Edition.
 
 ## `Bedrockix.Windows`
 
-- [`App`](Windows/App.md)
+- [`App`](Bedrockix.Windows/App.md)
 
     Represents a packaged app.
 
-- [`Library`](Windows/Library.md)
+- [`Library`](Bedrockix.Windows/Library.md)
 
     Provides properties to validate dynamic link libraries.
