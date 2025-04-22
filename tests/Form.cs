@@ -1,11 +1,16 @@
 using System;
+using Bedrockix;
+using Bedrockix.Core;
 using System.Drawing;
-using Bedrockix.Legacy;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 
 sealed class Form : System.Windows.Forms.Form
 {
+    static readonly Game Game = Minecraft.Release;
+
+    static readonly Loader Loader = Game.Loader;
+
     internal Form()
     {
         Application.ThreadException += (_, args) =>
