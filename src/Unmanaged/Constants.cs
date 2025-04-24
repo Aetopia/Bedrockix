@@ -28,5 +28,5 @@ partial class Constants
 
     internal const int CSTR_EQUAL = 2;
 
-    internal const int PACKAGE_FAMILY_NAME_MAX_LENGTH = APPLICATION_USER_MODEL_ID_MAX_LENGTH / 2;
+    internal const int PACKAGE_FAMILY_NAME_MAX_LENGTH = 65;
 }
