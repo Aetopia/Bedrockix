@@ -37,7 +37,7 @@ public sealed partial class Loader
         }
 
         using var @this = Game.Launch();
-        if (!@this[new()]) return null;
+        if (!@this[false]) return null;
 
         foreach (var item in value)
         {
