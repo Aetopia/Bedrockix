@@ -9,7 +9,7 @@ using static Bedrockix.Unmanaged.Constants;
 
 namespace Bedrockix.Windows;
 
-public unsafe partial class App
+public partial class App
 {
     internal App(string value)
     {
