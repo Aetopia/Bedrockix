@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Diagnostics;
 using System.Collections.Generic;
 
@@ -10,9 +9,9 @@ public sealed partial class Metadata
 
     readonly Manifest Manifest;
 
-    internal Metadata(Game value) { Game = value; Manifest = new(value); }
+    internal Metadata(Game value) => (Game, Manifest) = (value, new(value));
 
-    public partial IEnumerable<Process> Processes => Game.Processes.Distinct().Select(_ => Process.GetProcessById(_));
+    public partial IEnumerable<Process> Processes { get { HashSet<int> @this = []; foreach (var _ in Game.Processes) if (@this.Add(_)) yield return Process.GetProcessById(_); } }
 
     public partial string Version => Manifest.Version;
 

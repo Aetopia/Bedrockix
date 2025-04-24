@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using Bedrockix.Unmanaged.Structures;
 using static Bedrockix.Unmanaged.Native;
 using static Bedrockix.Unmanaged.Constants;
-using System.Linq;
 
 namespace Bedrockix.Windows;
 
@@ -37,17 +36,15 @@ public unsafe partial class App
         get
         {
             nint hWnd = new(), hProcess = new();
-            APPLICATION_USER_MODEL_ID value = new();
+            APPLICATION_USER_MODEL_ID @this = new();
 
             while ((hWnd = FindWindowEx(hWndChildAfter: hWnd)) != default)
             {
                 try
                 {
                     GetWindowThreadProcessId(hWnd, out var dwProcessId);
-                    hProcess = OpenProcess(dwProcessId: dwProcessId);
-
-                    if (GetApplicationUserModelId( hProcess, applicationUserModelId: value)) continue;
-                    else if (CompareStringOrdinal(Id, lpString2: value) == CSTR_EQUAL) yield return dwProcessId;
+                    if (GetApplicationUserModelId(hProcess = OpenProcess(dwProcessId: dwProcessId), applicationUserModelId: @this)) continue;
+                    else if (CompareStringOrdinal(Id, lpString2: @this) == CSTR_EQUAL) yield return dwProcessId;
                 }
                 finally { CloseHandle(hProcess); }
             }
@@ -68,7 +65,7 @@ public unsafe partial class App
         }
     }
 
-    public partial bool Running => Processes.Any();
+    public partial bool Running { get { foreach (var _ in Processes) return true; return new(); } }
 
     public partial void Terminate() => Settings.TerminateAllProcesses(Package.Id.FullName);
 }
