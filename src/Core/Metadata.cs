@@ -10,7 +10,7 @@ public sealed partial class Metadata
 
     readonly Manifest Manifest;
 
-    internal Metadata(Game value) => Manifest = new(Game = value);
+    internal Metadata(Game value) => (Game, Manifest) = (value, new(value));
 
     public partial IEnumerable<Process> Processes => Game.Processes.Distinct().Select(_ => Process.GetProcessById(_));
 
