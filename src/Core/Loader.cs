@@ -6,7 +6,7 @@ using Bedrockix.Windows;
 using System.Security.Principal;
 using System.Collections.Generic;
 using System.Security.AccessControl;
-using static Bedrockix.Unmanaged.Native ;
+using static Bedrockix.Unmanaged.Native;
 
 namespace Bedrockix.Core;
 
@@ -46,7 +46,8 @@ public sealed partial class Loader
 
             try
             {
-                WriteProcessMemory(@this.Handle, lpParameter = VirtualAllocEx(@this.Handle, new(), nSize), item.Path, nSize);
+                lpParameter = VirtualAllocEx(@this.Handle, new(), nSize);
+                WriteProcessMemory(@this.Handle, lpParameter, item.Path, nSize);
                 _ = WaitForSingleObject(hThread = CreateRemoteThread(@this.Handle, lpStartAddress: lpStartAddress, lpParameter: lpParameter), Timeout.Infinite);
             }
             finally

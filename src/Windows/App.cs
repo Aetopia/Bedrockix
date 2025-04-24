@@ -44,7 +44,9 @@ public unsafe partial class App
                 try
                 {
                     GetWindowThreadProcessId(hWnd, out var dwProcessId);
-                    if (GetApplicationUserModelId(hProcess = OpenProcess(dwProcessId: dwProcessId), applicationUserModelId: value)) continue;
+                    hProcess = OpenProcess(dwProcessId: dwProcessId);
+
+                    if (GetApplicationUserModelId( hProcess, applicationUserModelId: value)) continue;
                     else if (CompareStringOrdinal(Id, lpString2: value) == CSTR_EQUAL) yield return dwProcessId;
                 }
                 finally { CloseHandle(hProcess); }

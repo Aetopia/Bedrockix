@@ -34,7 +34,7 @@ sealed class Manifest
 
             if (Timestamp != timestamp || !path.Equals(Path, StringComparison.OrdinalIgnoreCase))
             {
-                (Timestamp, Path) = (timestamp, path);
+                Timestamp = timestamp; Path = path;
                 using var reader = XmlReader.Create(path, Settings);
 
                 if (reader.ReadToFollowing("Application"))
