@@ -35,7 +35,9 @@ public unsafe partial class App
     {
         get
         {
-            nint hWnd = new(), hProcess = new(); APPLICATION_USER_MODEL_ID @this = new();
+            nint hWnd = new(), hProcess = new();
+            APPLICATION_USER_MODEL_ID @this = new();
+
             while ((hWnd = FindWindowEx(hWndChildAfter: hWnd)) != default)
             {
                 try

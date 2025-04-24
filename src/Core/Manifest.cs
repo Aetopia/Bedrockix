@@ -9,7 +9,11 @@ sealed class Manifest
 {
     readonly object _ = new();
 
-    readonly Game Game; DateTime Timestamp; string Path;
+    readonly Game Game;
+
+    DateTime Timestamp;
+
+    string Path;
 
     internal Manifest(Game value) => Game = value;
 
