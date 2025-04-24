@@ -12,7 +12,7 @@ namespace Bedrockix.Core;
 
 public sealed partial class Loader
 {
-    internal Loader(Game value) => Game = value;
+    internal Loader(Game @this) => Game = @this;
 
     readonly Game Game;
 
