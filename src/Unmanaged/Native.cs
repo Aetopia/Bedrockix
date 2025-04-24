@@ -14,7 +14,7 @@ unsafe static partial class Native
     internal static extern nint lstrcpy(in APPLICATION_USER_MODEL_ID lpString1, string lpString2);
 
     [DllImport("Kernel32", ExactSpelling = true, SetLastError = true)]
-    internal static extern bool ParseApplicationUserModelId(nint applicationUserModelId, in int packageFamilyNameLength = PACKAGE_FAMILY_NAME_MAX_LENGTH, in PACKAGE_FAMILY_NAME packageFamilyName = default, in int packageRelativeApplicationIdLength = PACKAGE_FAMILY_NAME_MAX_LENGTH, in PACKAGE_FAMILY_NAME packageRelativeApplicationId = default);
+    internal static extern void ParseApplicationUserModelId(nint applicationUserModelId, in int packageFamilyNameLength = PACKAGE_FAMILY_NAME_MAX_LENGTH, in PACKAGE_FAMILY_NAME packageFamilyName = default, in int packageRelativeApplicationIdLength = PACKAGE_FAMILY_NAME_MAX_LENGTH, in PACKAGE_FAMILY_NAME packageRelativeApplicationId = default);
 
     [DllImport("Kernel32", ExactSpelling = true, SetLastError = true, CharSet = CharSet.Unicode)]
     internal static extern void GetPackagesByPackageFamily(in PACKAGE_FAMILY_NAME packageFamilyName, out bool count, nint packageFullNames = default, in int bufferLength = default, nint buffer = default);
