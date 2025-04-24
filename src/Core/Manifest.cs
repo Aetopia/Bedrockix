@@ -15,7 +15,7 @@ sealed class Manifest
 
     string Path;
 
-    internal Manifest(Game value) => Game = value;
+    internal Manifest(Game @this) => Game = @this;
 
     internal string Version { get { Get(); return field; } private set; }
 

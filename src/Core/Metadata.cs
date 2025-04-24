@@ -9,7 +9,7 @@ public sealed partial class Metadata
 
     readonly Manifest Manifest;
 
-    internal Metadata(Game value) => (Game, Manifest) = (value, new(value));
+    internal Metadata(Game @this) => (Game, Manifest) = (@this, new(@this));
 
     public partial IEnumerable<Process> Processes { get { HashSet<int> @this = []; foreach (var _ in Game.Processes) if (@this.Add(_)) yield return Process.GetProcessById(_); } }
 

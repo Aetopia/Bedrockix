@@ -2,6 +2,7 @@ using System.Security;
 using System.Runtime.InteropServices;
 using Bedrockix.Unmanaged.Structures;
 using static Bedrockix.Unmanaged.Constants;
+using System.Threading;
 
 [assembly: DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
 
@@ -68,5 +69,8 @@ unsafe static partial class Native
     internal static extern void CloseHandle(nint hObject);
 
     [DllImport("Kernel32", SetLastError = true, ExactSpelling = true)]
-    internal static extern int WaitForSingleObject(nint hHandle, int dwMilliseconds);
+    internal static extern int WaitForSingleObject(nint hHandle, bool dwMilliseconds);
+
+    [DllImport("Kernel32", SetLastError = true, ExactSpelling = true)]
+    internal static extern void WaitForSingleObject(nint hHandle, int dwMilliseconds = Timeout.Infinite);
 }

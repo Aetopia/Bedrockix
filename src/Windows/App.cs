@@ -11,10 +11,10 @@ namespace Bedrockix.Windows;
 
 public partial class App
 {
-    internal App(string value)
+    internal App(string @this)
     {
-        ParseApplicationUserModelId(lstrcpy(Id, value), packageFamilyName: Name);
-        Info = new(() => AppInfo.GetFromAppUserModelId(value), LazyThreadSafetyMode.PublicationOnly);
+        ParseApplicationUserModelId(lstrcpy(Id, @this), packageFamilyName: Name);
+        Info = new(() => AppInfo.GetFromAppUserModelId(@this), LazyThreadSafetyMode.PublicationOnly);
     }
 
     readonly Lazy<AppInfo> Info;
@@ -39,19 +39,13 @@ public partial class App
     {
         get
         {
-            nint hWnd = new(), hProcess = new();
-            APPLICATION_USER_MODEL_ID @this = new();
-
-            while ((hWnd = FindWindowEx(hWndChildAfter: hWnd)) != default)
-            {
-                try
+            nint @this = new(); APPLICATION_USER_MODEL_ID @params = new();
+            while ((@this = FindWindowEx(hWndChildAfter: @this)) != default)
+                using (Process @object = new(@this))
                 {
-                    GetWindowThreadProcessId(hWnd, out var dwProcessId);
-                    if (GetApplicationUserModelId(hProcess = OpenProcess(dwProcessId: dwProcessId), applicationUserModelId: @this)) continue;
-                    else if (CompareStringOrdinal(Id, lpString2: @this) == CSTR_EQUAL) yield return dwProcessId;
+                    if (GetApplicationUserModelId(@object.Handle, applicationUserModelId: @params)) continue;
+                    else if (CompareStringOrdinal(Id, lpString2: @params) == CSTR_EQUAL) yield return @object.Id;
                 }
-                finally { CloseHandle(hProcess); }
-            }
         }
     }
 

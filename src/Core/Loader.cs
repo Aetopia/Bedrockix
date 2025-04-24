@@ -16,7 +16,7 @@ public sealed partial class Loader
 
     readonly Game Game;
 
-    static readonly nint lpStartAddress = GetProcAddress(GetModuleHandle("Kernel32"));
+    static readonly nint Address = GetProcAddress(GetModuleHandle("Kernel32"));
 
     static readonly FileSystemAccessRule Rule = new(new SecurityIdentifier("S-1-15-2-1"), FileSystemRights.FullControl, AccessControlType.Allow);
 
@@ -41,15 +41,15 @@ public sealed partial class Loader
 
         foreach (var item in value)
         {
-            nint lpParameter = default, hThread = default;
+            nint @params = default, @object = default;
             var nSize = sizeof(char) * (item.Path.Length + 1);
 
             try
             {
-                WriteProcessMemory(@this.Handle, lpParameter = VirtualAllocEx(@this.Handle, dwSize: nSize), item.Path, nSize);
-                _ = WaitForSingleObject(hThread = CreateRemoteThread(@this.Handle, lpStartAddress: lpStartAddress, lpParameter: lpParameter), Timeout.Infinite);
+                WriteProcessMemory(@this.Handle, @params = VirtualAllocEx(@this.Handle, dwSize: nSize), item.Path, nSize);
+                WaitForSingleObject(@object = CreateRemoteThread(@this.Handle, lpStartAddress: Address, lpParameter: @params));
             }
-            finally { VirtualFreeEx(@this.Handle, lpParameter); CloseHandle(hThread); }
+            finally { VirtualFreeEx(@this.Handle, @params); CloseHandle(@object); }
         }
 
         return @this.Id;
