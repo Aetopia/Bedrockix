@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Bedrockix.Unmanaged.Structures;
 using static Bedrockix.Unmanaged.Native;
 using static Bedrockix.Unmanaged.Constants;
+using System.Linq;
 
 namespace Bedrockix.Windows;
 
@@ -65,7 +66,7 @@ public unsafe partial class App
         }
     }
 
-    public partial bool Running { get { foreach (var _ in Processes) return true; return new(); } }
+    public partial bool Running => Processes.Any();
 
     public partial void Terminate() => Settings.TerminateAllProcesses(Package.Id.FullName);
 }
