@@ -43,7 +43,7 @@ sealed class Manifest
                         {
                             case "Executable":
                                 var _ = FileVersionInfo.GetVersionInfo(@$"{package.InstalledPath}\{reader.ReadContentAsString()}").FileVersion;
-                                Version = _.Substring(default, _.LastIndexOf('.'));
+                                Version = _.Substring(new(), _.LastIndexOf('.'));
                                 break;
 
                             case "SupportsMultipleInstances":

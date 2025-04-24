@@ -6,7 +6,7 @@ using Bedrockix.Windows;
 using System.Security.Principal;
 using System.Collections.Generic;
 using System.Security.AccessControl;
-using static Bedrockix.Unmanaged.Native;
+using static Bedrockix.Unmanaged.Native ;
 
 namespace Bedrockix.Core;
 
@@ -28,8 +28,8 @@ public sealed partial class Loader
         {
             FileInfo info = new(item.Path);
 
-            if (!item.Exists || !info.Exists) throw new FileNotFoundException(default, item.Path);
-            if (!item.Valid) throw new BadImageFormatException(default, item.Path);
+            if (!item.Exists || !info.Exists) throw new FileNotFoundException(null, item.Path);
+            if (!item.Valid) throw new BadImageFormatException(null, item.Path);
 
             var security = info.GetAccessControl();
             security.SetAccessRule(Rule);
@@ -37,16 +37,16 @@ public sealed partial class Loader
         }
 
         using var @this = Game.Launch();
-        if (!@this[default]) return null;
+        if (!@this[new()]) return null;
 
         foreach (var item in value)
         {
-            nint lpParameter = default, hThread = default;
+            nint lpParameter = new(), hThread = new();
             var nSize = sizeof(char) * (item.Path.Length + 1);
 
             try
             {
-                WriteProcessMemory(@this.Handle, lpParameter = VirtualAllocEx(@this.Handle, default, nSize), item.Path, nSize);
+                WriteProcessMemory(@this.Handle, lpParameter = VirtualAllocEx(@this.Handle, new(), nSize), item.Path, nSize);
                 _ = WaitForSingleObject(hThread = CreateRemoteThread(@this.Handle, lpStartAddress: lpStartAddress, lpParameter: lpParameter), Timeout.Infinite);
             }
             finally

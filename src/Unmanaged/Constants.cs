@@ -1,10 +1,8 @@
 namespace Bedrockix.Unmanaged;
 
-static class Constants
+partial class Constants 
 {
     internal const int WAIT_TIMEOUT = 0x00000102;
-
-    internal const int AO_NOERRORUI = 0x00000002;
 
     internal const int PROCESS_ALL_ACCESS = 0X1FFFFF;
 
@@ -26,11 +24,9 @@ static class Constants
 
     internal const int OPEN_EXISTING = 3;
 
-    internal const int PROCESS_QUERY_LIMITED_INFORMATION = 0x1000;
-
     internal const int APPLICATION_USER_MODEL_ID_MAX_LENGTH = 130;
 
     internal const int CSTR_EQUAL = 2;
 
-    internal const int PACKAGE_RELATIVE_APPLICATION_ID_MAX_LENGTH = 65;
+    internal const int PACKAGE_FAMILY_NAME_MAX_LENGTH = APPLICATION_USER_MODEL_ID_MAX_LENGTH / 2;
 }

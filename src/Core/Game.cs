@@ -1,6 +1,6 @@
 using Bedrockix.Windows;
 using Windows.Management.Core;
-using Bedrockix.Unmanaged.Types;
+using Bedrockix.Unmanaged.Structures;
 using static Bedrockix.Unmanaged.Native;
 using static Bedrockix.Unmanaged.Constants;
 
@@ -18,7 +18,7 @@ public sealed partial class Game : App
     {
         if (!value) return base.Launch();
         using var @this = Launch();
-        return @this[default] ? @this.Id : null;
+        return @this[new()] ? @this.Id : null;
     }
 
     internal new unsafe Instance Launch()

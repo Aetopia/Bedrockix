@@ -1,5 +1,5 @@
 using System.IO;
-using static Bedrockix.Unmanaged.Native;
+using static Bedrockix.Unmanaged.Native ;
 
 namespace Bedrockix.Windows;
 
