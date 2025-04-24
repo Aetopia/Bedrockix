@@ -53,11 +53,33 @@ public unsafe partial class App
 
     public partial bool Unpackaged => Package.IsDevelopmentMode;
 
-    public partial bool Installed { get { GetPackagesByPackageFamily(Name, out var value); return value; } }
+    public partial bool Installed
+    {
+        get
+        {
+            GetPackagesByPackageFamily(Name, out var @this);
+            return @this;
+        }
+    }
 
-    public partial bool Debug { set { var @this = Package.Id.FullName; if (value) Settings.EnableDebugging(@this); else Settings.DisableDebugging(@this); } }
+    public partial bool Debug
+    {
+        set
+        {
+            var @this = Package.Id.FullName;
+            if (value) Settings.EnableDebugging(@this);
+            else Settings.DisableDebugging(@this);
+        }
+    }
 
-    public partial bool Running { get { foreach (var _ in Processes) return true; return false; } }
+    public partial bool Running
+    {
+        get
+        {
+            foreach (var _ in Processes) return true;
+            return false;
+        }
+    }
 
     public partial void Terminate() => Settings.TerminateAllProcesses(Package.Id.FullName);
 }
