@@ -19,9 +19,9 @@ public unsafe partial class App
 
     readonly Lazy<AppInfo> Info;
 
-    readonly PACKAGE_FAMILY_NAME Name = default;
+    readonly PACKAGE_FAMILY_NAME Name = new();
 
-    readonly APPLICATION_USER_MODEL_ID Id = default;
+    readonly APPLICATION_USER_MODEL_ID Id = new();
 
     internal Package Package => Info.Value.Package;
 
@@ -35,7 +35,7 @@ public unsafe partial class App
     {
         get
         {
-            nint hWnd = default, hProcess = default; APPLICATION_USER_MODEL_ID @this = default;
+            nint hWnd = new(), hProcess = new(); APPLICATION_USER_MODEL_ID @this = new();
             while ((hWnd = FindWindowEx(hWndChildAfter: hWnd)) != default)
             {
                 try

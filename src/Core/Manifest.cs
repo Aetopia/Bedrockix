@@ -9,13 +9,6 @@ sealed class Manifest
 {
     readonly object _ = new();
 
-    static readonly XmlReaderSettings Settings = new()
-    {
-        IgnoreComments = true,
-        IgnoreWhitespace = true,
-        IgnoreProcessingInstructions = true
-    };
-
     readonly Game Game; DateTime Timestamp; string Path;
 
     internal Manifest(Game value) => Game = value;
@@ -23,6 +16,8 @@ sealed class Manifest
     internal string Version { get { Get(); return field; } private set; }
 
     internal bool Instancing { get { Get(); return field; } private set; }
+
+    static readonly XmlReaderSettings Settings = new() { IgnoreComments = true, IgnoreWhitespace = true, IgnoreProcessingInstructions = true };
 
     void Get()
     {
