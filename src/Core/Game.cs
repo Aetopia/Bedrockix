@@ -14,7 +14,7 @@ public sealed partial class Game : App
     {
         if (!value) return base.Launch();
         using var @this = Launch();
-        return @this[new()] ? @this.Id : null;
+        return @this[false] ? @this.Id : null;
     }
 
     internal new unsafe Instance Launch()

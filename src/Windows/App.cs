@@ -35,8 +35,8 @@ public unsafe partial class App
     {
         get
         {
-            nint hWnd = new(), hProcess = new();
-            APPLICATION_USER_MODEL_ID @this = new();
+            nint hWnd = default, hProcess = default;
+            APPLICATION_USER_MODEL_ID @this = default;
 
             while ((hWnd = FindWindowEx(hWndChildAfter: hWnd)) != default)
             {
@@ -55,17 +55,9 @@ public unsafe partial class App
 
     public partial bool Installed { get { GetPackagesByPackageFamily(Name, out var value); return value; } }
 
-    public partial bool Debug
-    {
-        set
-        {
-            var @this = Package.Id.FullName;
-            if (value) Settings.EnableDebugging(@this, new(), new());
-            else Settings.DisableDebugging(@this);
-        }
-    }
+    public partial bool Debug { set { var @this = Package.Id.FullName; if (value) Settings.EnableDebugging(@this); else Settings.DisableDebugging(@this); } }
 
-    public partial bool Running { get { foreach (var _ in Processes) return true; return new(); } }
+    public partial bool Running { get { foreach (var _ in Processes) return true; return false; } }
 
     public partial void Terminate() => Settings.TerminateAllProcesses(Package.Id.FullName);
 }

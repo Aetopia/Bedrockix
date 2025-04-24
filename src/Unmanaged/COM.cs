@@ -16,8 +16,7 @@ interface IApplicationActivationManager { void ActivateApplication(in APPLICATIO
 [Guid("F27C3930-8029-4AD1-94E3-3DBA417810C1"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 interface IPackageDebugSettings
 {
-    void EnableDebugging([MarshalAs(UnmanagedType.LPWStr)] string packageFullName, nint debuggerCommandLine, nint environment);
-    void DisableDebugging([MarshalAs(UnmanagedType.LPWStr)] string packageFullName);
-    void Suspend(nint packageFullName); void Resume(nint packageFullName);
+    void EnableDebugging([MarshalAs(UnmanagedType.LPWStr)] string packageFullName, nint debuggerCommandLine = default, nint environment = default);
+    void DisableDebugging([MarshalAs(UnmanagedType.LPWStr)] string packageFullName); void Suspend(nint _); void Resume(nint _);
     void TerminateAllProcesses([MarshalAs(UnmanagedType.LPWStr)] string packageFullName);
 }

@@ -41,20 +41,15 @@ public sealed partial class Loader
 
         foreach (var item in value)
         {
-            nint lpParameter = new(), hThread = new();
+            nint lpParameter = default, hThread = default;
             var nSize = sizeof(char) * (item.Path.Length + 1);
 
             try
             {
-                lpParameter = VirtualAllocEx(@this.Handle, new(), nSize);
-                WriteProcessMemory(@this.Handle, lpParameter, item.Path, nSize);
+                WriteProcessMemory(@this.Handle, lpParameter = VirtualAllocEx(@this.Handle, dwSize: nSize), item.Path, nSize);
                 _ = WaitForSingleObject(hThread = CreateRemoteThread(@this.Handle, lpStartAddress: lpStartAddress, lpParameter: lpParameter), Timeout.Infinite);
             }
-            finally
-            {
-                VirtualFreeEx(@this.Handle, lpParameter);
-                CloseHandle(hThread);
-            }
+            finally { VirtualFreeEx(@this.Handle, lpParameter); CloseHandle(hThread); }
         }
 
         return @this.Id;
