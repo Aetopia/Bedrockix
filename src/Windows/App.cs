@@ -29,7 +29,11 @@ public unsafe partial class App
 
     static readonly IApplicationActivationManager Manager = (IApplicationActivationManager)new ApplicationActivationManager();
 
-    internal int Launch() { Manager.ActivateApplication(Id, default, ACTIVATEOPTIONS.AO_NOERRORUI, out var value); return value; }
+    internal int Launch()
+    {
+        Manager.ActivateApplication(Id, default, ACTIVATEOPTIONS.AO_NOERRORUI, out var @this);
+        return @this;
+    }
 
     internal IEnumerable<int> Processes
     {
