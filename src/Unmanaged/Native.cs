@@ -16,7 +16,7 @@ unsafe static partial class Native
     [DllImport("Kernel32", ExactSpelling = true, SetLastError = true)]
     internal static extern void ParseApplicationUserModelId(nint applicationUserModelId, in int packageFamilyNameLength = PACKAGE_FAMILY_NAME_MAX_LENGTH, in PACKAGE_FAMILY_NAME packageFamilyName = default, in int packageRelativeApplicationIdLength = PACKAGE_FAMILY_NAME_MAX_LENGTH, in PACKAGE_FAMILY_NAME packageRelativeApplicationId = default);
 
-    [DllImport("Kernel32", ExactSpelling = true, SetLastError = true, CharSet = CharSet.Unicode)]
+    [DllImport("Kernel32", ExactSpelling = true, SetLastError = true)]
     internal static extern void GetPackagesByPackageFamily(in PACKAGE_FAMILY_NAME packageFamilyName, out bool count, nint packageFullNames = default, in int bufferLength = default, nint buffer = default);
 
     [DllImport("Kernel32", ExactSpelling = true, SetLastError = true)]
