@@ -12,7 +12,7 @@ public sealed partial class Metadata
 
     internal Metadata(Game value) => Manifest = new(Game = value);
 
-    public partial IEnumerable<Process> Processes => Game.Processes.Select(_ => Process.GetProcessById(_));
+    public partial IEnumerable<Process> Processes => Game.Processes.Distinct().Select(_ => Process.GetProcessById(_));
 
     public partial string Version => Manifest.Version;
 
