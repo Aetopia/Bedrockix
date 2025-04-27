@@ -25,11 +25,7 @@ public partial class App
 
     static readonly IApplicationActivationManager Manager = (IApplicationActivationManager)new ApplicationActivationManager();
 
-    internal int Launch()
-    {
-        Manager.ActivateApplication(Id, default, ACTIVATEOPTIONS.AO_NOERRORUI, out var @this);
-        return @this;
-    }
+    internal int Launch() { Manager.ActivateApplication(Id, default, ACTIVATEOPTIONS.AO_NOERRORUI, out var @this); return @this; }
 
     internal IEnumerable<int> Processes
     {
@@ -47,15 +43,7 @@ public partial class App
 
     public partial bool Installed { get { GetPackagesByPackageFamily(Name, out var @this); return @this; } }
 
-    public partial bool Debug
-    {
-        set
-        {
-            var @this = Package.Id.FullName;
-            if (value) Settings.EnableDebugging(@this);
-            else Settings.DisableDebugging(@this);
-        }
-    }
+    public partial bool Debug { set { var @this = Package.Id.FullName; if (value) Settings.EnableDebugging(@this); else Settings.DisableDebugging(@this); } }
 
     public partial bool Running { get { foreach (var _ in Processes) return true; return false; } }
 
