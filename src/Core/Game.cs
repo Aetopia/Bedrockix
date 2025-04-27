@@ -8,7 +8,7 @@ namespace Bedrockix.Core;
 
 public sealed partial class Game : App
 {
-    internal Game(string @this) : base(@this) => (Loader, Metadata) = (new(this), new(this));
+    internal Game(string @this) : base(@this) { Loader = new(this); Metadata = new(this); }
 
     public partial int? Launch(bool value)
     {

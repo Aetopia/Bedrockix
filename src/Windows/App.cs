@@ -13,13 +13,13 @@ public partial class App
 {
     internal App(string @this)
     {
-        ParseApplicationUserModelId(lstrcpy(Id, @this), packageFamilyName: Name);
+        Id = new(@this); Name = new(); ParseApplicationUserModelId(Id, packageFamilyName: Name);
         Info = new(() => AppInfo.GetFromAppUserModelId(@this), LazyThreadSafetyMode.PublicationOnly);
     }
 
     readonly Lazy<AppInfo> Info; internal Package Package => Info.Value.Package;
 
-    readonly PackageFamilyName Name = new(); readonly ApplicationUserModelId Id = new();
+    readonly ApplicationUserModelId Id; readonly PackageFamilyName Name;
 
     static readonly IPackageDebugSettings Settings = (IPackageDebugSettings)new PackageDebugSettings();
 
@@ -43,7 +43,15 @@ public partial class App
 
     public partial bool Installed { get { GetPackagesByPackageFamily(Name, out var @this); return @this; } }
 
-    public partial bool Debug { set { var @this = Package.Id.FullName; if (value) Settings.EnableDebugging(@this); else Settings.DisableDebugging(@this); } }
+    public partial bool Debug
+    {
+        set
+        {
+            var @this = Package.Id.FullName;
+            if (value) Settings.EnableDebugging(@this);
+            else Settings.DisableDebugging(@this);
+        }
+    }
 
     public partial bool Running { get { foreach (var _ in Processes) return true; return false; } }
 

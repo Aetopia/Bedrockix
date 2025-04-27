@@ -12,10 +12,10 @@ namespace Bedrockix.Unmanaged;
 unsafe static partial class Native
 {
     [DllImport("Kernel32", ExactSpelling = true, CharSet = CharSet.Unicode, EntryPoint = "lstrcpyW")]
-    internal static extern nint lstrcpy(in ApplicationUserModelId lpString1, string lpString2);
+    internal static extern void lstrcpy(in ApplicationUserModelId lpString1, string lpString2);
 
     [DllImport("Kernel32", ExactSpelling = true, SetLastError = true)]
-    internal static extern void ParseApplicationUserModelId(nint applicationUserModelId, in int packageFamilyNameLength = PackageFamilyName.Length, in PackageFamilyName packageFamilyName = default, in int packageRelativeApplicationIdLength = PackageFamilyName.Length, in PackageFamilyName packageRelativeApplicationId = default);
+    internal static extern void ParseApplicationUserModelId(in ApplicationUserModelId applicationUserModelId, in int packageFamilyNameLength = PackageFamilyName.Length, in PackageFamilyName packageFamilyName = default, in int packageRelativeApplicationIdLength = PackageFamilyName.Length, in PackageFamilyName packageRelativeApplicationId = default);
 
     [DllImport("Kernel32", ExactSpelling = true, SetLastError = true)]
     internal static extern void GetPackagesByPackageFamily(in PackageFamilyName packageFamilyName, out bool count, nint packageFullNames = default, in int bufferLength = default, nint buffer = default);

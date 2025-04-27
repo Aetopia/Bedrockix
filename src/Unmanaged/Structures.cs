@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using static Bedrockix.Unmanaged.Native;
 
 namespace Bedrockix.Unmanaged.Structures;
 
@@ -10,7 +11,11 @@ readonly ref struct FILE_STANDARD_INFO
 }
 
 [StructLayout(default(LayoutKind), Size = sizeof(char) * Length)]
-readonly struct ApplicationUserModelId { internal const int Length = 130; }
+readonly struct ApplicationUserModelId
+{
+    internal const int Length = 130;
+    internal ApplicationUserModelId(string @this) => lstrcpy(this, @this);
+}
 
 [StructLayout(default(LayoutKind), Size = sizeof(char) * Length)]
 readonly struct PackageFamilyName { internal const int Length = 65; }

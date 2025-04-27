@@ -14,5 +14,5 @@ readonly struct Process : IDisposable
 
     internal Process(int @this) => Handle = OpenProcess(PROCESS_ALL_ACCESS, dwProcessId: Id = @this);
 
-    internal Process(nint @this) { GetWindowThreadProcessId(@this, out var @params); Handle = OpenProcess(PROCESS_ALL_ACCESS, dwProcessId: Id = @params); }
+    internal Process(nint @this) { GetWindowThreadProcessId(@this, out var Id); Handle = OpenProcess(PROCESS_ALL_ACCESS, dwProcessId: Id); }
 }
