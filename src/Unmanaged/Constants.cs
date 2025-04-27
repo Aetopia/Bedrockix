@@ -24,9 +24,5 @@ partial class Constants
 
     internal const int OPEN_EXISTING = 3;
 
-    internal const int APPLICATION_USER_MODEL_ID_MAX_LENGTH = 130;
-
     internal const int CSTR_EQUAL = 2;
-
-    internal const int PACKAGE_FAMILY_NAME_MAX_LENGTH = 65;
 }

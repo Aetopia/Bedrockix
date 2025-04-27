@@ -33,7 +33,7 @@ public sealed partial class Game : App
                         if (!@this[true]) return @this;
                         else @params = CreateFile2(lpFileName);
 
-                    while (GetFileInformationByHandleEx(@params, FileStandardInfo, out var lpFileInformation, sizeof(FILE_STANDARD_INFO)) && !lpFileInformation.DeletePending)
+                    while (GetFileInformationByHandleEx(@params, FileStandardInfo, out var @object, sizeof(FILE_STANDARD_INFO)) && !@object.DeletePending)
                         if (!@this[true]) return @this;
 
                     return @this;

@@ -12,19 +12,19 @@ namespace Bedrockix.Unmanaged;
 unsafe static partial class Native
 {
     [DllImport("Kernel32", ExactSpelling = true, CharSet = CharSet.Unicode, EntryPoint = "lstrcpyW")]
-    internal static extern nint lstrcpy(in APPLICATION_USER_MODEL_ID lpString1, string lpString2);
+    internal static extern nint lstrcpy(in ApplicationUserModelId lpString1, string lpString2);
 
     [DllImport("Kernel32", ExactSpelling = true, SetLastError = true)]
-    internal static extern void ParseApplicationUserModelId(nint applicationUserModelId, in int packageFamilyNameLength = PACKAGE_FAMILY_NAME_MAX_LENGTH, in PACKAGE_FAMILY_NAME packageFamilyName = default, in int packageRelativeApplicationIdLength = PACKAGE_FAMILY_NAME_MAX_LENGTH, in PACKAGE_FAMILY_NAME packageRelativeApplicationId = default);
+    internal static extern void ParseApplicationUserModelId(nint applicationUserModelId, in int packageFamilyNameLength = PackageFamilyName.Length, in PackageFamilyName packageFamilyName = default, in int packageRelativeApplicationIdLength = PackageFamilyName.Length, in PackageFamilyName packageRelativeApplicationId = default);
 
     [DllImport("Kernel32", ExactSpelling = true, SetLastError = true)]
-    internal static extern void GetPackagesByPackageFamily(in PACKAGE_FAMILY_NAME packageFamilyName, out bool count, nint packageFullNames = default, in int bufferLength = default, nint buffer = default);
+    internal static extern void GetPackagesByPackageFamily(in PackageFamilyName packageFamilyName, out bool count, nint packageFullNames = default, in int bufferLength = default, nint buffer = default);
 
     [DllImport("Kernel32", ExactSpelling = true, SetLastError = true)]
-    internal static extern int CompareStringOrdinal(in APPLICATION_USER_MODEL_ID lpString1 = default, int cchCount1 = -1, in APPLICATION_USER_MODEL_ID lpString2 = default, int cchCount2 = -1, bool bIgnoreCase = true);
+    internal static extern int CompareStringOrdinal(in ApplicationUserModelId lpString1 = default, int cchCount1 = -1, in ApplicationUserModelId lpString2 = default, int cchCount2 = -1, bool bIgnoreCase = true);
 
     [DllImport("Kernel32", ExactSpelling = true, SetLastError = true)]
-    internal static extern bool GetApplicationUserModelId(nint hProcess, in int applicationUserModelIdLength = APPLICATION_USER_MODEL_ID_MAX_LENGTH, in APPLICATION_USER_MODEL_ID applicationUserModelId = default);
+    internal static extern bool GetApplicationUserModelId(nint hProcess, in int applicationUserModelIdLength = ApplicationUserModelId.Length, in ApplicationUserModelId applicationUserModelId = default);
 
     [DllImport("User32", ExactSpelling = true, SetLastError = true)]
     internal static extern void GetWindowThreadProcessId(nint hWnd, out int lpdwProcessId);

@@ -17,13 +17,9 @@ public partial class App
         Info = new(() => AppInfo.GetFromAppUserModelId(@this), LazyThreadSafetyMode.PublicationOnly);
     }
 
-    readonly Lazy<AppInfo> Info;
+    readonly Lazy<AppInfo> Info; internal Package Package => Info.Value.Package;
 
-    readonly PACKAGE_FAMILY_NAME Name = new();
-
-    readonly APPLICATION_USER_MODEL_ID Id = new();
-
-    internal Package Package => Info.Value.Package;
+    readonly PackageFamilyName Name = new(); readonly ApplicationUserModelId Id = new();
 
     static readonly IPackageDebugSettings Settings = (IPackageDebugSettings)new PackageDebugSettings();
 
@@ -39,12 +35,12 @@ public partial class App
     {
         get
         {
-            nint @this = new(); APPLICATION_USER_MODEL_ID @params = new();
+            nint @this = new(); ApplicationUserModelId @params = new();
             while ((@this = FindWindowEx(hWndChildAfter: @this)) != default)
                 using (Process @object = new(@this))
                 {
                     if (GetApplicationUserModelId(@object.Handle, applicationUserModelId: @params)) continue;
-                    else if (CompareStringOrdinal(Id, lpString2: @params) == CSTR_EQUAL) yield return @object.Id;
+                    else if (CompareStringOrdinal(Id, lpString2: @params) is CSTR_EQUAL) yield return @object.Id;
                 }
         }
     }

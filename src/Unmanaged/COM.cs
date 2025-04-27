@@ -11,7 +11,7 @@ enum ACTIVATEOPTIONS { AO_NOERRORUI = 0x00000002 }
 [ComImport, Guid("45BA127D-10A8-46EA-8AB7-56EA9078943C")] class ApplicationActivationManager;
 
 [Guid("2E941141-7F97-4756-BA1D-9DECDE894A3D"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-interface IApplicationActivationManager { void ActivateApplication(in APPLICATION_USER_MODEL_ID appUserModelId, nint arguments, ACTIVATEOPTIONS options, out int processId); }
+interface IApplicationActivationManager { void ActivateApplication(in ApplicationUserModelId appUserModelId, nint arguments, ACTIVATEOPTIONS options, out int processId); }
 
 [Guid("F27C3930-8029-4AD1-94E3-3DBA417810C1"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 interface IPackageDebugSettings
