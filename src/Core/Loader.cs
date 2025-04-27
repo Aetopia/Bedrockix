@@ -41,7 +41,7 @@ public sealed partial class Loader
 
         foreach (var item in value)
         {
-            nint @params = default, @object = default;
+            nint @params = new(), @object = new();
             var nSize = sizeof(char) * (item.Path.Length + 1);
 
             try
