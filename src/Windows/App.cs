@@ -38,10 +38,8 @@ public partial class App
             nint @this = new(); ApplicationUserModelId @params = new();
             while ((@this = FindWindowEx(hWndChildAfter: @this)) != default)
                 using (Process @object = new(@this))
-                {
                     if (GetApplicationUserModelId(@object.Handle, applicationUserModelId: @params)) continue;
                     else if (CompareStringOrdinal(Id, lpString2: @params) is CSTR_EQUAL) yield return @object.Id;
-                }
         }
     }
 
