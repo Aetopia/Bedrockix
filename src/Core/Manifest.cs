@@ -5,17 +5,9 @@ using System.Diagnostics;
 
 namespace Bedrockix.Core;
 
-sealed class Manifest
+sealed class Manifest(Game @this, bool @params)
 {
-    readonly object _ = new();
-
-    readonly Game Game;
-
-    DateTime Timestamp;
-
-    string Path;
-
-    internal Manifest(Game @this) => Game = @this;
+    readonly object @object = new(); DateTime Timestamp; string Path;
 
     internal string Version { get { Get(); return field; } private set; }
 
@@ -25,15 +17,15 @@ sealed class Manifest
 
     void Get()
     {
-        lock (_)
+        lock (@object)
         {
-            var package = Game.Package;
+            var package = @this.Package;
             var path = @$"{package.InstalledPath}\AppxManifest.xml";
             var timestamp = File.GetLastWriteTimeUtc(path);
 
             if (Timestamp != timestamp || !path.Equals(Path, StringComparison.OrdinalIgnoreCase))
             {
-                (Timestamp, Path) = (timestamp, path);
+                Timestamp = timestamp; Path = path;
                 using var reader = XmlReader.Create(path, Settings);
 
                 if (reader.ReadToFollowing("Application"))
@@ -41,8 +33,8 @@ sealed class Manifest
                         switch (reader.LocalName)
                         {
                             case "Executable":
-                                var _ = FileVersionInfo.GetVersionInfo(@$"{package.InstalledPath}\{reader.ReadContentAsString()}").FileVersion;
-                                Version = _.Substring(new(), _.LastIndexOf('.'));
+                                var @string = FileVersionInfo.GetVersionInfo(@$"{package.InstalledPath}\{reader.ReadContentAsString()}").FileVersion;
+                                Version = @params ? @string : @string .Substring(new(), @string .LastIndexOf('.'));
                                 break;
 
                             case "SupportsMultipleInstances":
