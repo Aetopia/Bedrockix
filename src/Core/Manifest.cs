@@ -34,7 +34,7 @@ sealed class Manifest(Game @this, bool @params)
                         {
                             case "Executable":
                                 var @string = FileVersionInfo.GetVersionInfo(@$"{package.InstalledPath}\{reader.ReadContentAsString()}").FileVersion;
-                                Version = @params ? @string : @string .Substring(new(), @string .LastIndexOf('.'));
+                                Version = @params ? @string : @string.Substring(new(), @string.LastIndexOf('.'));
                                 break;
 
                             case "SupportsMultipleInstances":
