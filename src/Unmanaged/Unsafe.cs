@@ -16,7 +16,7 @@ unsafe static class Unsafe
     internal static extern void ParseApplicationUserModelId(in ApplicationUserModelId applicationUserModelId, in int packageFamilyNameLength, out PackageFamilyName packageFamilyName, in int packageRelativeApplicationIdLength, in PackageFamilyName packageRelativeApplicationId);
 
     [DllImport("Kernel32", ExactSpelling = true, SetLastError = true)]
-    internal static extern void GetPackagesByPackageFamily(in PackageFamilyName packageFamilyName, out bool count, nint packageFullNames, out int bufferLength, nint buffer);
+    internal static extern void GetPackagesByPackageFamily(in PackageFamilyName packageFamilyName, out bool count, nint packageFullNames, in int bufferLength, nint buffer);
 
     [DllImport("Kernel32", ExactSpelling = true, SetLastError = true)]
     internal static extern int CompareStringOrdinal(in ApplicationUserModelId lpString1, int cchCount1, in ApplicationUserModelId lpString2, int cchCount2, bool bIgnoreCase = true);
