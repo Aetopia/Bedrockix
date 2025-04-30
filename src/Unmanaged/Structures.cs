@@ -40,11 +40,11 @@ readonly struct Process : IDisposable
 
     readonly Handle _; internal readonly int Id;
 
-    internal bool this[bool value] => Safe.WaitForSingleObject(_, value);
+    internal bool this[bool @this] => Safe.WaitForSingleObject(_, @this);
 
-    internal Process(int value) { Id = value; _ = new(Safe.OpenProcess(value)); }
+    internal Process(int @this) { Id = @this; _ = new(Safe.OpenProcess(@this)); }
 
-    internal Process(nint value) { Id = Safe.GetWindowThreadProcessId(value); _ = new(Safe.OpenProcess(Id)); }
+    internal Process(nint @this) { Id = Safe.GetWindowThreadProcessId(@this); _ = new(Safe.OpenProcess(Id)); }
 
     public static implicit operator nint(in Process @this) => @this._;
 }
