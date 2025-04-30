@@ -17,7 +17,7 @@ public sealed partial class Game : App
         {
             Handle? @params = default;
 
-            if (!Running || (@params = CreateFile(@this)) is not null || Metadata.Instancing)
+            if (!Running || (@params = CreateFile(@this)) is not null)
             {
                 Process @object = new(base.Launch());
 
