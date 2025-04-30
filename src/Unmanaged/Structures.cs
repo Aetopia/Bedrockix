@@ -5,7 +5,7 @@ using static Bedrockix.Unmanaged.Constants;
 namespace Bedrockix.Unmanaged;
 
 [StructLayout(LayoutKind.Sequential)]
-readonly ref struct FILE_STANDARD_INFO
+readonly ref struct FileStandardInfo
 {
     internal readonly long AllocationSize, EndOfFile;
 

@@ -30,10 +30,10 @@ public partial class App
     {
         get
         {
-            nint _ = new();
-            while ((_ = FindWindowEx(_)) != default) using (Process @this = new(_))
-                    if (GetApplicationUserModelId(@this, out var @params) && CompareStringOrdinal(Id, @params))
-                        yield return @this.Id;
+            nint @this = new(); ApplicationUserModelId @params = new();
+            while ((@this = FindWindowEx(@this)) != default) using (Process @object = new(@this))
+                    if (GetApplicationUserModelId(@object, @params) && CompareStringOrdinal(Id, @params))
+                        yield return @object.Id;
         }
     }
 

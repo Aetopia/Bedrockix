@@ -31,7 +31,7 @@ unsafe static class Unsafe
     internal static extern nint FindWindowEx(nint hWndParent, nint hWndChildAfter, string lpszClass, nint lpszWindow);
 
     [DllImport("Kernel32", ExactSpelling = true, SetLastError = true)]
-    internal static extern void GetFileInformationByHandleEx(nint hFile, FILE_INFO_BY_HANDLE_CLASS FileInformationClass, out FILE_STANDARD_INFO lpFileInformation, int dwBufferSize);
+    internal static extern void GetFileInformationByHandleEx(nint hFile, FILE_INFO_BY_HANDLE_CLASS FileInformationClass, out FileStandardInfo lpFileInformation, int dwBufferSize);
 
     [DllImport("Kernel32", ExactSpelling = true, CharSet = CharSet.Unicode, SetLastError = true, EntryPoint = "CreateFile2")]
     internal static extern nint CreateFile(char* lpFileName, int dwDesiredAccess, int dwShareMode, int dwCreationDisposition, nint pCreateExParams);

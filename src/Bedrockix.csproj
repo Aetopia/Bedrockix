@@ -7,7 +7,7 @@
     <PackRelease>true</PackRelease>
     <PublishRelease>true</PublishRelease>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <NoWarn>IDE0130;IDE0057;SYSLIB1054;IDE0330;IDE0052;CA2101</NoWarn>
+    <NoWarn>IDE0130;IDE0057;SYSLIB1054;IDE0330;IDE0052;CA2101;CA1806</NoWarn>
 
     <PackageId>Bedrockix</PackageId>
     <Title>Bedrockix</Title>
