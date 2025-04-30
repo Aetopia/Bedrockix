@@ -49,11 +49,11 @@ readonly struct Process : IDisposable
     public static implicit operator nint(in Process @this) => @this._;
 }
 
-readonly ref struct Address(nint @this, nint @params, int @object) : IDisposable
+readonly ref struct Address(nint @this, int @params) : IDisposable
 {
-    readonly nint _ = @params;
+    readonly nint _ = Unsafe.VirtualAllocEx(@this, default, @params, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
 
-    public void Write(string value) => Unsafe.WriteProcessMemory(@this, _, value, @object, default);
+    public void Write(string value) => Unsafe.WriteProcessMemory(@this, _, value, @params, default);
 
     public void Dispose() => Unsafe.VirtualFreeEx(@this, default, default, MEM_RELEASE);
 
