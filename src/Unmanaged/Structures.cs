@@ -55,7 +55,7 @@ readonly ref struct Address(nint @this, int @params) : IDisposable
 
     public void Write(string value) => Unsafe.WriteProcessMemory(@this, _, value, @params, default);
 
-    public void Dispose() => Unsafe.VirtualFreeEx(@this, default, default, MEM_RELEASE);
+    public void Dispose() => Unsafe.VirtualFreeEx(@this, _, default, MEM_RELEASE);
 
     public static implicit operator nint(in Address @this) => @this._;
 }
