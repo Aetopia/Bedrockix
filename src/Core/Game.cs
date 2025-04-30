@@ -9,11 +9,7 @@ public sealed partial class Game : App
 {
     internal Game(string @this, bool @params) : base(@this) { Loader = new(this); Metadata = new(this, @params); }
 
-    public partial int? Launch(bool value)
-    {
-        if (!value) return base.Launch();
-        using var @this = Launch(); return @this[false] ? @this.Id : null;
-    }
+    public partial int? Launch(bool value) { if (!value) return base.Launch(); using var @this = Launch(); return @this[false] ? @this.Id : null; }
 
     internal new unsafe Process Launch()
     {
