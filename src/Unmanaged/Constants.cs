@@ -1,7 +1,11 @@
 namespace Bedrockix.Unmanaged;
 
-partial class Constants 
+partial class Constants
 {
+    internal enum ACTIVATEOPTIONS { AO_NOERRORUI = 0x00000002 }
+
+    internal enum FILE_INFO_BY_HANDLE_CLASS { FileStandardInfo = 1 }
+
     internal const int WAIT_TIMEOUT = 0x00000102;
 
     internal const int PROCESS_ALL_ACCESS = 0X1FFFFF;
@@ -19,8 +23,6 @@ partial class Constants
     internal const int FILE_SHARE_DELETE = 0x00000004;
 
     internal const nint INVALID_HANDLE_VALUE = -1;
-
-    internal const int FileStandardInfo = 1;
 
     internal const int OPEN_EXISTING = 3;
 

@@ -1,12 +1,12 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using Bedrockix.Windows;
 using System.Security.Principal;
 using System.Collections.Generic;
 using System.Security.AccessControl;
-using static Bedrockix.Unmanaged.Native;
+using static Bedrockix.Unmanaged.Safe;
+using Bedrockix.Unmanaged;
 
 namespace Bedrockix.Core;
 
@@ -16,7 +16,7 @@ public sealed partial class Loader
 
     readonly Game Game;
 
-    static readonly nint Address = GetProcAddress(GetModuleHandle("Kernel32"));
+    static readonly nint Address = GetProcAddress();
 
     static readonly FileSystemAccessRule Rule = new(new SecurityIdentifier("S-1-15-2-1"), FileSystemRights.FullControl, AccessControlType.Allow);
 
@@ -28,8 +28,8 @@ public sealed partial class Loader
         {
             FileInfo info = new(item.Path);
 
-            if (!item.Exists || !info.Exists) throw new FileNotFoundException(null, item.Path);
-            if (!item.Valid) throw new BadImageFormatException(null, item.Path);
+            if (!item.Exists || !info.Exists) throw new FileNotFoundException(default, item.Path);
+            if (!item.Valid) throw new BadImageFormatException(default, item.Path);
 
             var security = info.GetAccessControl();
             security.SetAccessRule(Rule);
@@ -41,15 +41,8 @@ public sealed partial class Loader
 
         foreach (var item in value)
         {
-            nint @params = new(), @object = new();
-            var nSize = sizeof(char) * (item.Path.Length + 1);
-
-            try
-            {
-                WriteProcessMemory(@this.Handle, @params = VirtualAllocEx(@this.Handle, dwSize: nSize), item.Path, nSize);
-                WaitForSingleObject(@object = CreateRemoteThread(@this.Handle, lpStartAddress: Address, lpParameter: @params));
-            }
-            finally { VirtualFreeEx(@this.Handle, @params); CloseHandle(@object); }
+            using var @params = VirtualAllocEx(@this, sizeof(char) * (item.Path.Length + 1)); @params.Write(item.Path);
+            using Thread @object = new(@this, Address, @params); @object.Wait();
         }
 
         return @this.Id;

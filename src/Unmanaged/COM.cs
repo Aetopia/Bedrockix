@@ -1,10 +1,8 @@
 using System;
 using System.Runtime.InteropServices;
-using Bedrockix.Unmanaged.Structures;
+using static Bedrockix.Unmanaged.Constants;
 
-namespace Bedrockix.Unmanaged.COM;
-
-enum ACTIVATEOPTIONS { AO_NOERRORUI = 0x00000002 }
+namespace Bedrockix.Unmanaged;
 
 [ComImport, Guid("B1AEC16F-2383-4852-B0E9-8F0B1DC66B4D")] class PackageDebugSettings;
 

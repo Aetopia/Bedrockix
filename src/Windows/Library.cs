@@ -1,5 +1,5 @@
 using System.IO;
-using static Bedrockix.Unmanaged.Native ;
+using Bedrockix.Unmanaged;
 
 namespace Bedrockix.Windows;
 
@@ -16,6 +16,6 @@ public sealed partial class Library
     public Library(string value)
     {
         if (Exists = File.Exists(Path = System.IO.Path.GetFullPath(value)) && System.IO.Path.HasExtension(Path))
-            Valid = FreeLibrary(LoadLibraryEx(Path));
+            Valid = Unsafe.FreeLibrary(Safe.LoadLibraryEx(Path));
     }
 }

@@ -7,7 +7,7 @@ namespace Bedrockix.Core;
 
 sealed class Manifest(Game @this, bool @params)
 {
-    readonly object @object = new(); DateTime Timestamp; string Path;
+    readonly object _ = new(); DateTime Timestamp; string Path;
 
     internal string Version { get { Get(); return field; } private set; }
 
@@ -17,7 +17,7 @@ sealed class Manifest(Game @this, bool @params)
 
     void Get()
     {
-        lock (@object)
+        lock (_ )
         {
             var package = @this.Package;
             var path = @$"{package.InstalledPath}\AppxManifest.xml";

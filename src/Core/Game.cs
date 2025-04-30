@@ -1,8 +1,7 @@
 using Bedrockix.Windows;
 using Windows.Management.Core;
-using Bedrockix.Unmanaged.Structures;
-using static Bedrockix.Unmanaged.Native;
-using static Bedrockix.Unmanaged.Constants;
+using static Bedrockix.Unmanaged.Safe;
+using Bedrockix.Unmanaged;
 
 namespace Bedrockix.Core;
 
@@ -23,27 +22,19 @@ public sealed partial class Game : App
 
     internal new unsafe Process Launch()
     {
-        fixed (char* lpFileName = @$"{ApplicationDataManager.CreateForPackageFamily(Package.Id.FamilyName).LocalFolder.Path}\games\com.mojang\minecraftpe\resource_init_lock")
+        fixed (char* @this = @$"{ApplicationDataManager.CreateForPackageFamily(Package.Id.FamilyName).LocalFolder.Path}\games\com.mojang\minecraftpe\resource_init_lock")
         {
-            var @params = INVALID_HANDLE_VALUE;
+            Handle? @params = default;
 
-            try
+            if (!Running || (@params = CreateFile(@this)) is not null || Metadata.Instancing)
             {
-                if (!Running || (@params = CreateFile2(lpFileName)) != INVALID_HANDLE_VALUE || Metadata.Instancing)
-                {
-                    Process @this = new(base.Launch());
+                Process @object = new(base.Launch());
 
-                    while (@params is INVALID_HANDLE_VALUE)
-                        if (!@this[true]) return @this;
-                        else @params = CreateFile2(lpFileName);
+                while (@params is null) if (!@object[true]) return @object; else @params = CreateFile(@this);
+                using (@params) while (GetFileInformationByHandleEx((Handle)@params)) if (!@object[true]) return @object;
 
-                    while (GetFileInformationByHandleEx(@params, FileStandardInfo, out var @object, sizeof(FILE_STANDARD_INFO)) && !@object.DeletePending)
-                        if (!@this[true]) return @this;
-
-                    return @this;
-                }
+                return @object;
             }
-            finally { CloseHandle(@params); }
 
             return new(base.Launch());
         }

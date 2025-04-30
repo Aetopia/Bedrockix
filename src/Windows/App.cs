@@ -1,10 +1,9 @@
 using System;
 using System.Threading;
-using Bedrockix.Unmanaged.COM;
 using Windows.ApplicationModel;
 using System.Collections.Generic;
-using Bedrockix.Unmanaged.Structures;
-using static Bedrockix.Unmanaged.Native;
+using Bedrockix.Unmanaged;
+using static Bedrockix.Unmanaged.Safe;
 using static Bedrockix.Unmanaged.Constants;
 
 namespace Bedrockix.Windows;
@@ -13,13 +12,13 @@ public partial class App
 {
     internal App(string @this)
     {
-        Id = new(@this); Name = new(); ParseApplicationUserModelId(Id, packageFamilyName: Name);
+        Id = new(@this); Name = ParseApplicationUserModelId(Id);
         Info = new(() => AppInfo.GetFromAppUserModelId(@this), LazyThreadSafetyMode.PublicationOnly);
     }
 
-    readonly Lazy<AppInfo> Info; internal Package Package => Info.Value.Package;
-
     readonly ApplicationUserModelId Id; readonly PackageFamilyName Name;
+
+    readonly Lazy<AppInfo> Info; internal Package Package => Info.Value.Package;
 
     static readonly IPackageDebugSettings Settings = (IPackageDebugSettings)new PackageDebugSettings();
 
@@ -31,17 +30,16 @@ public partial class App
     {
         get
         {
-            nint @this = new(); ApplicationUserModelId @params = new();
-            while ((@this = FindWindowEx(hWndChildAfter: @this)) != default)
-                using (Process @object = new(@this))
-                    if (GetApplicationUserModelId(@object.Handle, applicationUserModelId: @params)) continue;
-                    else if (CompareStringOrdinal(Id, lpString2: @params) is CSTR_EQUAL) yield return @object.Id;
+            nint _ = new();
+            while ((_ = FindWindowEx(_)) != default) using (Process @this = new(_))
+                    if (GetApplicationUserModelId(@this, out var @params)) continue;
+                    else if (CompareStringOrdinal(Id, @params)) yield return @this.Id;
         }
     }
 
     public partial bool Unpackaged => Package.IsDevelopmentMode;
 
-    public partial bool Installed { get { GetPackagesByPackageFamily(Name, out var @this); return @this; } }
+    public partial bool Installed => GetPackagesByPackageFamily(Name);
 
     public partial bool Debug
     {
