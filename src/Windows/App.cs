@@ -32,8 +32,8 @@ public partial class App
         {
             nint _ = new();
             while ((_ = FindWindowEx(_)) != default) using (Process @this = new(_))
-                    if (GetApplicationUserModelId(@this, out var @params)) continue;
-                    else if (CompareStringOrdinal(Id, @params)) yield return @this.Id;
+                    if (GetApplicationUserModelId(@this, out var @params) && CompareStringOrdinal(Id, @params))
+                        yield return @this.Id;
         }
     }
 
