@@ -29,7 +29,7 @@ public sealed partial class Loader
             FileInfo info = new(item.Path);
 
             if (!info.Exists || string.IsNullOrEmpty(info.Extension)) throw new FileNotFoundException(default, info.FullName);
-            else if (!Unsafe.FreeLibrary(LoadLibraryEx(info.FullName))) throw new BadImageFormatException(default, info.FullName);
+            else if (!FreeLibrary(info.FullName)) throw new BadImageFormatException(default, info.FullName);
 
             var security = info.GetAccessControl();
             security.SetAccessRule(Rule);

@@ -47,8 +47,8 @@ unsafe static class Safe
     internal static bool CompareStringOrdinal(in ApplicationUserModelId lpString1, in ApplicationUserModelId lpString2) =>
     Unsafe.CompareStringOrdinal(lpString1, -1, lpString2, -1, true) is CSTR_EQUAL;
 
-    internal static nint LoadLibraryEx(string lpLibFileName) =>
-    Unsafe.LoadLibraryEx(lpLibFileName, default, DONT_RESOLVE_DLL_REFERENCES);
+    internal static bool FreeLibrary(string lpLibFileName) =>
+    Unsafe.FreeLibrary(Unsafe.LoadLibraryEx(lpLibFileName, default, DONT_RESOLVE_DLL_REFERENCES));
 
     internal static Address VirtualAllocEx(in Process hProcess, int dwSize) =>
     new(hProcess, Unsafe.VirtualAllocEx(hProcess, default, dwSize, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE), dwSize);
