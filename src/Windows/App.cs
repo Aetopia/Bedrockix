@@ -31,9 +31,7 @@ public partial class App
         get
         {
             nint @this = new(); ApplicationUserModelId @params = new();
-            while ((@this = FindWindowEx(@this)) != default) using (Process @object = new(@this))
-                    if (GetApplicationUserModelId(@object, @params) && CompareStringOrdinal(Id, @params))
-                        yield return @object.Id;
+            while ((@this = FindWindowEx(@this)) != default) using (Process @object = new(@this)) if (GetApplicationUserModelId(@object, @params) && CompareStringOrdinal(Id, @params)) yield return @object.Id;
         }
     }
 
@@ -41,15 +39,7 @@ public partial class App
 
     public partial bool Installed => GetPackagesByPackageFamily(Name);
 
-    public partial bool Debug
-    {
-        set
-        {
-            var @this = Package.Id.FullName;
-            if (value) Settings.EnableDebugging(@this);
-            else Settings.DisableDebugging(@this);
-        }
-    }
+    public partial bool Debug { set { var @this = Package.Id.FullName; if (value) Settings.EnableDebugging(@this); else Settings.DisableDebugging(@this); } }
 
     public partial bool Running { get { foreach (var _ in Processes) return true; return false; } }
 

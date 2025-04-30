@@ -31,13 +31,10 @@ public sealed partial class Loader
             if (!info.Exists || string.IsNullOrEmpty(info.Extension)) throw new FileNotFoundException(default, info.FullName);
             else if (!LoadLibraryEx(info.FullName)) throw new BadImageFormatException(default, info.FullName);
 
-            var security = info.GetAccessControl();
-            security.SetAccessRule(Rule);
-            info.SetAccessControl(security);
+            var security = info.GetAccessControl(); security.SetAccessRule(Rule); info.SetAccessControl(security);
         }
 
-        using var @this = Game.Launch();
-        if (!@this[false]) return null;
+        using var @this = Game.Launch(); if (!@this[false]) return null;
 
         foreach (var item in value)
         {
