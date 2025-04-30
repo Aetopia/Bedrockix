@@ -38,9 +38,7 @@ readonly struct Process : IDisposable
 {
     public void Dispose() => _.Dispose();
 
-    internal readonly int Id;
-
-    readonly Handle _;
+    readonly Handle _; internal readonly int Id;
 
     internal bool this[bool value] => Safe.WaitForSingleObject(_, value);
 
@@ -64,7 +62,7 @@ readonly ref struct Address(nint @this, nint @params, int @object) : IDisposable
 
 readonly ref struct Thread(nint @this, nint @params, nint @object) : IDisposable
 {
-    internal readonly Handle Handle = new(Unsafe.CreateRemoteThread(@this, default, default, @params, @object, default, default));
+    readonly Handle Handle = new(Unsafe.CreateRemoteThread(@this, default, default, @params, @object, default, default));
 
     public void Dispose() => Handle.Dispose();
 
