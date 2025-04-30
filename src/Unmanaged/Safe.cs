@@ -17,7 +17,7 @@ unsafe static class Safe
 
     internal static nint OpenProcess(int dwProcessId) => Unsafe.OpenProcess(PROCESS_ALL_ACCESS, default, dwProcessId);
 
-    internal static nint FindWindowEx(nint hWnd) => Unsafe.FindWindowEx(default, hWnd, "MSCTFIME UI", default);
+    internal static nint FindWindowEx(nint hWndChildAfter) => Unsafe.FindWindowEx(default, hWndChildAfter, "MSCTFIME UI", default);
 
     internal static PackageFamilyName ParseApplicationUserModelId(in ApplicationUserModelId applicationUserModelId) { Unsafe.ParseApplicationUserModelId(applicationUserModelId, PackageFamilyName.Length, out var @this, PackageFamilyName.Length, default); return @this; }
 
