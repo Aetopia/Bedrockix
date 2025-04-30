@@ -62,7 +62,7 @@ readonly ref struct Address(nint @this, nint @params, int @object) : IDisposable
 
 readonly ref struct Thread(nint @this, nint @params, nint @object) : IDisposable
 {
-    readonly Handle _= new(Unsafe.CreateRemoteThread(@this, default, default, @params, @object, default, default));
+    readonly Handle _ = new(Unsafe.CreateRemoteThread(@this, default, default, @params, @object, default, default));
 
     public void Dispose() => _.Dispose();
 
