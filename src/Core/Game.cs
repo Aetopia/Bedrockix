@@ -21,25 +21,15 @@ public sealed partial class Game : App
         {
             Handle? @params = default;
 
-            try
+            if (!Running || (@params = CreateFile(@this)).HasValue)
             {
-                if (!Running || (@params = CreateFile(@this)).HasValue)
-                {
-                    Process @object = new(base.Launch());
+                Process @object = new(base.Launch());
 
-                    do
-                        if (@params.HasValue) break;
-                        else @params = CreateFile(@this);
-                    while (@object[true]);
+                while (!@params.HasValue) if (@object[true]) @params = CreateFile(@this); else return @object;
+                using (@params) while (!GetFileInformationByHandleEx(@params)) if (!@object[true]) break;
 
-                    do
-                        if (GetFileInformationByHandleEx(@params)) break;
-                    while (@object[true]);
-
-                    return @object;
-                }
+                return @object;
             }
-            finally { @params?.Dispose(); }
 
             return new(base.Launch());
         }
