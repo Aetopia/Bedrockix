@@ -34,11 +34,12 @@ public sealed partial class Loader
             var security = info.GetAccessControl(); security.SetAccessRule(Rule); info.SetAccessControl(security);
         }
 
-        using var @this = Game.Launch(); if (!@this[false]) return null;
+        using var @this = Game.Launch();
+        if (!@this[false]) return null;
 
         foreach (var item in value)
         {
-            using var @params = VirtualAllocEx(@this, sizeof(char) * (item.Path.Length + 1)); @params.Write(item.Path);
+            using Address @params = new(@this, sizeof(char) * (item.Path.Length + 1)); @params.Write(item.Path);
             using Thread @object = new(@this, Address, @params); @object.Wait();
         }
 

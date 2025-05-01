@@ -42,14 +42,22 @@ readonly struct Process : IDisposable
 
     internal bool this[bool @this] => Safe.WaitForSingleObject(_, @this);
 
-    internal Process(int @this) { Id = @this; _ = new(Safe.OpenProcess(@this)); }
+    internal Process(int @this)
+    {
+        Id = @this;
+        _ = new(Safe.OpenProcess(@this));
+    }
 
-    internal Process(nint @this) { Id = Safe.GetWindowThreadProcessId(@this); _ = new(Safe.OpenProcess(Id)); }
+    internal Process(nint @this)
+    {
+        Id = Safe.GetWindowThreadProcessId(@this);
+        _ = new(Safe.OpenProcess(Id));
+    }
 
     public static implicit operator nint(in Process @this) => @this._;
 }
 
-readonly ref struct Address(nint @this, int @params) : IDisposable
+readonly struct Address(nint @this, int @params) : IDisposable
 {
     readonly nint _ = Unsafe.VirtualAllocEx(@this, default, @params, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
 
@@ -60,7 +68,7 @@ readonly ref struct Address(nint @this, int @params) : IDisposable
     public static implicit operator nint(in Address @this) => @this._;
 }
 
-readonly ref struct Thread(nint @this, nint @params, nint @object) : IDisposable
+readonly struct Thread(nint @this, nint @params, nint @object) : IDisposable
 {
     readonly Handle _ = new(Unsafe.CreateRemoteThread(@this, default, default, @params, @object, default, default));
 
