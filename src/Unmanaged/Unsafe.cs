@@ -67,7 +67,7 @@ unsafe static class Unsafe
     internal static extern void CloseHandle(nint hObject);
 
     [DllImport("Kernel32", SetLastError = true, ExactSpelling = true)]
-    internal static extern int WaitForSingleObject(nint hHandle, int dwMilliseconds);
+    internal static extern void WaitForSingleObject(nint hHandle, int dwMilliseconds);
 
     [DllImport("Kernel32", SetLastError = true, ExactSpelling = true)]
     internal static extern int WaitForSingleObject(nint hHandle, bool dwMilliseconds);
