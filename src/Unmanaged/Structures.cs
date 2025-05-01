@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.InteropServices;
+using System.Threading;
 using static Bedrockix.Unmanaged.Constants;
 
 namespace Bedrockix.Unmanaged;
@@ -40,7 +41,7 @@ readonly struct Process : IDisposable
 
     readonly Handle _; internal readonly int Id;
 
-    internal bool this[bool @this] => Safe.WaitForSingleObject(_, @this);
+    internal bool this[bool @this] => Unsafe.WaitForSingleObject(_, @this) is WAIT_TIMEOUT;
 
     internal Process(int @this)
     {
@@ -74,5 +75,5 @@ readonly struct Thread(nint @this, nint @params, nint @object) : IDisposable
 
     public void Dispose() => _.Dispose();
 
-    public void Wait() => Safe.WaitForSingleObject(_);
+    public void Wait() => Unsafe.WaitForSingleObject(_, Timeout.Infinite);
 }

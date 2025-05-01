@@ -17,16 +17,6 @@ unsafe static class Safe
         return @this.DeletePending;
     }
 
-    internal static bool WaitForSingleObject(in Handle hHandle, bool dwMilliseconds)
-    {
-        return Unsafe.WaitForSingleObject(hHandle, dwMilliseconds ? 1 : 0) is WAIT_TIMEOUT;
-    }
-
-    internal static void WaitForSingleObject(in Handle hHandle)
-    {
-        Unsafe.WaitForSingleObject(hHandle, Timeout.Infinite);
-    }
-
     internal static int GetWindowThreadProcessId(nint hWnd)
     {
         Unsafe.GetWindowThreadProcessId(hWnd, out var @this);
