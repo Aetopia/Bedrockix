@@ -1,6 +1,6 @@
 using System;
-using System.Runtime.InteropServices;
 using System.Threading;
+using System.Runtime.InteropServices;
 using static Bedrockix.Unmanaged.Constants;
 
 namespace Bedrockix.Unmanaged;
@@ -33,6 +33,8 @@ readonly struct Handle(nint @this) : IDisposable
     public void Dispose() => Unsafe.CloseHandle(_);
 
     public static implicit operator nint(in Handle @this) => @this._;
+
+    public static implicit operator bool(in Handle @this) => @this._ > default(nint);
 }
 
 readonly struct Process : IDisposable

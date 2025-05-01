@@ -122,11 +122,5 @@ sealed class Form : System.Windows.Forms.Form
         tableLayoutPanel.Controls.Add(button3, 0, 2);
         tableLayoutPanel.Controls.Add(button4, 0, 3);
         tableLayoutPanel.Controls.Add(new Control() { Dock = DockStyle.Fill }, 0, -1);
-
-        Application.ThreadExit += (_, _) =>
-        {
-            if (!Game.Installed) return;
-            Game.Terminate(); Game.Debug = default;
-        };
     }
 }

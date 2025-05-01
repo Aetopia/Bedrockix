@@ -1,20 +1,17 @@
-using System.Threading;
 using static Bedrockix.Unmanaged.Constants;
 
 namespace Bedrockix.Unmanaged;
 
 unsafe static class Safe
 {
-    internal static Handle? CreateFile(char* lpFileName)
+    internal static void CreateFile(char* lpFileName, out Handle hFile)
     {
-        var @this = Unsafe.CreateFile(lpFileName, default, FILE_SHARE_DELETE, OPEN_EXISTING, default);
-        return @this is INVALID_HANDLE_VALUE ? null : new(@this);
+        hFile = new(Unsafe.CreateFile(lpFileName, default, FILE_SHARE_DELETE, OPEN_EXISTING, default));
     }
 
-    internal static bool GetFileInformationByHandleEx(in Handle? hFile)
+    internal static void GetFileInformationByHandleEx(in Handle hFile, out FileStandardInfo lpFileInformation)
     {
-        Unsafe.GetFileInformationByHandleEx((Handle)hFile, FILE_INFO_BY_HANDLE_CLASS.FileStandardInfo, out var @this, sizeof(FileStandardInfo));
-        return @this.DeletePending;
+        Unsafe.GetFileInformationByHandleEx(hFile, FILE_INFO_BY_HANDLE_CLASS.FileStandardInfo, out lpFileInformation, sizeof(FileStandardInfo));
     }
 
     internal static int GetWindowThreadProcessId(nint hWnd)

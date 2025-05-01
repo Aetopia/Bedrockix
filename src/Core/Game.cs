@@ -19,14 +19,21 @@ public sealed partial class Game : App
     {
         fixed (char* @this = @$"{ApplicationDataManager.CreateForPackageFamily(Package.Id.FamilyName).LocalFolder.Path}\games\com.mojang\minecraftpe\resource_init_lock")
         {
-            Handle? @params = default;
-
-            if (!Running || (@params = CreateFile(@this)).HasValue)
+            CreateFile(@this, out var @params); if (!Running || @params)
             {
                 Process @object = new(base.Launch());
 
-                while (!@params.HasValue) if (!@object[true]) return @object; else @params = CreateFile(@this);
-                using (@params) while (!GetFileInformationByHandleEx(@params)) if (!@object[true]) break;
+                while (!@params)
+                {
+                    if (!@object[true]) return @object;
+                    CreateFile(@this, out @params);
+                }
+
+                using (@params) while (@object[true])
+                    {
+                        GetFileInformationByHandleEx(@params, out var @struct);
+                        if (@struct.DeletePending) break;
+                    }
 
                 return @object;
             }
