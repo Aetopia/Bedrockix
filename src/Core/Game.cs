@@ -25,7 +25,7 @@ public sealed partial class Game : App
             {
                 Process @object = new(base.Launch());
 
-                while (!@params.HasValue) if (@object[true]) @params = CreateFile(@this); else return @object;
+                while (!@params.HasValue) if (!@object[true]) return @object; else @params = CreateFile(@this);
                 using (@params) while (!GetFileInformationByHandleEx(@params)) if (!@object[true]) break;
 
                 return @object;
