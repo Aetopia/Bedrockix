@@ -30,10 +30,9 @@ unsafe static class Safe
         return Unsafe.FindWindowEx(default, hWndChildAfter, "MSCTFIME UI", default);
     }
 
-    internal static PackageFamilyName ParseApplicationUserModelId(in ApplicationUserModelId applicationUserModelId)
+    internal static void ParseApplicationUserModelId(in ApplicationUserModelId applicationUserModelId, out PackageFamilyName packageFamilyName)
     {
-        Unsafe.ParseApplicationUserModelId(applicationUserModelId, PackageFamilyName.Length, out var @this, PackageFamilyName.Length, default);
-        return @this;
+        Unsafe.ParseApplicationUserModelId(applicationUserModelId, PackageFamilyName.Length, out packageFamilyName, PackageFamilyName.Length, default);
     }
 
     internal static bool GetApplicationUserModelId(in Process hProcess, out ApplicationUserModelId applicationUserModelId)

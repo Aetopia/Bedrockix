@@ -12,7 +12,7 @@ public partial class App
 {
     internal App(string @this)
     {
-        Id = new(@this); Name = ParseApplicationUserModelId(Id);
+        Id = new(@this); ParseApplicationUserModelId(Id, out Name);
         Info = new(() => AppInfo.GetFromAppUserModelId(@this), LazyThreadSafetyMode.PublicationOnly);
     }
 
